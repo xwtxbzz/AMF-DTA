@@ -9,7 +9,7 @@
   <img alt="Python" src="https://img.shields.io/badge/python-3.9%2B-blue">
   <img alt="PyTorch" src="https://img.shields.io/badge/pytorch-2.1%2B-ee4c2c">
   <img alt="Benchmarks" src="https://img.shields.io/badge/benchmarks-Davis%20%7C%20KIBA%20%7C%20Metz-informational">
-  <img alt="Audit" src="https://img.shields.io/badge/paper%20numbers-208%20checks%2C%200%20mismatched-success">
+  <img alt="Audit" src="https://img.shields.io/badge/paper%20numbers-212%20checks%2C%200%20mismatched-success">
 </p>
 
 <p align="center">
