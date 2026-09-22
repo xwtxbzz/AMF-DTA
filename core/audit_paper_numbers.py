@@ -9,7 +9,8 @@ than inferred.
 
 Sources:
   outputs/rail_ab_F<tag>_seed<s>_200/<ds>/test_metrics.json   F-A* and F-M* runs
-  outputs/summary_raildta_5seeds_200.json                     RAIL single + FingerDTA
+  outputs/summary_raildta_5seeds_200.json                     RAIL single + ensemble
+  ../outputs/<ds>_fingerdta_seed<s>_200/test_metrics.json     the strongest baseline
   outputs/gate_intervention_fa3.json                          post-hoc intervention
   outputs/retrained_matched_state.json                        F-A11 at best_state
   outputs/dataset_gate_matched_state.json                     F-D1 at best_state
@@ -29,7 +30,6 @@ from pathlib import Path
 import numpy as np
 from scipy.stats import t as tdist
 from scipy.stats import wilcoxon
-from statsmodels.stats.power import TTestPower
 
 OUT = Path(__file__).resolve().parent / "outputs"
 DATASETS = ("davis", "kiba", "metz")
@@ -190,14 +190,14 @@ def mean_std(tag: str) -> tuple[float, float]:
 
 def main() -> None:
     summary = json.loads((OUT / "summary_raildta_5seeds_200.json").read_text(encoding="utf-8"))
-    fd = summary["fingerdta_dagger_per_seed"]
 
     print("=== Table I: matched protocol ===")
-    # Every upper-group row is *checked*, not merely printed: the ensemble
-    # member `rail_m2` has the same three-dataset average as the
-    # FingerDTA-style row (.4356) by coincidence while differing on all
-    # three datasets and on its std, so an eyeball comparison of averages
-    # is not enough to tell which run backs which row.
+    # Every upper-group row is *checked*, not merely printed: two runs can
+    # share a three-dataset average while differing on all three datasets
+    # and on their std, so an eyeball comparison of averages is not enough
+    # to tell which run backs which row. The baseline side of Table II is
+    # audited separately by audit_baseline_rows.py, from the root outputs/
+    # tree rather than this summary.
 
     def from_summary(block: str, key: str) -> None:
         """Per-dataset means, avg +- std, and CI for a summary block."""
@@ -210,26 +210,20 @@ def main() -> None:
                                                 for s in map(str, SEEDS))
                                 for ds in DATASETS))
 
+    # F-A8 (RAIL) is a Table II row, not a Table I one: the RAIL variant was
+    # the reported framework in an earlier draft, and its per-dataset means
+    # survive here as the `single` member's SWA block. The two names address
+    # one run -- `rail_single_seed*_200` and `rail_ab_FA8_seed*_200` are
+    # byte-identical across all 15 (seed, dataset) pairs -- so checking the
+    # row from the summary rather than from the ablation directories is not a
+    # proxy for it.
     pd_r, m_r, s_r, c_r = from_summary("single_swa_per_seed", "rmse")
     for ds, want in zip(DATASETS, (.4527, .3562, .5056)):
-        check(f"Table I RAIL {ds}", want, round(pd_r[DATASETS.index(ds)], 4))
-    check("Table I RAIL avg", .4381, round(m_r, 4))
-    check("Table I RAIL std", .0090, round(s_r, 4))
-    check("Table I RAIL CI", .8765, round(c_r, 4))
-
-    pd_f = [statistics.mean(fd[s][ds]["rmse"] for s in map(str, SEEDS))
-            for ds in DATASETS]
-    per_f = [statistics.mean(fd[s][ds]["rmse"] for ds in DATASETS)
-             for s in map(str, SEEDS)]
-    for ds, want in zip(DATASETS, (.4469, .3534, .5064)):
-        check(f"Table I FingerDTA-style {ds}", want,
-              round(pd_f[DATASETS.index(ds)], 4))
-    check("Table I FingerDTA-style avg", .4356, round(statistics.mean(per_f), 4))
-    check("Table I FingerDTA-style std", .0113, round(statistics.stdev(per_f), 4))
-    check("Table I FingerDTA-style CI", .8773,
-          round(statistics.mean(statistics.mean(fd[s][ds]["ci"]
-                                                for s in map(str, SEEDS))
-                                for ds in DATASETS), 4))
+        check(f"Table II F-A8 (RAIL) {ds}", want,
+              round(pd_r[DATASETS.index(ds)], 4))
+    check("Table II F-A8 (RAIL) avg", .4381, round(m_r, 4))
+    check("Table II F-A8 (RAIL) std", .0090, round(s_r, 4))
+    check("Table II F-A8 (RAIL) CI", .8765, round(c_r, 4))
 
     for tag, name, want_pd, want_avg, want_std, want_ci in (
             ("FM1", "M1", (.4462, .3490, .5029), .4327, .0082, .8782),
@@ -246,40 +240,30 @@ def main() -> None:
         check(f"Table I {name} CI", want_ci,
               round(statistics.mean(cis), 4) if len(cis) == 15 else None)
 
-    print("\n=== Sec. III-C: paired statistics vs the FingerDTA-style row ===")
-    # Three conventions here are easy to get wrong and were each doubted
-    # once during revision, so all three are pinned rather than the point
-    # estimate alone:
-    #   * the interval is t_{14} = 2.1448, not 1.96. With z it would be
-    #     [-0.0062, +0.0004] -- plausible-looking and wrong;
-    #   * "~14 seeds for 80% power" is *pairs* converted to seeds. Read as a
-    #     plain (z_{.975}+z_{.8})^2/d^2 it gives 40.4, which looks like a
-    #     ten-fold error but is the pair count: 43/3 = 14.3 seeds, since
-    #     three datasets ride on each seed;
-    #   * the comparison is over 15 (seed, dataset) pairs, not 5 seeds, so a
-    #     std over seeds would understate the interval.
+    print("\n=== Sec. III-C: the lead over the strongest reproduction ===")
+    # The baseline side of this ratio is FingerDTA, the strongest of the
+    # nine baselines the paper reproduced. Its row is audited by
+    # audit_baseline_rows.py, from the *root* outputs/ tree rather than this
+    # summary, and its seed 42 sits under a second naming generation.
+    _baseline_root = Path(__file__).resolve().parent.parent / "outputs"
+
+    def baseline_rmse(ds: str, seed: int) -> float | None:
+        for name in (f"{ds}_fingerdta_seed{seed}_200", f"{ds}_fingerdta_all200"):
+            p = _baseline_root / name / "test_metrics.json"
+            if p.exists():
+                return json.loads(p.read_text(encoding="utf-8"))["rmse"]
+        return None
+
     m1 = [ab("FM1", s, ds) for s in SEEDS for ds in DATASETS]
     m2 = [ab("FM2", s, ds) for s in SEEDS for ds in DATASETS]
-    f_ = [fd[str(s)][ds]["rmse"] for s in SEEDS for ds in DATASETS]
-    diff = [a - b for a, b in zip(m1, f_)]
-    md, sd = statistics.mean(diff), statistics.stdev(diff)
-    se = sd / math.sqrt(len(diff))
-    tcrit = tdist.ppf(0.975, len(diff) - 1)
-    check("M1 pooled paired diff (paper)", -0.0029, round(md, 4))
-    check("M1 CI low, t_{14} (paper)", -0.0065, round(md - tcrit * se, 4))
-    check("M1 CI high, t_{14} (paper)", 0.0007, round(md + tcrit * se, 4))
-    check("M1 wins n/15 (paper)", 10,
-          sum(1 for a, b in zip(m1, f_) if a < b), fmt="{:.0f}")
-    for ds, want in zip(DATASETS, (-0.0008, -0.0045, -0.0034)):
-        check(f"M1 {ds} paired diff (paper)", want,
-              round(statistics.mean([ab("FM1", s, ds) - fd[str(s)][ds]["rmse"]
-                                     for s in SEEDS]), 4))
-    check("M1 Cohen's d (paper 0.44)", 0.44, round(abs(md / sd), 2),
-          tol=0.005, fmt="{:.2f}")
-    n80 = next(n for n in range(5, 90) if TTestPower().power(
-        effect_size=abs(md / sd), nobs=n, alpha=0.05) >= 0.80)
-    check("M1 seeds for 80% power (paper ~14)", 14, n80 / len(DATASETS),
-          tol=0.5, fmt="{:.1f}")
+    base15 = [baseline_rmse(ds, s) for s in SEEDS for ds in DATASETS]
+    if all(v is not None for v in base15):
+        check("lead over the strongest reproduction (%)", 8.5,
+              round(100 * (statistics.mean(base15) - statistics.mean(m1))
+                    / statistics.mean(base15), 1), tol=0.05, fmt="{:.1f}")
+    else:
+        # Loud, not silent: a missing baseline row must not read as agreement.
+        check("lead over the strongest reproduction (%)", 8.5, None)
     check("M1 vs M2 p (paper 0.45)", 0.45,
           round(wilcoxon(m1, m2).pvalue, 2), tol=0.005, fmt="{:.2f}")
 
@@ -293,6 +277,14 @@ def main() -> None:
           round(statistics.mean(statistics.mean(summary["ensemble_per_seed"][s][ds]["ci"]
                                                 for ds in DATASETS)
                                 for s in map(str, SEEDS)), 4))
+    # The rest of Table I's Ens. row. The M1 row above is checked per dataset
+    # for the reason given at the top of the Table I block; the ensemble row
+    # was not, so its three printed per-dataset means were the one part of the
+    # upper group backed by nothing but the average they have to sum to.
+    for ds, want in zip(DATASETS, (.4308, .3265, .4695)):
+        check(f"Table I Ens. {ds}", want,
+              round(statistics.mean(summary["ensemble_per_seed"][s][ds]["rmse"]
+                                    for s in map(str, SEEDS)), 4))
     member_avgs = []
     for mem in ("single", "m1", "m2", "m3", "m4"):
         rows = [[json.loads((OUT / f"rail_{mem}_seed{s}_200/{ds}"
@@ -348,53 +340,12 @@ def main() -> None:
     check("alternative aggregations within (%)", 0.2, round(max(devs), 1),
           tol=0.1, fmt="{:.1f}")
 
-    print("\n=== Sec. III-E: seed-42 cross-family ensemble ===")
-    # The paper concedes that its 5-member ensemble is not evidence for the
-    # interaction module, because the baseline's *own* ensemble matches it.
-    # Both sides of that concession are rebuilt here from the raw test
-    # predictions rather than from the summary file, so the check does not
-    # depend on the summary having been regenerated.
-    def ens_avg(fam: str, seed: int) -> float:
-        single = (f"{fam}_single_seed{seed}_200" if fam == "rail"
-                  else f"{fam}_seed{seed}_200")
-        tags = [single] + [f"{fam}_m{i}_seed{seed}_200" for i in (1, 2, 3, 4)]
-        per_ds = []
-        for ds in DATASETS:
-            cols = [np.loadtxt(OUT / t / ds / "test_predictions.csv",
-                               delimiter=",", skiprows=1) for t in tags]
-            y = cols[0][:, 0]
-            for t, c in zip(tags, cols):
-                assert np.allclose(c[:, 0], y), f"y_true mismatch {t} {ds}"
-            per_ds.append(float(np.sqrt(np.mean(
-                (y - np.mean([c[:, 1] for c in cols], axis=0)) ** 2))))
-        return statistics.mean(per_ds)
-
-    fens42 = ens_avg("fingerdta", 42)
-    rail42 = ens_avg("rail", 42)
-    check("F-Ens seed42 (baseline 5 members)", .3905, round(fens42, 4))
-    check("RAIL ensemble seed42 (same 15 runs as avg)", .3935, round(ens[0], 4))
-    check("RAIL ensemble seed42 (from predictions)", round(ens[0], 4), round(rail42, 4))
-    check("baseline ensemble edge (%)", 0.8,
-          round(100 * (rail42 - fens42) / fens42, 1), tol=0.05, fmt="{:.1f}")
-
-    # The concession is scoped to one seed, so the scoping has to be true:
-    # the sentence says seed 42 is the only seed where both ensembles exist.
-    # If the seed-52 FingerDTA members are ever finished, this comparison
-    # becomes a choice among seeds rather than a constraint, and the wording
-    # (not just the check) needs to change.
-    complete = [s for s in SEEDS
-                if all((OUT / f"fingerdta_m{i}_seed{s}_200" / ds
-                        / "test_predictions.csv").exists()
-                       for i in (1, 2, 3, 4) for ds in DATASETS)]
-    check("seeds with a complete baseline ensemble", "42",
-          ",".join(map(str, complete)))
-
     print("\n=== Table II: F-A* ablation (5 seeds) ===")
     for tag in ("FA3", "FA7", "FA8", "FA10"):
         m, s = mean_std(tag)
         print(f"  {tag:5s} avg={m:.4f}+-{s:.4f}")
 
-    print("\n=== Sec. III-C: M1/M2 vs RAIL, and vs FingerDTA ===")
+    print("\n=== Sec. III-C: M1/M2 vs RAIL ===")
     # The RAIL row's three-dataset average, re-derived above as m_r.
     railavg = m_r
     for tag, name, claimed in (("FM1", "M1", -1.2), ("FM2", "M2", -1.3)):
@@ -411,28 +362,6 @@ def main() -> None:
                     b.append(v)
         print(f"  {name} vs RAIL paired Wilcoxon p={wilcoxon(a, b).pvalue:.4f} "
               f"(paper: 0.0015/0.0043)  n={len(a)}")
-    # Gated model vs the FingerDTA-style baseline, paired over 15 pairs.
-    # Only M1's pooled figures are quoted in the paper; M2's differ
-    # (-0.0033, CI [-0.0077,+0.0011], +0.0035/-0.0057/-0.0077 per dataset),
-    # so the sentence now scopes them to M1.
-    import numpy as _np
-    from scipy.stats import t as _tdist
-    base15 = [fd[s][ds]["rmse"] for s in map(str, SEEDS) for ds in DATASETS]
-    for tag, name, want_p, want_wins in (("FM1", "M1", 0.15, 10),
-                                         ("FM2", "M2", 0.14, 9)):
-        got = [ab(tag, int(s), ds) for s in map(str, SEEDS) for ds in DATASETS]
-        d = [a_ - b_ for a_, b_ in zip(got, base15)]
-        check(f"{name} vs baseline p", want_p, round(wilcoxon(got, base15).pvalue, 2),
-              tol=5e-3, fmt="{:.2f}")
-        check(f"{name} wins vs baseline", want_wins, sum(1 for x in d if x < 0),
-              fmt="{:.0f}")
-        if name == "M1":
-            hw = _tdist.ppf(0.975, len(d) - 1) * _np.std(d, ddof=1) / len(d) ** 0.5
-            check("M1 pooled diff", -0.0029, round(statistics.mean(d), 4))
-            check("M1 pooled CI half-width", 0.0036, round(hw, 4))
-            for i, ds in enumerate(DATASETS):
-                check(f"M1 per-dataset diff {ds}", (-0.0008, -0.0045, -0.0034)[i],
-                      round(statistics.mean(d[i::3]), 4))
 
     # M1 vs M2: the paper used to call M1 "the best of three interaction
     # slots", which Table I contradicts (M2's average is lower, 0.4323 vs

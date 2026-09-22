@@ -7,24 +7,26 @@ The paper reports two numbers for "how much do the gates matter":
     (`analysis_gate_intervention_fa3.py`, which reads the FA3 checkpoints so
     that the intervention shares this script's `interaction="fixed"` config;
     the earlier RAIL-config intervention answered a different question);
-  * retrained: a model *trained* with the gates removed is only +1.7%
-    worse (Table II, A1 vs A3). A1 is seed-42 only, so this script's seed-42
-    run is also a built-in correctness check: it must land on A1's 0.4311
-    avg. RMSE. A mismatch means the config below does not reproduce the
-    table's A1, and the 5-seed numbers would be answering a different
-    question -- check seed 42 before trusting the rest.
+  * retrained: a model *trained* with the gates removed costs a median
+    +0.9% over five seeds at matched state
+    (`analysis_retrained_matched_state.py`, which is what makes the two
+    figures comparable); Table II's F-A11 row shows +1.4% at the final-fit
+    state, and the seed-42 screen A1 vs A3 is +1.7%. A1 is seed-42 only, so
+    this script's seed-42 run is also a built-in correctness check: it must
+    land on A1's 0.4311 avg. RMSE. A mismatch means the config below does
+    not reproduce the table's A1, and the 5-seed numbers would be answering
+    a different question -- check seed 42 before trusting the rest.
 
-The gap between them (~12x) is the paper's methodological point: post-hoc
-interventions overstate the architectural value of gating, because the
-downstream MLP partially re-learns the weighting when the gate is absent
-from the start. But the retrained number is currently seed-42 only, which
-is too weak for the load it carries.
+The gap between them (~24x, never below 9.7x across the estimator/trim
+variants) is the paper's methodological point: post-hoc interventions
+overstate the architectural value of gating, because the downstream MLP
+partially re-learns the weighting when the gate is absent from the start.
 
 This script trains the no-gate configuration under the *same* protocol as
 Table I and the F-A* ablation -- 200 epochs + final-fit SWA, seeds
-42/52/62/72/82, three datasets -- so the retrained delta can be stated over
-five seeds and paired like-for-like with the +21.0% post-hoc figure, which
-is measured on this same five-seed grid.
+42/52/62/72/82, three datasets -- which is what lets the retrained delta be
+stated over five seeds and paired like-for-like with the +21.0% post-hoc
+figure on this same grid.
 
 "No gate" is exactly uniform weighting: `model.py` substitutes a constant
 1/K weight vector when `use_drug_gate` / `use_context_gate` is False, so

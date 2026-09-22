@@ -5,13 +5,18 @@ Review-response training queue (ICASSP 2027 revision, addresses reviewer asks):
   F-M2: unconstrained degree-2 polynomial interaction ("poly_interact")
         Both are parameter-matched to RAIL (<0.4% total params, same 7D
         regressor input) and trained 5 seeds x 3 datasets, 200 epochs +
-        final-fit SWA -- the Table II lower-group protocol.
+        final-fit SWA -- the Table II lower-group protocol. F-M1 is also
+        Table I's reported row.
 
-  F-Ens: FingerDTA-dagger 5-member ensemble at seed 42. Member "single" is
-        the existing fingerdta_seed42_200 run; members m1-m4 are trained
-        here with model_type="fingerdta" and the RAIL member configs.
-        Answers "evaluate against a five-member ensemble of the strongest
-        baseline" (reviewer Exp. point 2).
+  The F-Ens tail this script used to carry -- a five-member FingerDTA-dagger
+  ensemble answering "evaluate against an ensemble of the strongest
+  baseline" -- is gone with its artefacts. It read `fingerdta_seed42_200`
+  and trained `fingerdta_m{1..4}_seed42_200`, none of which the current
+  manuscript reports; its claim survives only as the cited FingerDTA row in
+  Table I, which is the root tree's baseline re-implementation audited by
+  `audit_baseline_rows.py`. Leaving the tail in place meant this script would
+  retrain those directories on its next run, so it was removed rather than
+  left dormant.
 
 Protocol matches run_amfdta_ablation_5seeds.py: each (variant, seed) job
 trains all three datasets sequentially; MAX_PARALLEL=3 on the 8 GB GPU.
@@ -19,11 +24,9 @@ trains all three datasets sequentially; MAX_PARALLEL=3 on the 8 GB GPU.
 Outputs:
   outputs/rail_ab_fm1_seed{seed}_200/<dataset>/
   outputs/rail_ab_fm2_seed{seed}_200/<dataset>/
-  outputs/fingerdta_{m1,m2,m3,m4}_seed42_200/<dataset>/
 """
 from __future__ import annotations
 
-import csv
 import json
 import statistics
 import subprocess
@@ -43,9 +46,6 @@ VARIANTS: dict[str, dict] = {
     "F-M1": {"interaction": "mlp_interact"},
     "F-M2": {"interaction": "poly_interact"},
 }
-# FingerDTA ensemble members to train (member "single" already exists as
-# fingerdta_seed42_200)
-FENS_MEMBERS = ("m1", "m2", "m3", "m4")
 
 
 def variant_dir(variant: str, seed: int) -> Path:
@@ -55,14 +55,6 @@ def variant_dir(variant: str, seed: int) -> Path:
 def is_complete(variant: str, seed: int) -> bool:
     base = variant_dir(variant, seed)
     return all((base / ds / "test_metrics.json").exists() for ds in DATASETS)
-
-
-def fens_dir(tag: str) -> Path:
-    return OUTPUT_ROOT / f"fingerdta_{tag}_seed42_200"
-
-
-def fens_complete(tag: str) -> bool:
-    return all((fens_dir(tag) / ds / "test_metrics.json").exists() for ds in DATASETS)
 
 
 def run_one(variant: str, seed: int) -> None:
@@ -82,22 +74,6 @@ def run_one(variant: str, seed: int) -> None:
     train_all_datasets(cfg, datasets=DATASETS, output_root=OUTPUT_ROOT,
                        data_root=DATA_ROOT, run_tag=run_tag)
     print(f"===== Completed {variant}/seed{seed} =====", flush=True)
-
-
-def run_one_fens(tag: str) -> None:
-    from framework.ensemble import MEMBERS
-    from framework.train import train_all_datasets
-
-    if fens_complete(tag):
-        print(f"===== Skipping completed FingerDTA member {tag} =====", flush=True)
-        return
-    cfg = MEMBERS[tag]
-    cfg.model_type = "fingerdta"
-    cfg.seed = 42
-    print(f"===== Running FingerDTA member {tag} (seed 42) =====", flush=True)
-    train_all_datasets(cfg, datasets=DATASETS, output_root=OUTPUT_ROOT,
-                       data_root=DATA_ROOT, run_tag=f"fingerdta_{tag}_seed42_200")
-    print(f"===== Completed FingerDTA member {tag} =====", flush=True)
 
 
 def write_summary() -> None:
@@ -121,32 +97,6 @@ def write_summary() -> None:
                 }
         summary[variant] = per_ds
 
-    # --- F-Ens: average the 5 FingerDTA members' seed-42 predictions --------
-    def read_preds(root: Path) -> tuple[list[float], list[float]]:
-        yt, yp = [], []
-        with (root / "test_predictions.csv").open("r", encoding="utf-8", newline="") as f:
-            for row in csv.DictReader(f):
-                yt.append(float(row["y_true"]))
-                yp.append(float(row["y_pred"]))
-        return yt, yp
-
-    from lifelines.utils import concordance_index
-    fens = {}
-    for ds in DATASETS:
-        y, _ = read_preds(fens_dir("m1") / ds)
-        preds = []
-        for tag in ("single", "m1", "m2", "m3", "m4"):
-            root = OUTPUT_ROOT / f"fingerdta_seed42_200" if tag == "single" else fens_dir(tag)
-            yt, yp = read_preds(root / ds)
-            assert yt == y, f"y_true mismatch {tag} {ds}"
-            preds.append(yp)
-        mu = [sum(p[i] for p in preds) / len(preds) for i in range(len(y))]
-        fens[ds] = {
-            "rmse": float((sum((y[i] - mu[i]) ** 2 for i in range(len(y))) / len(y)) ** 0.5),
-            "ci": float(concordance_index(y, mu)),
-        }
-    summary["F-Ens"] = fens
-
     path = OUTPUT_ROOT / "summary_raildta_review_5seeds_200.json"
     path.write_text(json.dumps(summary, indent=2, ensure_ascii=False), encoding="utf-8")
     print(f"Saved summary to {path}", flush=True)
@@ -155,14 +105,13 @@ def write_summary() -> None:
 def main() -> None:
     jobs = [(v, s) for v in VARIANTS for s in SEEDS]
     pending = [j for j in jobs if not is_complete(*j)]
-    fens_pending = [t for t in FENS_MEMBERS if not fens_complete(t)]
 
-    if not pending and not fens_pending:
+    if not pending:
         print("All review-response runs are complete!", flush=True)
         write_summary()
         return
 
-    print(f"Review queue: {len(pending)} variant runs + {len(fens_pending)} FingerDTA members", flush=True)
+    print(f"Review queue: {len(pending)} variant runs", flush=True)
 
     log_dir = OUTPUT_ROOT / "logs"
     log_dir.mkdir(parents=True, exist_ok=True)
@@ -184,23 +133,10 @@ def main() -> None:
               f"Started {variant}/seed{seed}, pid={process.pid}", flush=True)
 
     try:
-        while remaining or running or fens_pending:
+        while remaining or running:
             while remaining and len(running) < MAX_PARALLEL:
                 variant, seed = remaining.pop(0)
                 spawn_variant(variant, seed)
-            while fens_pending and len(running) < MAX_PARALLEL:
-                tag = fens_pending.pop(0)
-                log_path = log_dir / f"fingerdta_{tag}_seed42_200.log"
-                log_file = log_path.open("a", encoding="utf-8")
-                code = (f"from run_amfdta_review_5seeds import run_one_fens; "
-                        f"run_one_fens({tag!r})")
-                process = subprocess.Popen(
-                    [sys.executable, "-u", "-c", code],
-                    cwd=Path.cwd(),
-                    stdout=log_file, stderr=subprocess.STDOUT, text=True,
-                )
-                running[(tag, 42)] = (process, log_file)
-                print(f"[F-Ens] Started FingerDTA member {tag}, pid={process.pid}", flush=True)
 
             for job, (process, log_file) in list(running.items()):
                 code = process.poll()

@@ -1,20 +1,26 @@
 """
-AMF-DTA + FingerDTA-dagger 5-seed (42,52,62,72,82) 200-epoch training script.
+AMF-DTA 5-seed (42,52,62,72,82) 200-epoch training script.
 
 Tasks:
   - 5 ensemble members (single, m1, m2, m3, m4) x 5 seeds = 25 runs
-  - FingerDTA re-implementation (paper table FingerDTA$^dagger$) x 5 seeds = 5 runs
+
+The FingerDTA$^\\dagger$ arm that this script used to train alongside the
+members is gone, along with its artefacts. The paper's FingerDTA row is the
+*cited baseline* re-implemented in the root tree, at
+`outputs/{ds}_fingerdta_seed{s}_200/` (audited by `audit_baseline_rows.py`),
+not a run of this driver; the ensemble it fed (`F-Ens`) has no claim in the
+manuscript either. Re-adding the tag would regenerate the deleted
+directories, so the tag is gone from `main()` as well.
 
 Protocol (matches run.py / train.py paper protocol):
   - 200 epochs + final-fit SWA (12-13 epochs); reported metrics are the SWA
     state test metrics (test_metrics.json)
-  - output: rail_dta/outputs/{rail_{tag}|fingerdta}_seed{seed}_200/<dataset>/
+  - output: rail_dta/outputs/rail_{tag}_seed{seed}_200/<dataset>/
 
-After training, summarize:
-  - SWA row = single-member SWA test_metrics mean +/- std over seeds
-  - Single row = single-member best_state.pt evaluation mean +/- std
-  - Ens row  = equal-weight ensemble of the 5 members per seed, then mean +/- std
-  - FingerDTA$^dagger$ row = its SWA test_metrics mean +/- std
+After training, summarize (`outputs/summary_raildta_5seeds_200.json`):
+  - ensemble_per_seed / ensemble_avg = equal-weight ensemble of the 5 members
+    per seed, then averaged over seeds
+  - single_swa_per_seed = single-member SWA test_metrics, per seed
 
 Parallelism: MAX_PARALLEL=3 (RTX 4060 8GB).
 """
@@ -42,23 +48,16 @@ def member_dir(tag: str, seed: int) -> Path:
 
 def is_complete(tag: str, seed: int) -> bool:
     """A run is complete when all three datasets have test_metrics.json."""
-    if tag == "fingerdta":
-        base = OUTPUT_ROOT / f"fingerdta_seed{seed}_200"
-    else:
-        base = member_dir(tag, seed)
+    base = member_dir(tag, seed)
     return all((base / ds / "test_metrics.json").exists() for ds in DATASETS)
 
 
 def run_one(tag: str, seed: int) -> None:
-    from framework.train import train_all_datasets, TrainConfig
+    from framework.train import train_all_datasets
     from framework.ensemble import MEMBERS
 
-    if tag == "fingerdta":
-        cfg = TrainConfig(model_type="fingerdta")
-        run_tag = f"fingerdta_seed{seed}_200"
-    else:
-        cfg = MEMBERS[tag]
-        run_tag = f"rail_{tag}_seed{seed}_200"
+    cfg = MEMBERS[tag]
+    run_tag = f"rail_{tag}_seed{seed}_200"
 
     if is_complete(tag, seed):
         print(f"===== Skipping completed {tag}/seed{seed} =====", flush=True)
@@ -139,14 +138,6 @@ def write_summary() -> None:
             for k in ("rmse", "ci")} for ds in DATASETS}
     summary["single_swa_per_seed"] = swa
 
-    # --- FingerDTA dagger ---
-    fdt = {}
-    for seed in SEEDS:
-        fdt[str(seed)] = {ds: {k: json.loads(
-            (OUTPUT_ROOT / f"fingerdta_seed{seed}_200" / ds / "test_metrics.json")
-            .read_text(encoding="utf-8"))[k] for k in ("rmse", "ci")} for ds in DATASETS}
-    summary["fingerdta_dagger_per_seed"] = fdt
-
     path = OUTPUT_ROOT / "summary_raildta_5seeds_200.json"
     path.write_text(json.dumps(summary, indent=2, ensure_ascii=False), encoding="utf-8")
     print(f"Saved summary to {path}", flush=True)
@@ -154,7 +145,7 @@ def write_summary() -> None:
 
 def main() -> None:
     jobs = [(tag, seed)
-            for tag in ("single", "m1", "m2", "m3", "m4", "fingerdta")
+            for tag in ("single", "m1", "m2", "m3", "m4")
             for seed in SEEDS]
     pending = [j for j in jobs if not is_complete(*j)]
 
