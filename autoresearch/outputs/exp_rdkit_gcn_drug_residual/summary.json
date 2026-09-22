@@ -1,0 +1,106 @@
+{
+  "primary_metric": "avg_rmse",
+  "avg_mse": 0.22071158612910521,
+  "avg_rmse": 0.4673657667946372,
+  "avg_mae": 0.3041151131376163,
+  "avg_r2": 0.7239438567179768,
+  "avg_rm2": 0.7032477001507801,
+  "avg_ci": 0.8516870122828569,
+  "avg_pearson": 0.8528579859563501,
+  "avg_spearman": 0.7755143369595371,
+  "training_seconds": 310.24972891807556,
+  "total_seconds": 346.07602739334106,
+  "peak_vram_mb": 366.74462890625,
+  "num_params": 2535471.6666666665,
+  "datasets": {
+    "davis": {
+      "dataset": "davis",
+      "metrics": {
+        "mse": 0.2033130124700609,
+        "rmse": 0.4509024422977335,
+        "mae": 0.2374088366033233,
+        "r2": 0.7226354035974538,
+        "rm2": 0.6951969554766146,
+        "ci": 0.8843976598922249,
+        "pearson": 0.8518341948122073,
+        "spearman": 0.6865588430451585
+      },
+      "test_loss": 0.20331302014534583,
+      "epochs": 38,
+      "training_seconds": 101.06879901885986,
+      "setup_seconds": 7.119083881378174,
+      "num_params": 2535557,
+      "sizes": {
+        "train": 24044,
+        "val": 3006,
+        "test": 3006
+      }
+    },
+    "kiba": {
+      "dataset": "kiba",
+      "metrics": {
+        "mse": 0.17545239263411053,
+        "rmse": 0.4188703768877796,
+        "mae": 0.27394963797631044,
+        "r2": 0.7463630853622927,
+        "rm2": 0.7250825828477151,
+        "ci": 0.854466787176356,
+        "pearson": 0.8680519440570361,
+        "spearman": 0.8438938549557569
+      },
+      "test_loss": 0.17545239795197817,
+      "epochs": 10,
+      "training_seconds": 107.8605945110321,
+      "setup_seconds": 19.172234535217285,
+      "num_params": 2535429,
+      "sizes": {
+        "train": 94603,
+        "val": 11825,
+        "test": 11826
+      }
+    },
+    "metz": {
+      "dataset": "metz",
+      "metrics": {
+        "mse": 0.2833693532831441,
+        "rmse": 0.5323244811983985,
+        "mae": 0.4009868648332151,
+        "r2": 0.7028330811941836,
+        "rm2": 0.6894635621280103,
+        "ci": 0.81619658977999,
+        "pearson": 0.8386878189998069,
+        "spearman": 0.7960903128776963
+      },
+      "test_loss": 0.2833693619485748,
+      "epochs": 32,
+      "training_seconds": 101.3203353881836,
+      "setup_seconds": 8.002182245254517,
+      "num_params": 2535429,
+      "sizes": {
+        "train": 28207,
+        "val": 3526,
+        "test": 3526
+      }
+    }
+  },
+  "hyperparameters": {
+    "batch_size": 192,
+    "max_epochs": 200,
+    "learning_rate": 0.0002,
+    "weight_decay": 1e-05,
+    "hidden_dim": 256,
+    "protein_embedding_dim": 128,
+    "protein_filters": 128,
+    "protein_kernel_sizes": [
+      3,
+      5,
+      7
+    ],
+    "fc_dims": [
+      512,
+      256
+    ],
+    "dropout": 0.2,
+    "drug_representation": "morgan+feature_morgan"
+  }
+}

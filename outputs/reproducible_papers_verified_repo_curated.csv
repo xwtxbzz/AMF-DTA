@@ -1,0 +1,124 @@
+﻿file,model_key,category,priority,curated_status,repos,implemented_locally,recommendation
+ArkDTA.pdf,arkdta,可直接复现,高,已验证仓库可访问,https://github.com/dmis-lab/ArkDTA,否,建议核对 README、论文标题、作者名和数据集后作为实现参考
+AttentionMGT-DTA.pdf,attentionmgt-dta,可直接复现,高,已验证仓库可访问,https://github.com/JK-Liu7/AttentionMGT-DTA,否,建议核对 README、论文标题、作者名和数据集后作为实现参考
+CKDTA.pdf,ckdta,可直接复现,高,已验证仓库可访问,https://github.com/zxr779/CKDTA,否,建议核对 README、论文标题、作者名和数据集后作为实现参考
+dAD.pdf,dad,可直接复现,高,已验证仓库可访问,https://github.com/mlkr-rbi/dAD,否,建议核对 README、论文标题、作者名和数据集后作为实现参考
+DEAttentionDTA.pdf,deattentiondta,可直接复现,高,已验证仓库可访问,https://github.com/whatamazing1/DEAttentionDTA,否,建议核对 README、论文标题、作者名和数据集后作为实现参考
+DrugMGR.pdf,drugmgr,可直接复现,高,已验证仓库可访问,https://github.com/lixiaokun2020/DrugMGR,否,建议核对 README、论文标题、作者名和数据集后作为实现参考
+DTITR.pdf,dtitr,可直接复现,高,已验证仓库可访问,https://github.com/larngroup/DTITR,否,建议核对 README、论文标题、作者名和数据集后作为实现参考
+EDTA.pdf,edta,可直接复现,高,已验证仓库可访问,https://github.com/macjiffriya/EDTA,否,建议核对 README、论文标题、作者名和数据集后作为实现参考
+GINCM-DTA.pdf,gincm-dta,可直接复现,高,已验证仓库可访问,https://github.com/gxCaesar/GINCM-DTA,否,建议核对 README、论文标题、作者名和数据集后作为实现参考
+MATT_DTI.pdf,matt-dti,可直接复现,高,已验证仓库可访问,https://github.com/ZengYuni/MATT_DTI,否,建议核对 README、论文标题、作者名和数据集后作为实现参考
+MDeePred.pdf,mdeepred,可直接复现,高,已验证仓库可访问,https://github.com/cansyl/MDeePred,否,建议核对 README、论文标题、作者名和数据集后作为实现参考
+MFR-DTA.pdf,mfr-dta,可直接复现,高,已验证仓库可访问,https://github.com/JU-HuaY/MFR,否,建议核对 README、论文标题、作者名和数据集后作为实现参考
+MHAN-DTA.pdf,mhan-dta,可直接复现,高,已验证仓库可访问,https://github.com/anxiangbiye1231/MHAN-DTA,否,建议核对 README、论文标题、作者名和数据集后作为实现参考
+MMD-DTA.pdf,mmd-dta,可直接复现,高,已验证仓库可访问,https://github.com/wyx2012/MMD-DTA,否,建议核对 README、论文标题、作者名和数据集后作为实现参考
+MSFFDTA.pdf,msffdta,可直接复现,高,已验证仓库可访问,https://github.com/whitehat32/MSFF-DTA,否,建议核对 README、论文标题、作者名和数据集后作为实现参考
+NerLTR-DTA.pdf,nerltr-dta,可直接复现,高,已验证仓库可访问,https://github.com/RUXIAOQING964914140/NerLTR-DTA,否,建议核对 README、论文标题、作者名和数据集后作为实现参考
+NHGNN-DTA.pdf,nhgnn-dta,可直接复现,高,已验证仓库可访问,https://github.com/hehh77/NHGNN-DTA,否,建议核对 README、论文标题、作者名和数据集后作为实现参考
+PPDTA.pdf,ppdta,可直接复现,高,已验证仓库可访问,https://github.com/shangjun-Yang/PPDTA,否,建议核对 README、论文标题、作者名和数据集后作为实现参考
+TEFDTA.pdf,tefdta,可直接复现,高,已验证仓库可访问,https://github.com/lizongquan01/TEFDTA,否,建议核对 README、论文标题、作者名和数据集后作为实现参考
+CSDTA.pdf,csdta,可迁移适配,中-低,已验证仓库可访问,https://github.com/yanzhu22/CSDTA,否,建议核对 README、论文标题、作者名和数据集后作为实现参考
+DataDTA.pdf,datadta,可迁移适配,中-低,已验证仓库可访问,https://github.com/YanZhu06/DataDTA,否,建议核对 README、论文标题、作者名和数据集后作为实现参考
+DeepAffinity.pdf,deepaffinity,可迁移适配,中-低,已验证仓库可访问,https://github.com/Shen-Lab/DeepAffinity,否,建议核对 README、论文标题、作者名和数据集后作为实现参考
+MMAtt-DTA.pdf,mmatt-dta,可迁移适配,中-低,已验证仓库可访问,https://github.com/AronSchulman/MMAtt-DTA,否,建议核对 README、论文标题、作者名和数据集后作为实现参考
+SAM-DTA.pdf,sam-dta,可迁移适配,中-低,已验证仓库可访问,https://github.com/huzqatpku/SAM-DTA,否,建议核对 README、论文标题、作者名和数据集后作为实现参考
+CDTA.pdf,cdta,部分可复现,中,已验证仓库可访问,https://github.com/macjiffriya/CDTA,否,建议核对 README、论文标题、作者名和数据集后作为实现参考
+DeepCDA.pdf,deepcda,部分可复现,中,已验证仓库可访问,https://github.com/LBBSoft/DeepCDA,否,建议核对 README、论文标题、作者名和数据集后作为实现参考
+DMCRL.pdf,dmcrl,部分可复现,高,已验证仓库可访问,https://github.com/gmjjjj1127/DMCRL,否,建议核对 README、论文标题、作者名和数据集后作为实现参考
+G-K BertDTA.pdf,g-k bertdta,部分可复现,中,已验证仓库可访问,https://github.com/AmbitYuki/G-K-BertDTA,否,建议核对 README、论文标题、作者名和数据集后作为实现参考
+G-KBertDTA.pdf,g-kbertdta,部分可复现,中,已验证仓库可访问,https://github.com/AmbitYuki/G-K-BertDTA,否,建议核对 README、论文标题、作者名和数据集后作为实现参考
+ImageDTA.pdf,imagedta,部分可复现,中,已验证仓库可访问,https://github.com/neuhanli/ImageDTA,否,建议核对 README、论文标题、作者名和数据集后作为实现参考
+LLMDTA_Improving_Cold-Start_Prediction_in_Drug-Target_Affinity_with_Biological_LLM.pdf,llmdta-improving-cold-start-prediction-in-drug-target-affinity-with-biological-llm,部分可复现,高,已验证仓库可访问,https://github.com/Chris-Tang6/LLMDTA,否,建议核对 README、论文标题、作者名和数据集后作为实现参考
+Mamba-DTA.pdf,mamba-dta,部分可复现,中,已验证仓库可访问,https://github.com/202324131016T/Mamba-DTA,否,建议核对 README、论文标题、作者名和数据集后作为实现参考
+DeepDTA.pdf,deepdta,可直接复现,高,已验证仓库可访问,https://github.com/hkmztrk/DeepDTA,是,建议核对 README、论文标题、作者名和数据集后作为实现参考
+GraphDTA.pdf,graphdta,可直接复现,高,已验证仓库可访问,https://github.com/thinng/GraphDTA,是,建议核对 README、论文标题、作者名和数据集后作为实现参考
+BatchDTA.pdf,batchdta,可工程化复现,中,未发现代码,,否,本地 PDF 前几页未发现代码线索，且当前未补到候选仓库
+BTDHDTA.pdf,btdhdta,可工程化复现,高,未发现代码,,否,本地 PDF 前几页未发现代码线索，且当前未补到候选仓库
+CGBiLSTM.pdf,cgbilstm,可工程化复现,中,未发现代码,,否,本地 PDF 前几页未发现代码线索，且当前未补到候选仓库
+DCUI-MGraphDTA.pdf,dcui-mgraphdta,可工程化复现,中,未发现代码,,否,本地 PDF 前几页未发现代码线索，且当前未补到候选仓库
+DGraphDTA.pdf,dgraphdta,可工程化复现,中,未发现代码,,否,本地 PDF 前几页未发现代码线索，且当前未补到候选仓库
+DoubleSG-DTA.pdf,doublesg-dta,可工程化复现,中,未发现代码,,否,本地 PDF 前几页未发现代码线索，且当前未补到候选仓库
+GraphkmerDTA.pdf,graphkmerdta,可工程化复现,中,未发现代码,,否,本地 PDF 前几页未发现代码线索，且当前未补到候选仓库
+GSATDTA.pdf,gsatdta,可工程化复现,中,未发现代码,,否,本地 PDF 前几页未发现代码线索，且当前未补到候选仓库
+HiSIF-DTA.pdf,hisif-dta,可工程化复现,中,未发现代码,,否,本地 PDF 前几页未发现代码线索，且当前未补到候选仓库
+MEM-DTA.pdf,mem-dta,可工程化复现,中,未发现代码,,否,本地 PDF 前几页未发现代码线索，且当前未补到候选仓库
+MIG-DTA.pdf,mig-dta,可工程化复现,中,未发现代码,,否,本地 PDF 前几页未发现代码线索，且当前未补到候选仓库
+MLS-DTA.pdf,mls-dta,可工程化复现,中,未发现代码,,否,本地 PDF 前几页未发现代码线索，且当前未补到候选仓库
+MLSDTA.pdf,mlsdta,可工程化复现,中,未发现代码,,否,本地 PDF 前几页未发现代码线索，且当前未补到候选仓库
+MSF-DTA.pdf,msf-dta,可工程化复现,中,未发现代码,,否,本地 PDF 前几页未发现代码线索，且当前未补到候选仓库
+MTAF–DTA.pdf,mtaf-dta,可工程化复现,中,未发现代码,,否,本地 PDF 前几页未发现代码线索，且当前未补到候选仓库
+NTMFF‑DTA.pdf,ntmff-dta,可工程化复现,中,未发现代码,,否,本地 PDF 前几页未发现代码线索，且当前未补到候选仓库
+OdinDTA.pdf,odindta,可工程化复现,中,未发现代码,,否,本地 PDF 前几页未发现代码线索，且当前未补到候选仓库
+SAG-DTA.pdf,sag-dta,可工程化复现,中,未发现代码,,否,本地 PDF 前几页未发现代码线索，且当前未补到候选仓库
+SMFF-DTA.pdf,smff-dta,可工程化复现,中,未发现代码,,否,本地 PDF 前几页未发现代码线索，且当前未补到候选仓库
+TC-DTA.pdf,tc-dta,可工程化复现,中,未发现代码,,否,本地 PDF 前几页未发现代码线索，且当前未补到候选仓库
+ViDTA.pdf,vidta,可工程化复现,高,未发现代码,,否,本地 PDF 前几页未发现代码线索，且当前未补到候选仓库
+WPGraphDTA.pdf,wpgraphdta,可工程化复现,中,未发现代码,,否,本地 PDF 前几页未发现代码线索，且当前未补到候选仓库
+XG-DTA.pdf,xg-dta,可工程化复现,中,未发现代码,,否,本地 PDF 前几页未发现代码线索，且当前未补到候选仓库
+BiComp-DTA.pdf,bicomp-dta,可直接复现,高,待人工核验,,否,存在不完整或非 GitHub 代码线索，需要继续搜索
+ColdDTA.pdf,colddta,可直接复现,高,声称有代码但待补全,,否,论文声称有代码，但 PDF 文本未抽取到可验证链接
+CSatDTA.pdf,csatdta,可直接复现,高,声称有代码但待补全,,否,论文声称有代码，但 PDF 文本未抽取到可验证链接
+DeepGLSTM.pdf,deepglstm,可直接复现,高,待人工核验,,否,存在不完整或非 GitHub 代码线索，需要继续搜索
+DGDTA.pdf,dgdta,可直接复现,高,声称有代码但待补全,,否,论文声称有代码，但 PDF 文本未抽取到可验证链接
+DICCADTA.pdf,diccadta,可直接复现,高,声称有代码但待补全,,否,论文声称有代码，但 PDF 文本未抽取到可验证链接
+DILPADTA.pdf,dilpadta,可直接复现,高,候选未验证通过,,否,候选仓库未通过 git ls-remote，可能为拼写错误、私有仓库或网络限制
+DynamicDTA.pdf,dynamicdta,可直接复现,高,声称有代码但待补全,,否,论文声称有代码，但 PDF 文本未抽取到可验证链接
+GPCNDTA.pdf,gpcndta,可直接复现,高,声称有代码但待补全,,否,论文声称有代码，但 PDF 文本未抽取到可验证链接
+GS-DTA.pdf,gs-dta,可直接复现,高,声称有代码但待补全,,否,论文声称有代码，但 PDF 文本未抽取到可验证链接
+HGRL-DTA.pdf,hgrl-dta,可直接复现,高,声称有代码但待补全,,否,论文声称有代码，但 PDF 文本未抽取到可验证链接
+MDCT-DTA.pdf,mdct-dta,可直接复现,高,疑似非官方/依赖引用,,否,抽取到的仓库更像基线或依赖引用，尚未定位 MDCT-DTA 专用官方实现
+MEGDTA.pdf,megdta,可直接复现,高,声称有代码但待补全,,否,论文声称有代码，但 PDF 文本未抽取到可验证链接
+MFDTA.pdf,mfdta,可直接复现,高,候选未验证通过,,否,候选仓库未通过 git ls-remote，可能为拼写错误、私有仓库或网络限制
+MLFF-DTA.pdf,mlff-dta,可直接复现,高,声称有代码但待补全,,否,论文声称有代码，但 PDF 文本未抽取到可验证链接
+MMRGDTA.pdf,mmrgdta,可直接复现,高,待人工核验,,否,存在不完整或非 GitHub 代码线索，需要继续搜索
+Modality-DTA.pdf,modality-dta,可直接复现,高,疑似非官方/依赖引用,,否,抽取到的是 descriptastorus 依赖库，不是模型官方实现
+MSNDTA.pdf,msndta,可直接复现,高,声称有代码但待补全,,否,论文声称有代码，但 PDF 文本未抽取到可验证链接
+Multiscale_Motif-Aware_Relation_Graph_Structure_for_Drug-Target_Binding_Affinity_Prediction.pdf,multiscale-motif-aware-relation-graph-structure-for-drug-target-binding-affinity-prediction,可直接复现,高,待人工核验,,否,存在不完整或非 GitHub 代码线索，需要继续搜索
+Ricci-GraphDTA.pdf,ricci-graphdta,可直接复现,高,已验证相关仓库但官方性待确认,https://github.com/hkmztrk/DeepDTA,否,当前只验证到 DeepDTA 相关仓库，尚不能证明是 Ricci-GraphDTA 官方实现
+RRGDTA.pdf,rrgdta,可直接复现,高,声称有代码但待补全,,否,论文声称有代码，但 PDF 文本未抽取到可验证链接
+SE-DTA.pdf,se-dta,可直接复现,高,声称有代码但待补全,,否,论文声称有代码，但 PDF 文本未抽取到可验证链接
+TDGraphDTA.pdf,tdgraphdta,可直接复现,高,候选未验证通过,,否,候选仓库未通过 git ls-remote，可能为拼写错误、私有仓库或网络限制
+DCGAN-DTA.pdf,dcgan-dta,可迁移适配,中-低,待人工核验,,否,存在不完整或非 GitHub 代码线索，需要继续搜索
+GLCN-DTA.pdf,glcn-dta,可迁移适配,中-低,未发现代码,,否,本地 PDF 前几页未发现代码线索，且当前未补到候选仓库
+HPDAF.pdf,hpdaf,可迁移适配,中-低,待人工核验,,否,存在不完整或非 GitHub 代码线索，需要继续搜索
+MBP.pdf,mbp,可迁移适配,中-低,未发现代码,,否,本地 PDF 前几页未发现代码线索，且当前未补到候选仓库
+MSSDTA.pdf,mssdta,可迁移适配,中-低,未发现代码,,否,本地 PDF 前几页未发现代码线索，且当前未补到候选仓库
+MvGraphDTA.pdf,mvgraphdta,可迁移适配,中-低,未发现代码,,否,本地 PDF 前几页未发现代码线索，且当前未补到候选仓库
+s13321-025-01145-7.pdf,s13321-025-01145-7,可迁移适配,中-低,未发现代码,,否,本地 PDF 前几页未发现代码线索，且当前未补到候选仓库
+S2DTA.pdf,s2dta,可迁移适配,中-低,未发现代码,,否,本地 PDF 前几页未发现代码线索，且当前未补到候选仓库
+Co-VAE.pdf,co-vae,部分可复现,中,待人工核验,,否,存在不完整或非 GitHub 代码线索，需要继续搜索
+CoLADTA.pdf,coladta,部分可复现,中,待人工核验,,否,存在不完整或非 GitHub 代码线索，需要继续搜索
+DTIAM.pdf,dtiam,部分可复现,中,未发现代码,,否,本地 PDF 前几页未发现代码线索，且当前未补到候选仓库
+ELECTRA-DTA.pdf,electra-dta,部分可复现,中,声称有代码但待补全,,否,论文声称有代码，但 PDF 文本未抽取到可验证链接
+FusionDTA.pdf,fusiondta,部分可复现,中,未发现代码,,否,本地 PDF 前几页未发现代码线索，且当前未补到候选仓库
+GANsDTA.pdf,gansdta,部分可复现,中,未发现代码,,否,本地 PDF 前几页未发现代码线索，且当前未补到候选仓库
+GEFA.pdf,gefa,部分可复现,中,待人工核验,,否,存在不完整或非 GitHub 代码线索，需要继续搜索
+GEFormerDTA.pdf,geformerdta,部分可复现,中,未发现代码,,否,本地 PDF 前几页未发现代码线索，且当前未补到候选仓库
+GeneralizedDTA.pdf,generalizeddta,部分可复现,中,未发现代码,,否,本地 PDF 前几页未发现代码线索，且当前未补到候选仓库
+GraphBAN.pdf,graphban,部分可复现,中,未发现代码,,否,本地 PDF 前几页未发现代码线索，且当前未补到候选仓库
+GraphCL-DTA.pdf,graphcl-dta,部分可复现,中,未发现代码,,否,本地 PDF 前几页未发现代码线索，且当前未补到候选仓库
+GSAML-DTA.pdf,gsaml-dta,部分可复现,中,声称有代码但待补全,,否,论文声称有代码，但 PDF 文本未抽取到可验证链接
+GTAMP-DTA.pdf,gtamp-dta,部分可复现,中,声称有代码但待补全,,否,论文声称有代码，但 PDF 文本未抽取到可验证链接
+HiFDTA.pdf,hifdta,部分可复现,高,未发现代码,,否,本地 PDF 前几页未发现代码线索，且当前未补到候选仓库
+HMM-DTA.pdf,hmm-dta,部分可复现,中,未发现代码,,否,本地 PDF 前几页未发现代码线索，且当前未补到候选仓库
+JSSM-DTA.pdf,jssm-dta,部分可复现,高,声称有代码但待补全,,否,论文声称有代码，但 PDF 文本未抽取到可验证链接
+KANPM-DTA.pdf,kanpm-dta,部分可复现,高,未发现代码,,否,本地 PDF 前几页未发现代码线索，且当前未补到候选仓库
+LMDTA.pdf,lmdta,部分可复现,中,未发现代码,,否,本地 PDF 前几页未发现代码线索，且当前未补到候选仓库
+Mamba-Sinter_Enhancing_Drug-Target_Binding_Affinity_Prediction_via_Multimodal_Feature_Synergy_and_Interactive_Attention.pdf,mamba-sinter-enhancing-drug-target-binding-affinity-prediction-via-multimodal-feature-synergy-and-interactive-attention,部分可复现,高,未发现代码,,否,本地 PDF 前几页未发现代码线索，且当前未补到候选仓库
+mambatransDTA.pdf,mambatransdta,部分可复现,高,候选未验证通过,,否,候选仓库未通过 git ls-remote，可能为拼写错误、私有仓库或网络限制
+MDF-DTAn.pdf,mdf-dtan,部分可复现,中,未发现代码,,否,本地 PDF 前几页未发现代码线索，且当前未补到候选仓库
+MultiKD‑DTA.pdf,multikd-dta,部分可复现,中,未发现代码,,否,本地 PDF 前几页未发现代码线索，且当前未补到候选仓库
+MutualDTA.pdf,mutualdta,部分可复现,中,未发现代码,,否,本地 PDF 前几页未发现代码线索，且当前未补到候选仓库
+s40747-025-02020-6.pdf,s40747-025-02020-6,部分可复现,中,未发现代码,,否,本地 PDF 前几页未发现代码线索，且当前未补到候选仓库
+SimCNN-DTA.pdf,simcnn-dta,部分可复现,中,未发现代码,,否,本地 PDF 前几页未发现代码线索，且当前未补到候选仓库
+SubMDTA.pdf,submdta,部分可复现,中,未发现代码,,否,本地 PDF 前几页未发现代码线索，且当前未补到候选仓库
+SWECDTA.pdf,swecdta,部分可复现,中,未发现代码,,否,本地 PDF 前几页未发现代码线索，且当前未补到候选仓库
+TransVAE-DTA.pdf,transvae-dta,部分可复现,中,声称有代码但待补全,,否,论文声称有代码，但 PDF 文本未抽取到可验证链接
+TriMDTA.pdf,trimdta,部分可复现,中,未发现代码,,否,本地 PDF 前几页未发现代码线索，且当前未补到候选仓库
+MGraphDTA.pdf,mgraphdta,可工程化复现,高,未发现代码,,是,本地 PDF 前几页未发现代码线索，且当前未补到候选仓库
+AttentionDTA.pdf,attentiondta,可直接复现,高,候选未验证通过,,是,候选仓库未通过 git ls-remote，可能为拼写错误、私有仓库或网络限制
+FingerDTA.pdf,fingerdta,可直接复现,高,待人工核验,,是,存在不完整或非 GitHub 代码线索，需要继续搜索
+WideDTA.pdf,widedta,可直接复现,高,已验证相关仓库但官方性待确认,https://github.com/hkmztrk/DeepDTA,是,当前验证到 hkmztrk/DeepDTA；该仓库与 WideDTA 作者线索相关，但仍建议核对 README/论文说明
+DrugBAN.pdf,drugban,可迁移适配,中-低,已补全并验证仓库,https://github.com/peizhenbai/DrugBAN,是,建议优先核对 README、数据集脚本和论文作者信息，确认后可按官方实现迁移
+SSM-DTA.pdf,ssm-dta,部分可复现,中,未发现代码,,是,本地 PDF 前几页未发现代码线索，且当前未补到候选仓库

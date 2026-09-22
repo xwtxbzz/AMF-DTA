@@ -1,0 +1,27 @@
+{
+  "model": "vidta",
+  "dataset": "davis",
+  "epochs": 200,
+  "batch_size": 64,
+  "train_size": 24044,
+  "val_size": 3006,
+  "test_size": 3006,
+  "parameters": 1083905,
+  "best_val_rmse": 0.5205192283177447,
+  "metrics": {
+    "mse": 0.25856683914081413,
+    "rmse": 0.5084946795599873,
+    "mae": 0.2788259358066602,
+    "r2": 0.647256778550095,
+    "rm2": 0.5919633620459755,
+    "ci": 0.8744555598654898,
+    "pearson": 0.8102919108955736,
+    "spearman": 0.6713192590303142,
+    "finite_fraction": 1.0
+  },
+  "source": {
+    "paper": "ViDTA: Enhanced Drug-Target Affinity Prediction via Virtual Graph Nodes and Attention-based Feature Fusion",
+    "repo": "No official GitHub implementation found in the 2026-07-13 web search.",
+    "status": "Paper-level PyTorch/PyG reproduction added locally with virtual graph node updates and attention-based drug-target fusion."
+  }
+}

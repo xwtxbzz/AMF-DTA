@@ -1,0 +1,51 @@
+seed: 42
+device: auto
+data:
+  name: metz
+  root: data/metz
+  smiles_file: smiles.csv
+  sequence_file: sequence.csv
+  affinity_file: affinity.csv
+  drug_id_col: DRUGID
+  smiles_col: SMILES
+  target_id_col: TARGETID
+  sequence_col: SEQUENCE
+  label_col: VALUE
+  max_smiles_len: 120
+  max_protein_len: 1000
+  split:
+    method: random
+    train_ratio: 0.8
+    val_ratio: 0.1
+    test_ratio: 0.1
+  num_workers: 0
+  pin_memory: true
+model:
+  name: mgraphdta
+  input_mode: graph
+  num_node_features: 78
+  hidden_dim: 128
+  graph_layers: 27
+  protein_embedding_dim: 128
+  protein_filters: 128
+  protein_kernel_size: 8
+  fc_dims:
+  - 1024
+  - 512
+  dropout: 0.2
+train:
+  batch_size: 32
+  epochs: 50
+  learning_rate: 0.001
+  weight_decay: 1.0e-05
+  grad_clip_norm: 5.0
+  early_stopping_patience: 10
+  metric_for_best: rmse
+  output_dir: outputs/metz_mgraphdta
+  amp: true
+  amp_dtype: float16
+  cudnn_benchmark: true
+  checkpoint_interval: 5
+evaluation:
+  ci_higher_is_better: true
+  save_predictions: true

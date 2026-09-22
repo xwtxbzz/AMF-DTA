@@ -1,0 +1,27 @@
+{
+  "model": "mgraphdta",
+  "dataset": "metz",
+  "epochs": 200,
+  "batch_size": 64,
+  "train_size": 28207,
+  "val_size": 3526,
+  "test_size": 3526,
+  "parameters": 2040705,
+  "best_val_rmse": 0.7803103013453132,
+  "metrics": {
+    "mse": 0.6161200819701564,
+    "rmse": 0.7849331703846872,
+    "mae": 0.5970085273056766,
+    "r2": 0.3538803534956957,
+    "rm2": 0.48969036961894324,
+    "ci": 0.7583962943431856,
+    "pearson": 0.729477030534533,
+    "spearman": 0.6847785784985067,
+    "finite_fraction": 1.0
+  },
+  "source": {
+    "paper": "MGraphDTA: Deep Multiscale Graph Neural Network for Explainable Drug-target Binding Affinity Prediction",
+    "repo": "https://github.com/guaguabujianle/MGraphDTA",
+    "status": "Official PyG regression code available. Local model keeps the multiscale GNN + protein CNN structure and is trained on the current 8:1:1 split."
+  }
+}

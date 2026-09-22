@@ -1,0 +1,18 @@
+model,model_display,davis,kiba,metz,completed_200_count,missing_200_datasets,all_three_complete_200,selected_output_dirs
+attentiondta,AttentionDTA,200,200,200,3,,True,davis:outputs\davis_attentiondta_all200; kiba:outputs\kiba_attentiondta_all200; metz:outputs\metz_attentiondta_all200
+cgbilstm,CGBiLSTM,缺失,缺失,缺失,0,"davis,kiba,metz",False,
+ckdta,CKDTA,200,200,200,3,,True,davis:outputs\davis_ckdta_three_selected_davis; kiba:outputs\kiba_ckdta_three_selected; metz:outputs\metz_ckdta_three_selected
+csatdta,CSatDTA,缺失,缺失,缺失,0,"davis,kiba,metz",False,
+deattentiondta,DEAttentionDTA,200,200,200,3,,True,davis:outputs\davis_deattentiondta_three_selected_davis; kiba:outputs\kiba_deattentiondta_three_selected; metz:outputs\metz_deattentiondta_three_selected
+deepdta,DeepDTA,200,200,200,3,,True,davis:outputs\davis_deepdta_200; kiba:outputs\kiba_deepdta_all200; metz:outputs\metz_deepdta_200
+deepglstm,DeepGLSTM,缺失,缺失,缺失,0,"davis,kiba,metz",False,
+drugban,DrugBAN,200,200,200,3,,True,davis:outputs\davis_drugban_all200; kiba:outputs\kiba_drugban_all200; metz:outputs\metz_drugban_all200_stable
+drugmgr,DrugMGR,缺失,缺失,缺失,0,"davis,kiba,metz",False,
+edta,EDTA,200,200,200,3,,True,davis:outputs\davis_edta_three_selected_davis; kiba:outputs\kiba_edta_three_selected; metz:outputs\metz_edta_three_selected
+fingerdta,FingerDTA,200,200,200,3,,True,davis:outputs\davis_fingerdta_all200; kiba:outputs\kiba_fingerdta_all200; metz:outputs\metz_fingerdta_all200
+graphdta,GraphDTA,200,200,200,3,,True,davis:outputs\davis_graphdta_all200; kiba:outputs\kiba_graphdta_all200; metz:outputs\metz_graphdta_all200
+mattdti,MATT-DTI,缺失,缺失,缺失,0,"davis,kiba,metz",False,
+mgraphdta,MGraphDTA,200,200,200,3,,True,davis:outputs\davis_mgraphdta_all200; kiba:outputs\kiba_mgraphdta_all200; metz:outputs\metz_mgraphdta_all200
+moltrans,MolTrans,200,200,200,3,,True,davis:outputs\davis_moltrans_all200; kiba:outputs\kiba_moltrans_all200; metz:outputs\metz_moltrans_all200
+ssmdta,SSMDTA,200,200,200,3,,True,davis:outputs\davis_ssmdta_all200; kiba:outputs\kiba_ssmdta_all200; metz:outputs\metz_ssmdta_all200
+widedta,WideDTA,200,200,200,3,,True,davis:outputs\davis_widedta_all200; kiba:outputs\kiba_widedta_all200; metz:outputs\metz_widedta_all200

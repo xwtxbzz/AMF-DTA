@@ -1,0 +1,26 @@
+{
+  "model_type": "rail",
+  "interaction": "rail",
+  "use_drug_gate": true,
+  "use_context_gate": true,
+  "use_bias": true,
+  "positive_denominator": true,
+  "residual_gate": true,
+  "hidden_dim": 256,
+  "fc_dims": [
+    768,
+    256
+  ],
+  "dropout": 0.2,
+  "batch_size": 192,
+  "learning_rate": 0.0002,
+  "alpha_lr_multiplier": 10.0,
+  "weight_decay": 1e-05,
+  "grad_clip_norm": 5.0,
+  "max_epochs": 200,
+  "final_fit_epochs": 12,
+  "final_fit_swa_start_epoch": 10,
+  "amp": "fp16",
+  "seed": 62,
+  "model_kwargs": {}
+}

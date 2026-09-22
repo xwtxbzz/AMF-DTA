@@ -1,0 +1,36 @@
+﻿file,year,category,priority,repo,implemented_locally,simplicity_score,rank_score,inputs,complexity_reasons,title_hint,recommendation
+CKDTA.pdf,2025,可直接复现,高,https://github.com/zxr779/CKDTA,是,2.5,17.5,molecular graph,"Attention, 交互/融合模块",CKDTA,本地已有实现，可作为已完成基线保留
+MMAtt-DTA.pdf,2024,可迁移适配,中-低,https://github.com/AronSchulman/MMAtt-DTA,否,2.7,22.7,未明确,Attention,MMAtt-DTA,备选：较新但模块略多，适合第二批实现
+DrugMGR.pdf,2024,可直接复现,高,https://github.com/lixiaokun2020/DrugMGR,否,4.0,24.0,未明确,"交互/融合模块, 多粒度/多图表示",DrugMGR,首选：新、仓库已验证、结构相对简洁，适合下一个实现
+GINCM-DTA.pdf,2024,可直接复现,高,https://github.com/gxCaesar/GINCM-DTA,否,5.5,25.5,未明确,"额外预训练/迁移训练, GNN/图网络",Expert Systems With Applications 236 (2024) 121274 Available online 31 August 2023 0957-4174/© 2023 Elsevier Ltd.,备选：较新但模块略多，适合第二批实现
+DEAttentionDTA.pdf,2024,可直接复现,高,https://github.com/whatamazing1/DEAttentionDTA,是,2.2,27.2,未明确,"Attention, CNN",DEAttentionDTA,本地已有实现，可作为已完成基线保留
+CDTA.pdf,2026,部分可复现,中,https://github.com/macjiffriya/CDTA,否,7.0,32.0,未明确,预训练/LLM/Mamba,CDTA,不建议优先：复杂度或额外流程较高
+EDTA.pdf,2026,可直接复现,高,https://github.com/macjiffriya/EDTA,是,5.9,35.9,molecular graph,"Attention, GNN/图网络, RNN, 交互/融合模块, CNN",EDTA,本地已有实现，可作为已完成基线保留
+NerLTR-DTA.pdf,2022,可直接复现,高,https://github.com/RUXIAOQING964914140/NerLTR-DTA,否,1.0,41.0,未明确,交互/融合模块,NerLTR-DTA,简洁但年份不占优，可作为稳定对照
+PPDTA.pdf,2025,可直接复现,高,https://github.com/shangjun-Yang/PPDTA,否,7.4,42.4,"SMILES, molecular graph, fingerprint","PPI/药效团外部特征, GNN/图网络, RNN, 交互/融合模块, CNN, 3类输入",PPDTA,不建议优先：复杂度或额外流程较高
+ArkDTA.pdf,2022,可直接复现,高,https://github.com/dmis-lab/ArkDTA,否,5.0,45.0,未明确,"Attention, 交互/融合模块, 预训练/知识增强",ArkDTA,不建议优先：复杂度或额外流程较高
+DTITR.pdf,2022,可直接复现,高,https://github.com/larngroup/DTITR,否,5.0,45.0,未明确,"Transformer, Attention, 交互/融合模块",Computers in Biology and Medicine 147 (2022) 105772 Available online 21 June 2022 0010-4825/© 2022 The Authors.,不建议优先：复杂度或额外流程较高
+DMCRL.pdf,2025,部分可复现,高,https://github.com/gmjjjj1127/DMCRL,否,14.5,49.5,molecular graph,"额外预训练/迁移训练, 多模态/多尺度, GNN/图网络, 交互/融合模块, 对比学习",DMCRL,不建议优先：复杂度或额外流程较高
+CSDTA.pdf,2024,可迁移适配,中-低,https://github.com/yanzhu22/CSDTA,否,5.9,50.9,SMILES,"额外预训练/迁移训练, CNN","1458 IEEE/ACM TRANSACTIONS ON COMPUTATIONAL BIOLOGY AND BIOINFORMATICS, VOL.",备选：较新但模块略多，适合第二批实现
+MSFFDTA.pdf,2024,可直接复现,高,https://github.com/whitehat32/MSFF-DTA,否,6.0,51.0,molecular graph,"多模态/多尺度, Attention, GNN/图网络, 交互/融合模块",Computers in Biology and Medicine 178 (2024) 108699 Available online 4 June 2024 0010-4825/© 2024 Elsevier Ltd.,备选：较新但模块略多，适合第二批实现
+dAD.pdf,2021,可直接复现,高,https://github.com/mlkr-rbi/dAD,否,1.0,51.0,未明确,交互/融合模块,dAD,简洁但年份不占优，可作为稳定对照
+MATT_DTI.pdf,2021,可直接复现,高,https://github.com/ZengYuni/MATT_DTI,否,2.5,52.5,未明确,"Attention, 交互/融合模块",MATT_DTI,简洁但年份不占优，可作为稳定对照
+AttentionMGT-DTA.pdf,2024,可直接复现,高,https://github.com/JK-Liu7/AttentionMGT-DTA,否,8.5,53.5,molecular graph,"Transformer, 多模态/多尺度, Attention, GNN/图网络, 交互/融合模块",Neural Networks 169 (2024) 623–636 Available online 11 November 2023 0893-6080/© 2023 The Author(s).,不建议优先：复杂度或额外流程较高
+MMD-DTA.pdf,2024,可直接复现,高,https://github.com/wyx2012/MMD-DTA,否,9.0,54.0,molecular graph,"多模态/多尺度, Attention, GNN/图网络, 交互/融合模块, 多模态/多域","2200 IEEE/ACM TRANSACTIONS ON COMPUTATIONAL BIOLOGY AND BIOINFORMATICS, VOL.",不建议优先：复杂度或额外流程较高
+LLMDTA_Improving_Cold-Start_Prediction_in_Drug-Target_Affinity_with_Biological_LLM.pdf,2025,部分可复现,高,https://github.com/Chris-Tang6/LLMDTA,否,19.2,54.2,未明确,"预训练/LLM/Mamba, 额外预训练/迁移训练, Attention, 交互/融合模块, CNN, LLM","1 LLMDTA: Improving Cold-Start Prediction in Drug-Target Affinity with Biological LLM Wuguo Tang, Qichang Zhao and Jianxin Wang ∗",不建议优先：复杂度或额外流程较高
+MHAN-DTA.pdf,2024,可直接复现,高,https://github.com/anxiangbiye1231/MHAN-DTA,否,9.2,54.2,"SMILES, molecular graph","多模态/多尺度, Attention, GNN/图网络, 交互/融合模块, CNN, 多头注意力",MHAN-DTA,不建议优先：复杂度或额外流程较高
+ImageDTA.pdf,2024,部分可复现,中,https://github.com/neuhanli/ImageDTA,否,11.7,56.7,"SMILES, molecular graph","额外预训练/迁移训练, 多模态/多尺度, Attention, GNN/图网络, CNN",ImageDTA,不建议优先：复杂度或额外流程较高
+G-K BertDTA.pdf,2024,部分可复现,中,https://github.com/AmbitYuki/G-K-BertDTA,否,15.0,60.0,molecular graph,"预训练/LLM/Mamba, 额外预训练/迁移训练, Attention, GNN/图网络, 交互/融合模块",Computers in Biology and Medicine 173 (2024) 108376 Available online 25 March 2024 0010-4825/© 2024 Elsevier Ltd.,不建议优先：复杂度或额外流程较高
+G-KBertDTA.pdf,2024,部分可复现,中,https://github.com/AmbitYuki/G-K-BertDTA,否,15.0,60.0,molecular graph,"预训练/LLM/Mamba, 额外预训练/迁移训练, Attention, GNN/图网络, 交互/融合模块",Computers in Biology and Medicine 173 (2024) 108376 Available online 25 March 2024 0010-4825/© 2024 Elsevier Ltd.,不建议优先：复杂度或额外流程较高
+Mamba-DTA.pdf,2024,部分可复现,中,https://github.com/202324131016T/Mamba-DTA,否,15.2,60.2,未明确,"预训练/LLM/Mamba, Attention, 交互/融合模块, CNN, Mamba",Mamba-DTA,不建议优先：复杂度或额外流程较高
+MDeePred.pdf,2020,可直接复现,高,https://github.com/cansyl/MDeePred,否,1.0,61.0,未明确,交互/融合模块,Data and text mining MDeePred: novel multi-channel protein featurization for deep learning-based binding affinity prediction in drug discovery A.,简洁但年份不占优，可作为稳定对照
+MFR-DTA.pdf,2023,可直接复现,高,https://github.com/JU-HuaY/MFR,否,7.0,62.0,未明确,"多模态/多尺度, Attention, 交互/融合模块, 多特征表示",MFR-DTA,不建议优先：复杂度或额外流程较高
+SAM-DTA.pdf,2020,可迁移适配,中-低,https://github.com/huzqatpku/SAM-DTA,否,3.7,63.7,"protein sequence, molecular graph","GNN/图网络, 交互/融合模块",Zhiqiang Hu received his B.S.,简洁但年份不占优，可作为稳定对照
+NHGNN-DTA.pdf,2022,可直接复现,高,https://github.com/hehh77/NHGNN-DTA,否,7.0,72.0,molecular graph,"Attention, GNN/图网络, 交互/融合模块, 异构图网络",NHGNN-DTA,不建议优先：复杂度或额外流程较高
+DeepAffinity.pdf,2019,可迁移适配,中-低,https://github.com/Shen-Lab/DeepAffinity,否,4.4,74.4,未明确,"Attention, 交互/融合模块, CNN",DeepAffinity,不建议优先：复杂度或额外流程较高
+DeepCDA.pdf,2020,部分可复现,中,https://github.com/LBBSoft/DeepCDA,否,10.4,95.4,未明确,"额外预训练/迁移训练, Attention, RNN, 交互/融合模块, CNN",DeepCDA,不建议优先：复杂度或额外流程较高
+GraphDTA.pdf,2020,可直接复现,高,https://github.com/thinng/GraphDTA,是,6.5,96.5,molecular graph,"额外预训练/迁移训练, GNN/图网络, 交互/融合模块","Systems biology GraphDTA: predicting drug–target binding affinity with graph neural networks Thin Nguyen1,*, Hang Le2, Thomas P .",本地已有实现，可作为已完成基线保留
+DeepDTA.pdf,2016,可直接复现,高,https://github.com/hkmztrk/DeepDTA,是,1.7,106.7,未明确,"交互/融合模块, CNN",DeepDTA,本地已有实现，可作为已完成基线保留
+TEFDTA.pdf,0,可直接复现,高,https://github.com/lizongquan01/TEFDTA,否,4.0,20264.0,fingerprint,"Transformer, Attention",TEFDTA,简洁但年份不占优，可作为稳定对照
+DataDTA.pdf,0,可迁移适配,中-低,https://github.com/YanZhu06/DataDTA,否,4.2,20264.2,SMILES,"多模态/多尺度, 交互/融合模块",DataDTA,不建议优先：复杂度或额外流程较高
+DrugBAN.pdf,0,可迁移适配,中-低,https://github.com/peizhenbai/DrugBAN,是,7.7,20297.7,未明确,"额外预训练/迁移训练, Attention, 交互/融合模块",DrugBAN,本地已有实现，可作为已完成基线保留

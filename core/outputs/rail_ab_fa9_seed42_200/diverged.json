@@ -1,0 +1,4 @@
+{
+  "diverged": true,
+  "error": "ValueError: NaNs detected in inputs, please correct or drop. (concordance_index, epoch validation)"
+}

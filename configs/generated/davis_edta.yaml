@@ -1,0 +1,69 @@
+seed: 42
+device: auto
+data:
+  name: davis
+  root: data/davis
+  smiles_file: smiles.csv
+  sequence_file: sequence.csv
+  affinity_file: affinity.csv
+  drug_id_col: DRUGID
+  smiles_col: SMILES
+  target_id_col: TARGETID
+  sequence_col: SEQUENCE
+  label_col: VALUE
+  max_smiles_len: 100
+  max_protein_len: 512
+  split:
+    method: random
+    train_ratio: 0.8
+    val_ratio: 0.1
+    test_ratio: 0.1
+  num_workers: 0
+  pin_memory: true
+model:
+  name: edta
+  input_mode: sequence
+  embedding_dim: 128
+  smiles_vocab_size: 65
+  bpe_vocab_size: 16694
+  atom_feature_dim: 24
+  target_feature_dim: 42
+  pocket_feature_dim: 67
+  smiles_lstm_hidden_dim: 128
+  smiles_lstm_layers: 2
+  smiles_attention_heads: 8
+  max_drug_atoms: 100
+  target_feature_len: 512
+  pocket_max_len: 200
+  conv_ll_kernel_sizes:
+  - 4
+  - 6
+  - 6
+  - 4
+  conv_pp_kernel_sizes:
+  - 4
+  - 8
+  - 12
+  - 8
+  classifier_dims:
+  - 512
+  - 256
+  - 128
+  - 64
+  dropout: 0.2
+train:
+  batch_size: 32
+  epochs: 50
+  learning_rate: 0.001
+  weight_decay: 1.0e-05
+  grad_clip_norm: 5.0
+  early_stopping_patience: 10
+  metric_for_best: rmse
+  output_dir: outputs/davis_edta
+  amp: true
+  amp_dtype: float16
+  cudnn_benchmark: true
+  checkpoint_interval: 5
+evaluation:
+  ci_higher_is_better: true
+  save_predictions: true

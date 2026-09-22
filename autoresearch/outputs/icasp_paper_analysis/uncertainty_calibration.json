@@ -1,0 +1,416 @@
+{
+  "davis": {
+    "n_samples": 3006,
+    "ensemble_std_mean": 0.08883161094087383,
+    "abs_error_mean": 0.21286866104928004,
+    "std_error_pearson": 0.4696588876439326,
+    "bins": [
+      {
+        "bin": 1,
+        "n_samples": 300,
+        "uncertainty_range": [
+          0.005182226234930313,
+          0.022041774968227942
+        ],
+        "mean_uncertainty": 0.016969497688974176,
+        "mean_abs_error": 0.049390802383422854,
+        "median_abs_error": 0.024218750000000178,
+        "rmse": 0.12753861571184857
+      },
+      {
+        "bin": 2,
+        "n_samples": 301,
+        "uncertainty_range": [
+          0.022152260748059104,
+          0.028662400512256474
+        ],
+        "mean_uncertainty": 0.025535388443672015,
+        "mean_abs_error": 0.07218851932259494,
+        "median_abs_error": 0.02734375,
+        "rmse": 0.21653542429220063
+      },
+      {
+        "bin": 3,
+        "n_samples": 300,
+        "uncertainty_range": [
+          0.02870495792324037,
+          0.034196982231623894
+        ],
+        "mean_uncertainty": 0.03141229472127598,
+        "mean_abs_error": 0.07773484071095782,
+        "median_abs_error": 0.025000000000000355,
+        "rmse": 0.22175848812559967
+      },
+      {
+        "bin": 4,
+        "n_samples": 301,
+        "uncertainty_range": [
+          0.0342683003116583,
+          0.0414578098794425
+        ],
+        "mean_uncertainty": 0.03811214982892465,
+        "mean_abs_error": 0.08297258960052185,
+        "median_abs_error": 0.03203125000000018,
+        "rmse": 0.2054017038351137
+      },
+      {
+        "bin": 5,
+        "n_samples": 301,
+        "uncertainty_range": [
+          0.041560737744594956,
+          0.04987778031097615
+        ],
+        "mean_uncertainty": 0.04527271770703257,
+        "mean_abs_error": 0.10023805453531766,
+        "median_abs_error": 0.033593749999999645,
+        "rmse": 0.25961177117378365
+      },
+      {
+        "bin": 6,
+        "n_samples": 300,
+        "uncertainty_range": [
+          0.04993892754530277,
+          0.06198026084468344
+        ],
+        "mean_uncertainty": 0.05522993801368244,
+        "mean_abs_error": 0.13292023436228434,
+        "median_abs_error": 0.03828124999999982,
+        "rmse": 0.3018269083378249
+      },
+      {
+        "bin": 7,
+        "n_samples": 301,
+        "uncertainty_range": [
+          0.061980260844683444,
+          0.0905845815039734
+        ],
+        "mean_uncertainty": 0.0750062739370988,
+        "mean_abs_error": 0.24158811981099787,
+        "median_abs_error": 0.09497604370117152,
+        "rmse": 0.42189790907906505
+      },
+      {
+        "bin": 8,
+        "n_samples": 300,
+        "uncertainty_range": [
+          0.09080666060028306,
+          0.13972367400739574
+        ],
+        "mean_uncertainty": 0.1128091352868727,
+        "mean_abs_error": 0.36071340338389074,
+        "median_abs_error": 0.20000000000000018,
+        "rmse": 0.5412488561135957
+      },
+      {
+        "bin": 9,
+        "n_samples": 301,
+        "uncertainty_range": [
+          0.13976734994044565,
+          0.21964937880489213
+        ],
+        "mean_uncertainty": 0.17892798439497737,
+        "mean_abs_error": 0.4412071148818514,
+        "median_abs_error": 0.3177460670471195,
+        "rmse": 0.5884309484070254
+      },
+      {
+        "bin": 10,
+        "n_samples": 301,
+        "uncertainty_range": [
+          0.21967438616620738,
+          0.6338176816053849
+        ],
+        "mean_uncertainty": 0.3085792490604711,
+        "mean_abs_error": 0.5689664352771847,
+        "median_abs_error": 0.4609375,
+        "rmse": 0.7345788410536563
+      }
+    ],
+    "high_uncertainty_quartile": {
+      "threshold": 0.11164768770796882,
+      "mean_abs_error": 0.4825377703981197,
+      "rmse": 0.6468533651415718
+    },
+    "low_uncertainty_quartile": {
+      "threshold": 0.03140586131600278,
+      "mean_abs_error": 0.0646933065432207,
+      "rmse": 0.18572768803109418
+    }
+  },
+  "kiba": {
+    "n_samples": 11826,
+    "ensemble_std_mean": 0.08508514905331405,
+    "abs_error_mean": 0.18257795455349737,
+    "std_error_pearson": 0.4968704548625613,
+    "bins": [
+      {
+        "bin": 1,
+        "n_samples": 1182,
+        "uncertainty_range": [
+          0.0031079040613998677,
+          0.020117277765751493
+        ],
+        "mean_uncertainty": 0.014934343183015952,
+        "mean_abs_error": 0.04785552839740682,
+        "median_abs_error": 0.026646327972412287,
+        "rmse": 0.11987124211702402
+      },
+      {
+        "bin": 2,
+        "n_samples": 1183,
+        "uncertainty_range": [
+          0.020120646443912434,
+          0.026651615287043757
+        ],
+        "mean_uncertainty": 0.023426542991254948,
+        "mean_abs_error": 0.06316032683758642,
+        "median_abs_error": 0.031307220458984375,
+        "rmse": 0.14756407564132734
+      },
+      {
+        "bin": 3,
+        "n_samples": 1182,
+        "uncertainty_range": [
+          0.026661965225075576,
+          0.03307251969365897
+        ],
+        "mean_uncertainty": 0.029851002990950525,
+        "mean_abs_error": 0.06604364511325275,
+        "median_abs_error": 0.03722524642944336,
+        "rmse": 0.1252043201275756
+      },
+      {
+        "bin": 4,
+        "n_samples": 1183,
+        "uncertainty_range": [
+          0.03307516332919249,
+          0.04022705989026541
+        ],
+        "mean_uncertainty": 0.036562472232454124,
+        "mean_abs_error": 0.08347005900546642,
+        "median_abs_error": 0.04646282196044993,
+        "rmse": 0.16069398666720291
+      },
+      {
+        "bin": 5,
+        "n_samples": 1183,
+        "uncertainty_range": [
+          0.04023031965618796,
+          0.0496759344364334
+        ],
+        "mean_uncertainty": 0.04452141751686876,
+        "mean_abs_error": 0.10105658891537586,
+        "median_abs_error": 0.058465385437012074,
+        "rmse": 0.2009076637069162
+      },
+      {
+        "bin": 6,
+        "n_samples": 1182,
+        "uncertainty_range": [
+          0.04967630880547704,
+          0.06489529343593395
+        ],
+        "mean_uncertainty": 0.056726922423922535,
+        "mean_abs_error": 0.13813517920660287,
+        "median_abs_error": 0.08884124755859357,
+        "rmse": 0.21159813554354917
+      },
+      {
+        "bin": 7,
+        "n_samples": 1183,
+        "uncertainty_range": [
+          0.0648969926647291,
+          0.09251354773001538
+        ],
+        "mean_uncertainty": 0.07749224620942465,
+        "mean_abs_error": 0.20989983043525548,
+        "median_abs_error": 0.137467002868652,
+        "rmse": 0.3195121206448485
+      },
+      {
+        "bin": 8,
+        "n_samples": 1182,
+        "uncertainty_range": [
+          0.09252336513414763,
+          0.13165582894879882
+        ],
+        "mean_uncertainty": 0.110453129455714,
+        "mean_abs_error": 0.29293046070234424,
+        "median_abs_error": 0.20390625000000018,
+        "rmse": 0.41747845112986326
+      },
+      {
+        "bin": 9,
+        "n_samples": 1183,
+        "uncertainty_range": [
+          0.13171285808141767,
+          0.20385521150185867
+        ],
+        "mean_uncertainty": 0.164309142620996,
+        "mean_abs_error": 0.35988904142017,
+        "median_abs_error": 0.2848600387573246,
+        "rmse": 0.48251705291244346
+      },
+      {
+        "bin": 10,
+        "n_samples": 1183,
+        "uncertainty_range": [
+          0.20398762619949726,
+          0.8833374010659193
+        ],
+        "mean_uncertainty": 0.2924657542575164,
+        "mean_abs_error": 0.46318221009593846,
+        "median_abs_error": 0.3894258499145504,
+        "rmse": 0.6053093440696699
+      }
+    ],
+    "high_uncertainty_quartile": {
+      "threshold": 0.1099532625814477,
+      "mean_abs_error": 0.3908516976492285,
+      "rmse": 0.5271146856998712
+    },
+    "low_uncertainty_quartile": {
+      "threshold": 0.029837921560768615,
+      "mean_abs_error": 0.057309718578701124,
+      "rmse": 0.1323665946306019
+    }
+  },
+  "metz": {
+    "n_samples": 3526,
+    "ensemble_std_mean": 0.16347992831212052,
+    "abs_error_mean": 0.34017175263595795,
+    "std_error_pearson": 0.24912440991376825,
+    "bins": [
+      {
+        "bin": 1,
+        "n_samples": 352,
+        "uncertainty_range": [
+          0.0157476403813342,
+          0.06642572464556447
+        ],
+        "mean_uncertainty": 0.050304939033917744,
+        "mean_abs_error": 0.24534684351899402,
+        "median_abs_error": 0.18409304618835431,
+        "rmse": 0.3296305389328511
+      },
+      {
+        "bin": 2,
+        "n_samples": 353,
+        "uncertainty_range": [
+          0.06654349491996006,
+          0.08548215655982806
+        ],
+        "mean_uncertainty": 0.07669899628214108,
+        "mean_abs_error": 0.26798035159664857,
+        "median_abs_error": 0.2121295928955078,
+        "rmse": 0.358670012868751
+      },
+      {
+        "bin": 3,
+        "n_samples": 352,
+        "uncertainty_range": [
+          0.0855066360454987,
+          0.10461259499183492
+        ],
+        "mean_uncertainty": 0.09507447101825917,
+        "mean_abs_error": 0.2646463998339393,
+        "median_abs_error": 0.19864916801452637,
+        "rmse": 0.3671187641555803
+      },
+      {
+        "bin": 4,
+        "n_samples": 353,
+        "uncertainty_range": [
+          0.10461460977168438,
+          0.12233493204356884
+        ],
+        "mean_uncertainty": 0.11321358878761968,
+        "mean_abs_error": 0.28087479156407685,
+        "median_abs_error": 0.23104000091552734,
+        "rmse": 0.3733994635743255
+      },
+      {
+        "bin": 5,
+        "n_samples": 353,
+        "uncertainty_range": [
+          0.12238490770205482,
+          0.14319822610945002
+        ],
+        "mean_uncertainty": 0.13197464897542632,
+        "mean_abs_error": 0.3330761936501133,
+        "median_abs_error": 0.2593374252319336,
+        "rmse": 0.4516019393694188
+      },
+      {
+        "bin": 6,
+        "n_samples": 352,
+        "uncertainty_range": [
+          0.14334017717287034,
+          0.1660887115063791
+        ],
+        "mean_uncertainty": 0.15422501876007566,
+        "mean_abs_error": 0.3419513683427464,
+        "median_abs_error": 0.2883783817291259,
+        "rmse": 0.4407279195983647
+      },
+      {
+        "bin": 7,
+        "n_samples": 353,
+        "uncertainty_range": [
+          0.16614496339372084,
+          0.1946649879218084
+        ],
+        "mean_uncertainty": 0.17921707374532078,
+        "mean_abs_error": 0.37569467933589945,
+        "median_abs_error": 0.29451541900634837,
+        "rmse": 0.48998545758948314
+      },
+      {
+        "bin": 8,
+        "n_samples": 352,
+        "uncertainty_range": [
+          0.1947301739576908,
+          0.22953577227124075
+        ],
+        "mean_uncertainty": 0.2112591860072375,
+        "mean_abs_error": 0.3764472167600285,
+        "median_abs_error": 0.28871374130249006,
+        "rmse": 0.49028563236786465
+      },
+      {
+        "bin": 9,
+        "n_samples": 353,
+        "uncertainty_range": [
+          0.22956904333505582,
+          0.294455314513178
+        ],
+        "mean_uncertainty": 0.25710370826634416,
+        "mean_abs_error": 0.42322125880643935,
+        "median_abs_error": 0.3466684341430666,
+        "rmse": 0.5539309378289856
+      },
+      {
+        "bin": 10,
+        "n_samples": 353,
+        "uncertainty_range": [
+          0.29449000867690023,
+          0.7018305078543772
+        ],
+        "mean_uncertainty": 0.3653223941756592,
+        "mean_abs_error": 0.49210364906375875,
+        "median_abs_error": 0.44000759124755895,
+        "rmse": 0.6146014174255702
+      }
+    ],
+    "high_uncertainty_quartile": {
+      "threshold": 0.21026601059130345,
+      "mean_abs_error": 0.44529142368948105,
+      "rmse": 0.5705831385572838
+    },
+    "low_uncertainty_quartile": {
+      "threshold": 0.095572157983169,
+      "mean_abs_error": 0.259105856510517,
+      "rmse": 0.3484829481472099
+    }
+  }
+}

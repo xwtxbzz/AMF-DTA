@@ -1,0 +1,27 @@
+{
+  "model": "hifdta",
+  "dataset": "kiba",
+  "epochs": 200,
+  "batch_size": 64,
+  "train_size": 94603,
+  "val_size": 11825,
+  "test_size": 11826,
+  "parameters": 1880833,
+  "best_val_rmse": 0.48663278728630627,
+  "metrics": {
+    "mse": 0.22767112886942065,
+    "rmse": 0.47714895878480196,
+    "mae": 0.30290846901860874,
+    "r2": 0.6708748064841319,
+    "rm2": 0.6302468382025092,
+    "ci": 0.8391795085211433,
+    "pearson": 0.8213972002400405,
+    "spearman": 0.8109865654901626,
+    "finite_fraction": 1.0
+  },
+  "source": {
+    "paper": "HiF-DTA: Hierarchical Feature Learning Network for Drug-Target Affinity Prediction",
+    "repo": "No official GitHub implementation found in the 2026-07-13 web search.",
+    "status": "Paper-level PyTorch/PyG reproduction added locally with multiscale graph, global-local sequence encoders, and hierarchical attention fusion."
+  }
+}

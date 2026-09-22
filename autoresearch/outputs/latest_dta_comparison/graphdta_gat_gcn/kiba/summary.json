@@ -1,0 +1,27 @@
+{
+  "model": "graphdta_gat_gcn",
+  "dataset": "kiba",
+  "epochs": 200,
+  "batch_size": 64,
+  "train_size": 94603,
+  "val_size": 11825,
+  "test_size": 11826,
+  "parameters": 4749189,
+  "best_val_rmse": 0.4721772325661596,
+  "metrics": {
+    "mse": 0.20368467138637922,
+    "rmse": 0.4513143819848634,
+    "mae": 0.29423988144671515,
+    "r2": 0.7055500307871397,
+    "rm2": 0.6679993148096186,
+    "ci": 0.8476905513971715,
+    "pearson": 0.8427085294756075,
+    "spearman": 0.8286455682758572,
+    "finite_fraction": 1.0
+  },
+  "source": {
+    "paper": "GraphDTA: Predicting drug-target binding affinity with graph neural networks",
+    "repo": "https://github.com/thinng/GraphDTA",
+    "status": "Official PyG code available. Included as the canonical graph baseline and sanity comparison."
+  }
+}

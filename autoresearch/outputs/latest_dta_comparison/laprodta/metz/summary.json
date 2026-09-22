@@ -1,0 +1,27 @@
+{
+  "model": "laprodta",
+  "dataset": "metz",
+  "epochs": 200,
+  "batch_size": 64,
+  "train_size": 28207,
+  "val_size": 3526,
+  "test_size": 3526,
+  "parameters": 1006722,
+  "best_val_rmse": 0.6043801319740962,
+  "metrics": {
+    "mse": 0.3581605189267153,
+    "rmse": 0.598465135932508,
+    "mae": 0.45024614528844253,
+    "r2": 0.6244002514238178,
+    "rm2": 0.6272041055146462,
+    "ci": 0.790310424972048,
+    "pearson": 0.7931339958918017,
+    "spearman": 0.745992739165725,
+    "finite_fraction": 1.0
+  },
+  "source": {
+    "paper": "LaPro-DTA: Latent Dual-View Drug Representations and Salient Protein Feature Extraction for Generalizable Drug-Target Affinity Prediction",
+    "repo": "No official GitHub implementation found in the 2026-07-13 web search.",
+    "status": "Paper-level PyTorch/PyG reproduction added locally with latent dual-view drug representations and salient protein top-k pooling."
+  }
+}

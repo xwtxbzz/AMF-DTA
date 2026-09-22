@@ -1,0 +1,49 @@
+seed: 42
+device: auto
+
+data:
+  name: kiba
+  root: data/kiba
+  smiles_file: smiles.csv
+  sequence_file: sequence.csv
+  affinity_file: affinity.csv
+  drug_id_col: DRUGID
+  smiles_col: SMILES
+  target_id_col: TARGETID
+  sequence_col: SEQUENCE
+  label_col: VALUE
+  max_smiles_len: 120
+  max_protein_len: 1000
+  split:
+    method: random
+    train_ratio: 0.8
+    val_ratio: 0.1
+    test_ratio: 0.1
+  num_workers: 0
+
+model:
+  name: deepdta_cnn
+  drug_vocab_size: auto
+  protein_vocab_size: auto
+  drug_embedding_dim: 128
+  protein_embedding_dim: 128
+  drug_filters: [32, 64, 96]
+  protein_filters: [32, 64, 96]
+  drug_kernel_sizes: [4, 6, 8]
+  protein_kernel_sizes: [4, 8, 12]
+  hidden_dims: [1024, 512]
+  dropout: 0.2
+
+train:
+  batch_size: 128
+  epochs: 50
+  learning_rate: 0.001
+  weight_decay: 0.00001
+  grad_clip_norm: 5.0
+  early_stopping_patience: 10
+  metric_for_best: rmse
+  output_dir: outputs/kiba_deepdta
+
+evaluation:
+  ci_higher_is_better: true
+  save_predictions: true

@@ -1,0 +1,124 @@
+﻿file,category,priority,code_status,extracted_urls,normalized_github_repos,original_code_field,action
+ArkDTA.pdf,可直接复现,高,有明确 GitHub 链接,https://github.com/dmis-lab/ArkDTA,https://github.com/dmis-lab/ArkDTA,有代码: https://github.com/dmis-lab/ArkDTA,优先联网核验仓库是否仍可访问，并按官方 README 对齐实现
+AttentionMGT-DTA.pdf,可直接复现,高,有明确 GitHub 链接,https://github.com/JK-Liu7/AttentionMGT-DTA,https://github.com/JK-Liu7/AttentionMGT-DTA,有代码: https://github.com/JK-Liu7/AttentionMGT-DTA,优先联网核验仓库是否仍可访问，并按官方 README 对齐实现
+dAD.pdf,可直接复现,高,有明确 GitHub 链接,https://github.com/mlkr-rbi/dAD,https://github.com/mlkr-rbi/dAD,有代码: https://github.com/mlkr-rbi/dAD,优先联网核验仓库是否仍可访问，并按官方 README 对齐实现
+DEAttentionDTA.pdf,可直接复现,高,有明确 GitHub 链接,https://github.com/whatamazing1/DEAttentionDTA,https://github.com/whatamazing1/DEAttentionDTA,有代码: https://github.com/whatamazing1/DEAttentionDTA,优先联网核验仓库是否仍可访问，并按官方 README 对齐实现
+DILPADTA.pdf,可直接复现,高,有明确 GitHub 链接,https://github.com/DILPA-DTA/DILPA-DTA,https://github.com/DILPA-DTA/DILPA-DTA,有代码: https://github.com/DILPA-DTA/DILPA-DTA,优先联网核验仓库是否仍可访问，并按官方 README 对齐实现
+DrugMGR.pdf,可直接复现,高,有明确 GitHub 链接,https://github.com/lixiaokun2020/DrugMGR,https://github.com/lixiaokun2020/DrugMGR,有代码: https://github.com/lixiaokun2020/DrugMGR,优先联网核验仓库是否仍可访问，并按官方 README 对齐实现
+DTITR.pdf,可直接复现,高,有明确 GitHub 链接,https://github.com/larngroup/DTITR,https://github.com/larngroup/DTITR,有代码: https://github.com/larngroup/DTITR,优先联网核验仓库是否仍可访问，并按官方 README 对齐实现
+GraphDTA.pdf,可直接复现,高,有明确 GitHub 链接,"https://github.com/thinng/GraphDTA, https://github.com/thinng/GraphDTA/",https://github.com/thinng/GraphDTA,"有代码: https://github.com/thinng/GraphDTA, https://github.com/thinng/GraphDTA/",优先联网核验仓库是否仍可访问，并按官方 README 对齐实现
+MDeePred.pdf,可直接复现,高,有明确 GitHub 链接,"https://github.com/cansyl/, https://github.com/cansyl/MDeePred",https://github.com/cansyl/MDeePred,"有代码: https://github.com/cansyl/, https://github.com/cansyl/MDeePred",优先联网核验仓库是否仍可访问，并按官方 README 对齐实现
+MHAN-DTA.pdf,可直接复现,高,有明确 GitHub 链接,https://github.com/anxiangbiye1231/MHAN-DTA,https://github.com/anxiangbiye1231/MHAN-DTA,有代码: https://github.com/anxiangbiye1231/MHAN-DTA,优先联网核验仓库是否仍可访问，并按官方 README 对齐实现
+MSFFDTA.pdf,可直接复现,高,有明确 GitHub 链接,https://github.com/whitehat32/MSFF-DTA/,https://github.com/whitehat32/MSFF-DTA,有代码: https://github.com/whitehat32/MSFF-DTA/,优先联网核验仓库是否仍可访问，并按官方 README 对齐实现
+NerLTR-DTA.pdf,可直接复现,高,有明确 GitHub 链接,https://github.com/RUXIAOQING964914140/NerLTR-DTA,https://github.com/RUXIAOQING964914140/NerLTR-DTA,有代码: https://github.com/RUXIAOQING964914140/NerLTR-DTA,优先联网核验仓库是否仍可访问，并按官方 README 对齐实现
+NHGNN-DTA.pdf,可直接复现,高,有明确 GitHub 链接,https://github.com/hehh77/NHGNN-DTA,https://github.com/hehh77/NHGNN-DTA,有代码: https://github.com/hehh77/NHGNN-DTA,优先联网核验仓库是否仍可访问，并按官方 README 对齐实现
+PPDTA.pdf,可直接复现,高,有明确 GitHub 链接,https://github.com/shangjun-Yang/PPDTA,https://github.com/shangjun-Yang/PPDTA,有代码: https://github.com/shangjun-Yang/PPDTA,优先联网核验仓库是否仍可访问，并按官方 README 对齐实现
+TDGraphDTA.pdf,可直接复现,高,有明确 GitHub 链接,"https://github.com/Lamouryz/TDGraph, https://github.com/simonfq",https://github.com/Lamouryz/TDGraph,"有代码: https://github.com/Lamouryz/TDGraph, https://github.com/simonfq",优先联网核验仓库是否仍可访问，并按官方 README 对齐实现
+TEFDTA.pdf,可直接复现,高,有明确 GitHub 链接,"https://github.com/lizongquan01/TEFDTA, https://github.com/lizongquan01/TEFDTA",https://github.com/lizongquan01/TEFDTA,"有代码: https://github.com/lizongquan01/TEFDTA, https://github.com/lizongquan01/TEFDTA",优先联网核验仓库是否仍可访问，并按官方 README 对齐实现
+CSDTA.pdf,可迁移适配,中-低,有明确 GitHub 链接,"https://github.com/hkmztrk/DeepDTA, https://github.com/yanzhu22/CSDTA/","https://github.com/hkmztrk/DeepDTA, https://github.com/yanzhu22/CSDTA","有代码: https://github.com/hkmztrk/DeepDTA, https://github.com/yanzhu22/CSDTA/",优先联网核验仓库是否仍可访问，并按官方 README 对齐实现
+DataDTA.pdf,可迁移适配,中-低,有明确 GitHub 链接,"https://github.com/KailiWang1/, https://github.com/YanZhu06/DataDTA",https://github.com/YanZhu06/DataDTA,"有代码: https://github.com/KailiWang1/, https://github.com/YanZhu06/DataDTA",优先联网核验仓库是否仍可访问，并按官方 README 对齐实现
+MMAtt-DTA.pdf,可迁移适配,中-低,有明确 GitHub 链接,https://github.com/AronSchulman/MMAtt-DTA,https://github.com/AronSchulman/MMAtt-DTA,有代码: https://github.com/AronSchulman/MMAtt-DTA,优先联网核验仓库是否仍可访问，并按官方 README 对齐实现
+SAM-DTA.pdf,可迁移适配,中-低,有明确 GitHub 链接,https://github.com/huzqatpku/SAM-DTA,https://github.com/huzqatpku/SAM-DTA,有代码: https://github.com/huzqatpku/SAM-DTA,优先联网核验仓库是否仍可访问，并按官方 README 对齐实现
+DeepCDA.pdf,部分可复现,中,有明确 GitHub 链接,https://github.com/LBBSoft/DeepCDA,https://github.com/LBBSoft/DeepCDA,有代码: https://github.com/LBBSoft/DeepCDA,优先联网核验仓库是否仍可访问，并按官方 README 对齐实现
+DMCRL.pdf,部分可复现,高,有明确 GitHub 链接,https://github.com/gmjjjj1127/DMCRL,https://github.com/gmjjjj1127/DMCRL,有代码: https://github.com/gmjjjj1127/DMCRL,优先联网核验仓库是否仍可访问，并按官方 README 对齐实现
+G-K BertDTA.pdf,部分可复现,中,有明确 GitHub 链接,https://github.com/AmbitYuki/G-K-BertDTA,https://github.com/AmbitYuki/G-K-BertDTA,有代码: https://github.com/AmbitYuki/G-K-BertDTA,优先联网核验仓库是否仍可访问，并按官方 README 对齐实现
+G-KBertDTA.pdf,部分可复现,中,有明确 GitHub 链接,https://github.com/AmbitYuki/G-K-BertDTA,https://github.com/AmbitYuki/G-K-BertDTA,有代码: https://github.com/AmbitYuki/G-K-BertDTA,优先联网核验仓库是否仍可访问，并按官方 README 对齐实现
+ImageDTA.pdf,部分可复现,中,有明确 GitHub 链接,https://github.com/neuhanli/ImageDTA,https://github.com/neuhanli/ImageDTA,有代码: https://github.com/neuhanli/ImageDTA,优先联网核验仓库是否仍可访问，并按官方 README 对齐实现
+LLMDTA_Improving_Cold-Start_Prediction_in_Drug-Target_Affinity_with_Biological_LLM.pdf,部分可复现,高,有明确 GitHub 链接,https://github.com/Chris-Tang6/LLMDTA,https://github.com/Chris-Tang6/LLMDTA,有代码: https://github.com/Chris-Tang6/LLMDTA,优先联网核验仓库是否仍可访问，并按官方 README 对齐实现
+Mamba-DTA.pdf,部分可复现,中,有明确 GitHub 链接,https://github.com/202324131016T/Mamba-DTA,https://github.com/202324131016T/Mamba-DTA,有代码: https://github.com/202324131016T/Mamba-DTA,优先联网核验仓库是否仍可访问，并按官方 README 对齐实现
+mambatransDTA.pdf,部分可复现,高,有明确 GitHub 链接,https://github.com/pdssunny/MambaTransDTA,https://github.com/pdssunny/MambaTransDTA,有代码: https://github.com/pdssunny/MambaTransDTA,优先联网核验仓库是否仍可访问，并按官方 README 对齐实现
+BatchDTA.pdf,可工程化复现,中,未发现代码线索,,,未发现代码线索,若要纳入复现，需联网搜索论文名或作者主页确认是否公开代码
+BTDHDTA.pdf,可工程化复现,高,未发现代码线索,,,未发现代码线索,若要纳入复现，需联网搜索论文名或作者主页确认是否公开代码
+CGBiLSTM.pdf,可工程化复现,中,未发现代码线索,,,未发现代码线索,若要纳入复现，需联网搜索论文名或作者主页确认是否公开代码
+DCUI-MGraphDTA.pdf,可工程化复现,中,未发现代码线索,,,未发现代码线索,若要纳入复现，需联网搜索论文名或作者主页确认是否公开代码
+DGraphDTA.pdf,可工程化复现,中,未发现代码线索,,,未发现代码线索,若要纳入复现，需联网搜索论文名或作者主页确认是否公开代码
+DoubleSG-DTA.pdf,可工程化复现,中,未发现代码线索,,,未发现代码线索,若要纳入复现，需联网搜索论文名或作者主页确认是否公开代码
+GraphkmerDTA.pdf,可工程化复现,中,未发现代码线索,,,未发现代码线索,若要纳入复现，需联网搜索论文名或作者主页确认是否公开代码
+GSATDTA.pdf,可工程化复现,中,未发现代码线索,,,未发现代码线索,若要纳入复现，需联网搜索论文名或作者主页确认是否公开代码
+HiSIF-DTA.pdf,可工程化复现,中,未发现代码线索,,,未发现代码线索,若要纳入复现，需联网搜索论文名或作者主页确认是否公开代码
+MEM-DTA.pdf,可工程化复现,中,未发现代码线索,,,未发现代码线索,若要纳入复现，需联网搜索论文名或作者主页确认是否公开代码
+MGraphDTA.pdf,可工程化复现,高,未发现代码线索,,,未发现代码线索,若要纳入复现，需联网搜索论文名或作者主页确认是否公开代码
+MIG-DTA.pdf,可工程化复现,中,未发现代码线索,,,未发现代码线索,若要纳入复现，需联网搜索论文名或作者主页确认是否公开代码
+MLS-DTA.pdf,可工程化复现,中,未发现代码线索,,,未发现代码线索,若要纳入复现，需联网搜索论文名或作者主页确认是否公开代码
+MLSDTA.pdf,可工程化复现,中,未发现代码线索,,,未发现代码线索,若要纳入复现，需联网搜索论文名或作者主页确认是否公开代码
+MSF-DTA.pdf,可工程化复现,中,未发现代码线索,,,未发现代码线索,若要纳入复现，需联网搜索论文名或作者主页确认是否公开代码
+MTAF–DTA.pdf,可工程化复现,中,未发现代码线索,,,未发现代码线索,若要纳入复现，需联网搜索论文名或作者主页确认是否公开代码
+NTMFF‑DTA.pdf,可工程化复现,中,未发现代码线索,,,未发现代码线索,若要纳入复现，需联网搜索论文名或作者主页确认是否公开代码
+OdinDTA.pdf,可工程化复现,中,未发现代码线索,,,未发现代码线索,若要纳入复现，需联网搜索论文名或作者主页确认是否公开代码
+SAG-DTA.pdf,可工程化复现,中,未发现代码线索,,,未发现代码线索,若要纳入复现，需联网搜索论文名或作者主页确认是否公开代码
+SMFF-DTA.pdf,可工程化复现,中,未发现代码线索,,,未发现代码线索,若要纳入复现，需联网搜索论文名或作者主页确认是否公开代码
+TC-DTA.pdf,可工程化复现,中,未发现代码线索,,,未发现代码线索,若要纳入复现，需联网搜索论文名或作者主页确认是否公开代码
+ViDTA.pdf,可工程化复现,高,未发现代码线索,,,未发现代码线索,若要纳入复现，需联网搜索论文名或作者主页确认是否公开代码
+WPGraphDTA.pdf,可工程化复现,中,未发现代码线索,,,未发现代码线索,若要纳入复现，需联网搜索论文名或作者主页确认是否公开代码
+XG-DTA.pdf,可工程化复现,中,未发现代码线索,,,未发现代码线索,若要纳入复现，需联网搜索论文名或作者主页确认是否公开代码
+AttentionDTA.pdf,可直接复现,高,有疑似/截断 GitHub 链接,https://github.com/zhaoqichang/,https://github.com/zhaoqichang/,有代码: https://github.com/zhaoqichang/,需要回到 PDF 或联网搜索补全仓库地址
+BiComp-DTA.pdf,可直接复现,高,有非 GitHub 或疑似代码链接,https://git,,可能有代码: https://git,需要打开链接确认是否为开源代码仓库
+CKDTA.pdf,可直接复现,高,有疑似/截断 GitHub 链接,https://github.com/zxr779/CKDT,https://github.com/zxr779/CKDT,有代码: https://github.com/zxr779/CKDT,需要回到 PDF 或联网搜索补全仓库地址
+ColdDTA.pdf,可直接复现,高,论文声称有代码但未抽取到链接,,,论文声称有代码但未抽取到明确 GitHub,需要在 PDF 后文、附录或网页中查找代码地址
+CSatDTA.pdf,可直接复现,高,论文声称有代码但未抽取到链接,,,论文声称有代码但未抽取到明确 GitHub,需要在 PDF 后文、附录或网页中查找代码地址
+DeepDTA.pdf,可直接复现,高,抽取到 GitHub 但疑似依赖/引用,"https://github.com/, https://github.com/fchollet/keras",https://github.com/fchollet/keras,"有代码: https://github.com/, https://github.com/fchollet/keras",需要人工或联网确认该仓库是否为论文官方实现，而不是依赖库或引用项目
+DeepGLSTM.pdf,可直接复现,高,有疑似/截断 GitHub 链接,https://github.com/,https://github.com/,有代码: https://github.com/,需要回到 PDF 或联网搜索补全仓库地址
+DGDTA.pdf,可直接复现,高,论文声称有代码但未抽取到链接,,,论文声称有代码但未抽取到明确 GitHub,需要在 PDF 后文、附录或网页中查找代码地址
+DICCADTA.pdf,可直接复现,高,论文声称有代码但未抽取到链接,,,论文声称有代码但未抽取到明确 GitHub,需要在 PDF 后文、附录或网页中查找代码地址
+DynamicDTA.pdf,可直接复现,高,论文声称有代码但未抽取到链接,,,论文声称有代码但未抽取到明确 GitHub,需要在 PDF 后文、附录或网页中查找代码地址
+EDTA.pdf,可直接复现,高,有疑似/截断 GitHub 链接,https://github.com/macjiffriya/E,https://github.com/macjiffriya/E,有代码: https://github.com/macjiffriya/E,需要回到 PDF 或联网搜索补全仓库地址
+FingerDTA.pdf,可直接复现,高,有非 GitHub 或疑似代码链接,http://lanproxy.biodwhu.cn:9099/mszjaas/FingerDTA.git,,可能有代码: http://lanproxy.biodwhu.cn:9099/mszjaas/FingerDTA.git,需要打开链接确认是否为开源代码仓库
+GINCM-DTA.pdf,可直接复现,高,有疑似/截断 GitHub 链接,https://github.com/gxCaesar/GIN,https://github.com/gxCaesar/GIN,有代码: https://github.com/gxCaesar/GIN,需要回到 PDF 或联网搜索补全仓库地址
+GPCNDTA.pdf,可直接复现,高,论文声称有代码但未抽取到链接,,,论文声称有代码但未抽取到明确 GitHub,需要在 PDF 后文、附录或网页中查找代码地址
+GS-DTA.pdf,可直接复现,高,论文声称有代码但未抽取到链接,,,论文声称有代码但未抽取到明确 GitHub,需要在 PDF 后文、附录或网页中查找代码地址
+HGRL-DTA.pdf,可直接复现,高,论文声称有代码但未抽取到链接,,,论文声称有代码但未抽取到明确 GitHub,需要在 PDF 后文、附录或网页中查找代码地址
+MATT_DTI.pdf,可直接复现,高,有疑似/截断 GitHub 链接,https://github.com/ZengYuni/MATT_,https://github.com/ZengYuni/MATT_,有代码: https://github.com/ZengYuni/MATT_,需要回到 PDF 或联网搜索补全仓库地址
+MDCT-DTA.pdf,可直接复现,高,抽取到 GitHub 但疑似依赖/引用,"https://github.com/hkmztrk/D, https://github.com/simonfqy/PADME/t",https://github.com/simonfqy/PADME,"有代码: https://github.com/hkmztrk/D, https://github.com/simonfqy/PADME/t",需要人工或联网确认该仓库是否为论文官方实现，而不是依赖库或引用项目
+MEGDTA.pdf,可直接复现,高,论文声称有代码但未抽取到链接,,,论文声称有代码但未抽取到明确 GitHub,需要在 PDF 后文、附录或网页中查找代码地址
+MFDTA.pdf,可直接复现,高,有疑似/截断 GitHub 链接,"https://github.com/YongtaoQian/, https://github.com/Zero-Zhy/","https://github.com/YongtaoQian/, https://github.com/Zero-Zhy/","有代码: https://github.com/YongtaoQian/, https://github.com/Zero-Zhy/",需要回到 PDF 或联网搜索补全仓库地址
+MFR-DTA.pdf,可直接复现,高,有疑似/截断 GitHub 链接,https://github.com/JU-HuaY/MFR,https://github.com/JU-HuaY/MFR,有代码: https://github.com/JU-HuaY/MFR,需要回到 PDF 或联网搜索补全仓库地址
+MLFF-DTA.pdf,可直接复现,高,论文声称有代码但未抽取到链接,,,论文声称有代码但未抽取到明确 GitHub,需要在 PDF 后文、附录或网页中查找代码地址
+MMD-DTA.pdf,可直接复现,高,有疑似/截断 GitHub 链接,https://github.com/wyx2012/,https://github.com/wyx2012/,有代码: https://github.com/wyx2012/,需要回到 PDF 或联网搜索补全仓库地址
+MMRGDTA.pdf,可直接复现,高,有非 GitHub 或疑似代码链接,https://github,,可能有代码: https://github,需要打开链接确认是否为开源代码仓库
+Modality-DTA.pdf,可直接复现,高,抽取到 GitHub 但疑似依赖/引用,https://github.com/bp-kelley/descriptastorus,https://github.com/bp-kelley/descriptastorus,有代码: https://github.com/bp-kelley/descriptastorus,需要人工或联网确认该仓库是否为论文官方实现，而不是依赖库或引用项目
+MSNDTA.pdf,可直接复现,高,论文声称有代码但未抽取到链接,,,论文声称有代码但未抽取到明确 GitHub,需要在 PDF 后文、附录或网页中查找代码地址
+Multiscale_Motif-Aware_Relation_Graph_Structure_for_Drug-Target_Binding_Affinity_Prediction.pdf,可直接复现,高,有非 GitHub 或疑似代码链接,https://github,,可能有代码: https://github,需要打开链接确认是否为开源代码仓库
+Ricci-GraphDTA.pdf,可直接复现,高,有疑似/截断 GitHub 链接,https://github.com/hkmztrk/Dee,https://github.com/hkmztrk/Dee,有代码: https://github.com/hkmztrk/Dee,需要回到 PDF 或联网搜索补全仓库地址
+RRGDTA.pdf,可直接复现,高,论文声称有代码但未抽取到链接,,,论文声称有代码但未抽取到明确 GitHub,需要在 PDF 后文、附录或网页中查找代码地址
+SE-DTA.pdf,可直接复现,高,论文声称有代码但未抽取到链接,,,论文声称有代码但未抽取到明确 GitHub,需要在 PDF 后文、附录或网页中查找代码地址
+WideDTA.pdf,可直接复现,高,有疑似/截断 GitHub 链接,https://github.com/hkmztrk/DeepD,https://github.com/hkmztrk/DeepD,有代码: https://github.com/hkmztrk/DeepD,需要回到 PDF 或联网搜索补全仓库地址
+DCGAN-DTA.pdf,可迁移适配,中-低,有非 GitHub 或疑似代码链接,https://github,,可能有代码: https://github,需要打开链接确认是否为开源代码仓库
+DeepAffinity.pdf,可迁移适配,中-低,有疑似/截断 GitHub 链接,https://github.com/Shen-,https://github.com/Shen-,有代码: https://github.com/Shen-,需要回到 PDF 或联网搜索补全仓库地址
+DrugBAN.pdf,可迁移适配,中-低,未发现代码线索,,,未发现代码线索,若要纳入复现，需联网搜索论文名或作者主页确认是否公开代码
+GLCN-DTA.pdf,可迁移适配,中-低,未发现代码线索,,,未发现代码线索,若要纳入复现，需联网搜索论文名或作者主页确认是否公开代码
+HPDAF.pdf,可迁移适配,中-低,有疑似/截断 GitHub 链接,https://github.com/,https://github.com/,有代码: https://github.com/,需要回到 PDF 或联网搜索补全仓库地址
+MBP.pdf,可迁移适配,中-低,未发现代码线索,,,未发现代码线索,若要纳入复现，需联网搜索论文名或作者主页确认是否公开代码
+MSSDTA.pdf,可迁移适配,中-低,未发现代码线索,,,未发现代码线索,若要纳入复现，需联网搜索论文名或作者主页确认是否公开代码
+MvGraphDTA.pdf,可迁移适配,中-低,未发现代码线索,,,未发现代码线索,若要纳入复现，需联网搜索论文名或作者主页确认是否公开代码
+s13321-025-01145-7.pdf,可迁移适配,中-低,未发现代码线索,,,未发现代码线索,若要纳入复现，需联网搜索论文名或作者主页确认是否公开代码
+S2DTA.pdf,可迁移适配,中-低,未发现代码线索,,,未发现代码线索,若要纳入复现，需联网搜索论文名或作者主页确认是否公开代码
+CDTA.pdf,部分可复现,中,有疑似/截断 GitHub 链接,https://github.com/macjiffriya/C,https://github.com/macjiffriya/C,有代码: https://github.com/macjiffriya/C,需要回到 PDF 或联网搜索补全仓库地址
+Co-VAE.pdf,部分可复现,中,有疑似/截断 GitHub 链接,https://github.com/LiminLi-xjtu/,https://github.com/LiminLi-xjtu/,有代码: https://github.com/LiminLi-xjtu/,需要回到 PDF 或联网搜索补全仓库地址
+CoLADTA.pdf,部分可复现,中,有疑似/截断 GitHub 链接,https://github.com/NENUBioCompute/,https://github.com/NENUBioCompute/,有代码: https://github.com/NENUBioCompute/,需要回到 PDF 或联网搜索补全仓库地址
+DTIAM.pdf,部分可复现,中,未发现代码线索,,,未发现代码线索,若要纳入复现，需联网搜索论文名或作者主页确认是否公开代码
+ELECTRA-DTA.pdf,部分可复现,中,论文声称有代码但未抽取到链接,,,论文声称有代码但未抽取到明确 GitHub,需要在 PDF 后文、附录或网页中查找代码地址
+FusionDTA.pdf,部分可复现,中,未发现代码线索,,,未发现代码线索,若要纳入复现，需联网搜索论文名或作者主页确认是否公开代码
+GANsDTA.pdf,部分可复现,中,未发现代码线索,,,未发现代码线索,若要纳入复现，需联网搜索论文名或作者主页确认是否公开代码
+GEFA.pdf,部分可复现,中,有疑似/截断 GitHub 链接,https://github.com/,https://github.com/,有代码: https://github.com/,需要回到 PDF 或联网搜索补全仓库地址
+GEFormerDTA.pdf,部分可复现,中,未发现代码线索,,,未发现代码线索,若要纳入复现，需联网搜索论文名或作者主页确认是否公开代码
+GeneralizedDTA.pdf,部分可复现,中,未发现代码线索,,,未发现代码线索,若要纳入复现，需联网搜索论文名或作者主页确认是否公开代码
+GraphBAN.pdf,部分可复现,中,未发现代码线索,,,未发现代码线索,若要纳入复现，需联网搜索论文名或作者主页确认是否公开代码
+GraphCL-DTA.pdf,部分可复现,中,未发现代码线索,,,未发现代码线索,若要纳入复现，需联网搜索论文名或作者主页确认是否公开代码
+GSAML-DTA.pdf,部分可复现,中,论文声称有代码但未抽取到链接,,,论文声称有代码但未抽取到明确 GitHub,需要在 PDF 后文、附录或网页中查找代码地址
+GTAMP-DTA.pdf,部分可复现,中,论文声称有代码但未抽取到链接,,,论文声称有代码但未抽取到明确 GitHub,需要在 PDF 后文、附录或网页中查找代码地址
+HiFDTA.pdf,部分可复现,高,未发现代码线索,,,未发现代码线索,若要纳入复现，需联网搜索论文名或作者主页确认是否公开代码
+HMM-DTA.pdf,部分可复现,中,未发现代码线索,,,未发现代码线索,若要纳入复现，需联网搜索论文名或作者主页确认是否公开代码
+JSSM-DTA.pdf,部分可复现,高,论文声称有代码但未抽取到链接,,,论文声称有代码但未抽取到明确 GitHub,需要在 PDF 后文、附录或网页中查找代码地址
+KANPM-DTA.pdf,部分可复现,高,未发现代码线索,,,未发现代码线索,若要纳入复现，需联网搜索论文名或作者主页确认是否公开代码
+LMDTA.pdf,部分可复现,中,未发现代码线索,,,未发现代码线索,若要纳入复现，需联网搜索论文名或作者主页确认是否公开代码
+Mamba-Sinter_Enhancing_Drug-Target_Binding_Affinity_Prediction_via_Multimodal_Feature_Synergy_and_Interactive_Attention.pdf,部分可复现,高,未发现代码线索,,,未发现代码线索,若要纳入复现，需联网搜索论文名或作者主页确认是否公开代码
+MDF-DTAn.pdf,部分可复现,中,未发现代码线索,,,未发现代码线索,若要纳入复现，需联网搜索论文名或作者主页确认是否公开代码
+MultiKD‑DTA.pdf,部分可复现,中,未发现代码线索,,,未发现代码线索,若要纳入复现，需联网搜索论文名或作者主页确认是否公开代码
+MutualDTA.pdf,部分可复现,中,未发现代码线索,,,未发现代码线索,若要纳入复现，需联网搜索论文名或作者主页确认是否公开代码
+s40747-025-02020-6.pdf,部分可复现,中,未发现代码线索,,,未发现代码线索,若要纳入复现，需联网搜索论文名或作者主页确认是否公开代码
+SimCNN-DTA.pdf,部分可复现,中,未发现代码线索,,,未发现代码线索,若要纳入复现，需联网搜索论文名或作者主页确认是否公开代码
+SSM-DTA.pdf,部分可复现,中,未发现代码线索,,,未发现代码线索,若要纳入复现，需联网搜索论文名或作者主页确认是否公开代码
+SubMDTA.pdf,部分可复现,中,未发现代码线索,,,未发现代码线索,若要纳入复现，需联网搜索论文名或作者主页确认是否公开代码
+SWECDTA.pdf,部分可复现,中,未发现代码线索,,,未发现代码线索,若要纳入复现，需联网搜索论文名或作者主页确认是否公开代码
+TransVAE-DTA.pdf,部分可复现,中,论文声称有代码但未抽取到链接,,,论文声称有代码但未抽取到明确 GitHub,需要在 PDF 后文、附录或网页中查找代码地址
+TriMDTA.pdf,部分可复现,中,未发现代码线索,,,未发现代码线索,若要纳入复现，需联网搜索论文名或作者主页确认是否公开代码
