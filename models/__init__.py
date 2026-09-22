@@ -1,33 +1,26 @@
 from .AttentionDTA import AttentionDTA
 from .CKDTA import CKDTA
-from .DEAttentionDTA import DEAttentionDTA
 from .DeepDTA import DeepDTA
-from .DrugBAN import DrugBAN
+from .DrugMGR import DrugMGR
 from .EDTA import EDTA
 from .FingerDTA import FingerDTA
 from .GraphDTA import GraphDTA
-from .HiFDTA import HiFDTA
-from .LaProDTA import LaProDTA
-from .MGraphDTA import MGraphDTA
-from .MolTrans import MolTrans
-from .SSMDTA import SSMDTA
-from .ViDTA import ViDTA
+from .MambaTransDTA import MambaTransDTA
 from .WideDTA import WideDTA
 
+# The nine baselines the paper reports: the five rows of Table I and the four
+# it quotes only as a range in Sec. III-B. Importing any submodule executes
+# this file, so every entry here is loaded on every framework import -- an
+# unimportable module in this list breaks the whole baseline path, not just
+# its own model.
 __all__ = [
     "AttentionDTA",
     "CKDTA",
-    "DEAttentionDTA",
     "DeepDTA",
-    "DrugBAN",
+    "DrugMGR",
     "EDTA",
     "FingerDTA",
     "GraphDTA",
-    "HiFDTA",
-    "LaProDTA",
-    "MGraphDTA",
-    "MolTrans",
-    "SSMDTA",
-    "ViDTA",
+    "MambaTransDTA",
     "WideDTA",
 ]

@@ -16,6 +16,7 @@ for f in sorted(glob.glob("logs/2024_*.log")):
     print(f"  {os.path.basename(f)}: {epoch_count} epochs")
 
 print("\n=== Output Dir Counts ===")
-for model in ["drugmgr", "cgbilstm", "deepglstm"]:
+# 仅剩仍在仓库中的模型；其余模型已移除
+for model in ["drugmgr"]:
     count = len(glob.glob(f"outputs/*{model}_seed*_200"))
     print(f"  {model}: {count}/15 complete")

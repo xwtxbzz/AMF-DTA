@@ -1,13 +1,16 @@
 """
-2024-2026 未训练模型 5种子 200轮 训练启动脚本
+2024-2026 模型 5种子 200轮 训练启动脚本
 
 需要训练的模型（按年份从近到远）:
   2026: (无)
   2025: (无)
-  2024: DrugMGR, CGBiLSTM, DeepGLSTM
+  2024: DrugMGR
+
+  说明: 本脚本原先还驱动另外两个 2024 模型，二者已从仓库移除（代码与结果均已删除），
+        因此模型列表已裁剪到只剩 DrugMGR；本脚本仍作为 DrugMGR 的多种子驱动保留。
 
 每模型: 3 datasets × 5 seeds (42,52,62,72,82) = 15 个训练任务
-总计: 3 × 15 = 45 个任务
+总计: 1 × 15 = 15 个任务
 
 已有 seed42 结果的模型: 无（MambaTransDTA 已全部完成）
 
@@ -29,13 +32,11 @@ DATASETS = ("davis", "kiba", "metz")
 SEEDS = (42, 52, 62, 72, 82)
 MODELS = (
     "drugmgr",    # 2024, Bioinformatics
-    "cgbilstm",   # 2024, IEEE Conference
-    "deepglstm",  # 2024, SIAM SDM
 )
 
 EPOCHS = 200
 MAX_PARALLEL = 3
-BATCH_SIZE = {"drugmgr": 32, "cgbilstm": 32, "deepglstm": 32}
+BATCH_SIZE = {"drugmgr": 32}
 
 
 def is_complete(dataset: str, model: str, seed: int) -> bool:

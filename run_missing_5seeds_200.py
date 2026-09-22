@@ -2,15 +2,16 @@
 缺失 5 种子的模型补跑 200 轮 5 种子训练启动脚本。
 
 需要训练的模型（仅有 seed42 单次 200 轮结果，无 seed52/62/72/82）:
-  attentiondta, graphdta, drugban, mgraphdta
-  csatdta 仅 davis（kiba/metz 无 seed42 结果，不补）
+  attentiondta, graphdta
 
-协议: seed42 沿用已有 200 轮结果（all200 / all200_stable）;
+  说明: 本脚本原先还补跑另外几个模型，这些模型已从仓库移除（代码与结果均已删除），
+        故已从下表中删去，现在只覆盖仍在仓库中的 attentiondta 与 graphdta。
+
+协议: seed42 沿用已有 200 轮结果（all200）;
       种子 52/62/72/82 各训练 200 轮, 取验证集最佳 checkpoint (best.pt) 测试。
-不包含 MolTrans、ssmdta、deattentiondta。
 
-每模型: 3 datasets x 4 seeds = 12 个训练任务 (csatdta: davis x 4 = 4)
-总计: 4 x 12 + 4 = 52 个任务
+每模型: 3 datasets x 4 seeds = 12 个训练任务
+总计: 2 x 12 = 24 个任务
 并行度: MAX_PARALLEL=3
 """
 
@@ -28,23 +29,16 @@ import pandas as pd
 DATASETS = ("davis", "kiba", "metz")
 SEEDS = (52, 62, 72, 82)   # seed 42 已有 200 轮结果
 
-# model -> 需要补跑的数据集 (csatdta 仅 davis 有 seed42)
+# model -> 需要补跑的数据集 (两个模型都是三个数据集全覆盖)
 MODEL_DATASETS = {
     "attentiondta": DATASETS,
     "graphdta": DATASETS,
-    "drugban": DATASETS,
-    "mgraphdta": DATASETS,
-    "csatdta": ("davis",),
 }
 
 # 各模型 seed42 (已有 200 轮结果) 所在目录, 用于汇总
 SEED42_SRC = {
     "attentiondta": {ds: f"{ds}_attentiondta_all200" for ds in DATASETS},
     "graphdta": {ds: f"{ds}_graphdta_all200" for ds in DATASETS},
-    "drugban": {"davis": "davis_drugban_all200", "kiba": "kiba_drugban_all200",
-                "metz": "metz_drugban_all200_stable"},
-    "mgraphdta": {ds: f"{ds}_mgraphdta_all200" for ds in DATASETS},
-    "csatdta": {"davis": "davis_csatdta_all200"},
 }
 
 EPOCHS = 200

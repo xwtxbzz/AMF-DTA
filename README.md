@@ -107,14 +107,14 @@ The audits recompute every claimed value from the recorded artefacts. **No
 GPU and no checkpoints are required** — the JSON and CSV under `outputs/`
 are the complete evidence. The manuscript itself is *not* part of this
 repository, so the checks that read the paper's text print a single `[skip]`
-line and the total is 208 rather than 222; every check that reads the
+line and the total is 212 rather than 226; every check that reads the
 artefacts alone still runs. Run from the repository root:
 
 ```bash
 # PYTHONPATH is the repository root, not core/: audit_architecture.py
 # imports the `dta_experiment` package, which lives at the root. Without it
 # that audit does not fail -- it prints one `[skip]` line, exits 0, and the
-# total silently drops from 208 to 204.
+# total silently drops from 212 to 208.
 PYTHONPATH=. python core/audit_paper_numbers.py
 
 # Which numeric literals in the paper are not pinned by any check.
@@ -169,12 +169,14 @@ comparisons are **paired** over the 15 (seed, dataset) pairs at seeds
 
 ## Verification
 
-The three audits report **208 checks, 0 mismatched** in total —
-`audit_paper_numbers.py` 172, `audit_baseline_rows.py` 32 and
-`audit_architecture.py` 4 (32 + 4 + 172 = 208). The count is the guard, not
-decoration: a repository missing one input does not error, it silently
+The three audits report **212 checks, 0 mismatched** in total —
+`audit_paper_numbers.py` 176, `audit_baseline_rows.py` 32 and
+`audit_architecture.py` 4 (32 + 4 + 176 = 212). `audit_paper_numbers.py`
+runs the other two as subprocesses and folds their tallies into its own
+output, so the single command above prints all three. The count is the guard,
+not decoration: a repository missing one input does not error, it silently
 *skips* checks, so an unchanged total is the signal that every input arrived.
-The 14 manuscript-reading checks account for the difference from the 222 the
+The 14 manuscript-reading checks account for the difference from the 226 the
 full working tree produces.
 
 ## What is not included, and why
@@ -226,4 +228,3 @@ Sweep drivers and utilities that live at the top level:
 - `run_edta_resume.py`
 - `run_graphdta_attentiondta_5seeds.py`
 - `run_missing_5seeds_200.py`
-- `run_missing_baselines_5seeds.py`

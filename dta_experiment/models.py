@@ -4,22 +4,13 @@ import torch
 from torch import nn
 
 from models.AttentionDTA import AttentionDTA
-from models.CGBiLSTM import CGBiLSTM
 from models.CKDTA import CKDTA
-from models.CSatDTA import CSatDTA
-from models.DEAttentionDTA import DEAttentionDTA
 from models.DeepDTA import DeepDTA
-from models.DeepGLSTM import DeepGLSTM
-from models.DrugBAN import DrugBAN
 from models.DrugMGR import DrugMGR
 from models.EDTA import EDTA
 from models.FingerDTA import FingerDTA
 from models.GraphDTA import GraphDTA
-from models.MGraphDTA import MGraphDTA
-from models.MATTDTI import MATTDTI
 from models.MambaTransDTA import MambaTransDTA
-from models.MolTrans import MolTrans
-from models.SSMDTA import SSMDTA
 from models.WideDTA import WideDTA
 
 
@@ -104,19 +95,6 @@ def build_model(config: dict, drug_vocab_size: int, protein_vocab_size: int) -> 
             fc_dims=tuple(model_cfg.get("fc_dims", (1024, 1024, 512))),
             dropout=float(model_cfg.get("dropout", 0.1)),
         )
-    if name == "moltrans":
-        return MolTrans(
-            drug_vocab_size=drug_vocab_size,
-            target_vocab_size=protein_vocab_size,
-            max_drug_seq=int(config["data"]["max_smiles_len"]),
-            max_protein_seq=int(config["data"]["max_protein_len"]),
-            emb_size=int(model_cfg.get("emb_size", 128)),
-            intermediate_size=int(model_cfg.get("intermediate_size", 512)),
-            num_attention_heads=int(model_cfg.get("num_attention_heads", 8)),
-            dropout_rate=float(model_cfg.get("dropout", 0.1)),
-            attention_probs_dropout_prob=float(model_cfg.get("attention_dropout", 0.1)),
-            hidden_dropout_prob=float(model_cfg.get("hidden_dropout", 0.1)),
-        )
     if name == "attentiondta":
         return AttentionDTA(
             drug_vocab_size=drug_vocab_size,
@@ -129,31 +107,6 @@ def build_model(config: dict, drug_vocab_size: int, protein_vocab_size: int) -> 
             attention_heads=int(model_cfg.get("attention_heads", 4)),
             fc_dims=tuple(model_cfg.get("fc_dims", (512, 256))),
             dropout=float(model_cfg.get("dropout", 0.1)),
-        )
-    if name == "csatdta":
-        return CSatDTA(
-            drug_vocab_size=drug_vocab_size,
-            target_vocab_size=protein_vocab_size,
-            embedding_dim=int(model_cfg.get("embedding_dim", 128)),
-            hidden_dim=int(model_cfg.get("hidden_dim", 128)),
-            drug_kernel_size=int(model_cfg.get("drug_kernel_size", 7)),
-            target_kernel_size=int(model_cfg.get("target_kernel_size", 9)),
-            attention_heads=int(model_cfg.get("attention_heads", 4)),
-            blocks=int(model_cfg.get("blocks", 2)),
-            fc_dims=tuple(model_cfg.get("fc_dims", (512, 256))),
-            dropout=float(model_cfg.get("dropout", 0.1)),
-        )
-    if name == "cgbilstm":
-        return CGBiLSTM(
-            num_node_features=int(model_cfg.get("num_node_features", 78)),
-            target_vocab_size=protein_vocab_size,
-            hidden_dim=int(model_cfg.get("hidden_dim", 128)),
-            graph_layers=int(model_cfg.get("graph_layers", 2)),
-            gat_heads=int(model_cfg.get("gat_heads", 4)),
-            protein_embedding_dim=int(model_cfg.get("protein_embedding_dim", 128)),
-            lstm_layers=int(model_cfg.get("lstm_layers", 1)),
-            fc_dims=tuple(model_cfg.get("fc_dims", (512, 256))),
-            dropout=float(model_cfg.get("dropout", 0.2)),
         )
     if name == "edta":
         return EDTA(
@@ -175,19 +128,6 @@ def build_model(config: dict, drug_vocab_size: int, protein_vocab_size: int) -> 
             conv_pp_kernel_sizes=tuple(model_cfg.get("conv_pp_kernel_sizes", (4, 8, 12, 8))),
             classifier_dims=tuple(model_cfg.get("classifier_dims", (512, 256, 128, 64))),
             dropout=float(model_cfg.get("dropout", 0.2)),
-        )
-    if name == "deattentiondta":
-        return DEAttentionDTA(
-            drug_vocab_size=drug_vocab_size,
-            target_vocab_size=protein_vocab_size,
-            embedding_dim=int(model_cfg.get("embedding_dim", 128)),
-            hidden_dim=int(model_cfg.get("hidden_dim", 128)),
-            drug_kernel_size=int(model_cfg.get("drug_kernel_size", 5)),
-            protein_kernel_size=int(model_cfg.get("protein_kernel_size", 7)),
-            pocket_kernel_size=int(model_cfg.get("pocket_kernel_size", 3)),
-            attention_heads=int(model_cfg.get("attention_heads", 4)),
-            fc_dims=tuple(model_cfg.get("fc_dims", (512, 256))),
-            dropout=float(model_cfg.get("dropout", 0.1)),
         )
     if name == "widedta":
         return WideDTA(
@@ -222,21 +162,6 @@ def build_model(config: dict, drug_vocab_size: int, protein_vocab_size: int) -> 
             fc_dims=tuple(model_cfg.get("fc_dims", (512, 256))),
             dropout=float(model_cfg.get("dropout", 0.2)),
         )
-    if name == "drugban":
-        return DrugBAN(
-            node_in_feats=int(model_cfg.get("node_in_feats", 78)),
-            node_embedding=int(model_cfg.get("node_embedding", 128)),
-            drug_hidden_feats=tuple(model_cfg.get("drug_hidden_feats", (128, 128, 128))),
-            target_vocab_size=protein_vocab_size,
-            protein_embedding_dim=int(model_cfg.get("protein_embedding_dim", 128)),
-            protein_num_filters=tuple(model_cfg.get("protein_num_filters", (128, 128, 128))),
-            protein_kernel_size=tuple(model_cfg.get("protein_kernel_size", (3, 6, 9))),
-            mlp_in_dim=int(model_cfg.get("mlp_in_dim", 256)),
-            mlp_hidden_dim=int(model_cfg.get("mlp_hidden_dim", 512)),
-            mlp_out_dim=int(model_cfg.get("mlp_out_dim", 128)),
-            ban_heads=int(model_cfg.get("ban_heads", 2)),
-            dropout=float(model_cfg.get("dropout", 0.2)),
-        )
     if name == "drugmgr":
         return DrugMGR(
             num_node_features=int(model_cfg.get("num_node_features", 78)),
@@ -247,42 +172,6 @@ def build_model(config: dict, drug_vocab_size: int, protein_vocab_size: int) -> 
             transformer_layers=int(model_cfg.get("transformer_layers", 2)),
             transformer_heads=int(model_cfg.get("transformer_heads", 4)),
             protein_kernel_size=int(model_cfg.get("protein_kernel_size", 7)),
-            fc_dims=tuple(model_cfg.get("fc_dims", (512, 256))),
-            dropout=float(model_cfg.get("dropout", 0.2)),
-        )
-    if name == "mgraphdta":
-        return MGraphDTA(
-            num_node_features=int(model_cfg.get("num_node_features", 78)),
-            target_vocab_size=protein_vocab_size,
-            hidden_dim=int(model_cfg.get("hidden_dim", 128)),
-            graph_layers=int(model_cfg.get("graph_layers", 27)),
-            protein_embedding_dim=int(model_cfg.get("protein_embedding_dim", 128)),
-            protein_filters=int(model_cfg.get("protein_filters", 128)),
-            protein_kernel_size=int(model_cfg.get("protein_kernel_size", 8)),
-            fc_dims=tuple(model_cfg.get("fc_dims", (1024, 512))),
-            dropout=float(model_cfg.get("dropout", 0.2)),
-        )
-    if name == "mattdti":
-        return MATTDTI(
-            num_node_features=int(model_cfg.get("num_node_features", 78)),
-            target_vocab_size=protein_vocab_size,
-            hidden_dim=int(model_cfg.get("hidden_dim", 128)),
-            graph_layers=int(model_cfg.get("graph_layers", 2)),
-            protein_embedding_dim=int(model_cfg.get("protein_embedding_dim", 128)),
-            protein_kernel_size=int(model_cfg.get("protein_kernel_size", 7)),
-            attention_heads=int(model_cfg.get("attention_heads", 4)),
-            relative_kernel_size=int(model_cfg.get("relative_kernel_size", 5)),
-            fc_dims=tuple(model_cfg.get("fc_dims", (512, 256))),
-            dropout=float(model_cfg.get("dropout", 0.2)),
-        )
-    if name == "deepglstm":
-        return DeepGLSTM(
-            num_node_features=int(model_cfg.get("num_node_features", 78)),
-            target_vocab_size=protein_vocab_size,
-            hidden_dim=int(model_cfg.get("hidden_dim", 128)),
-            graph_layers=int(model_cfg.get("graph_layers", 3)),
-            protein_embedding_dim=int(model_cfg.get("protein_embedding_dim", 128)),
-            lstm_layers=int(model_cfg.get("lstm_layers", 1)),
             fc_dims=tuple(model_cfg.get("fc_dims", (512, 256))),
             dropout=float(model_cfg.get("dropout", 0.2)),
         )
@@ -297,20 +186,6 @@ def build_model(config: dict, drug_vocab_size: int, protein_vocab_size: int) -> 
             protein_kernel_sizes=tuple(model_cfg.get("protein_kernel_sizes", (3, 5, 7))),
             fc_dims=tuple(model_cfg.get("fc_dims", (512, 256))),
             dropout=float(model_cfg.get("dropout", 0.2)),
-        )
-    if name == "ssmdta":
-        return SSMDTA(
-            drug_vocab_size=drug_vocab_size,
-            target_vocab_size=protein_vocab_size,
-            drug_max_len=int(config["data"]["max_smiles_len"]),
-            target_max_len=int(config["data"]["max_protein_len"]),
-            embed_dim=int(model_cfg.get("embed_dim", 128)),
-            encoder_layers=int(model_cfg.get("encoder_layers", 2)),
-            num_attention_heads=int(model_cfg.get("num_attention_heads", 4)),
-            ffn_dim=int(model_cfg.get("ffn_dim", 256)),
-            cross_attention_heads=int(model_cfg.get("cross_attention_heads", 4)),
-            dropout=float(model_cfg.get("dropout", 0.1)),
-            fc_dims=tuple(model_cfg.get("fc_dims", (512, 256))),
         )
     if name in {"mambatransdta", "mamba_trans_dta"}:
         return MambaTransDTA(

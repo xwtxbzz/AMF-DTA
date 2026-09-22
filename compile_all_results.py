@@ -11,53 +11,28 @@ def load_json(path):
 
 # ========== Load all result sources ==========
 
-# 1. Baseline all200 (9 paper models)
+# 1. Baseline all200（论文报告的 5 个 all200 模型）
 baseline_all200 = {}
-for model in ['attentiondta','deepdta','widedta','fingerdta','drugban',
-              'graphdta','mgraphdta','moltrans','ssmdta']:
+for model in ['attentiondta','deepdta','widedta','fingerdta','graphdta']:
     for ds in datasets:
         f = f'outputs/{ds}_{model}_all200/test_metrics.json'
         d = load_json(f)
         if d:
             baseline_all200[(ds, model)] = d
 
-# 2. CSatDTA (only davis)
-csat = load_json('outputs/davis_csatdta_all200/test_metrics.json')
-if csat:
-    baseline_all200[('davis', 'csatdta')] = csat
+# 2. 单种子 seed42 结果：EDTA / CKDTA / DrugMGR / MambaTransDTA
+#    这四个模型没有 all200 目录，结果分别落在 seed42_200（重训）或 all200（原名沿用）两种命名下，
+#    两种后缀都扫一遍，命中即停。
+seed42_runs = {}
+for model in ['edta', 'ckdta', 'drugmgr', 'mambatransdta']:
+    for ds in datasets:
+        for suffix in ('seed42_200', 'all200'):
+            d = load_json(f'outputs/{ds}_{model}_{suffix}/test_metrics.json')
+            if d:
+                seed42_runs[(ds, model)] = d
+                break
 
-# 3. Three selected models (EDTA, CKDTA, DEAttentionDTA)
-three_selected = {}
-three_paths = {
-    ('davis','edta'): 'outputs/davis_edta_three_selected_davis/test_metrics.json',
-    ('davis','ckdta'): 'outputs/davis_ckdta_three_selected_davis/test_metrics.json',
-    ('davis','deattentiondta'): 'outputs/davis_deattentiondta_three_selected_davis/test_metrics.json',
-    ('kiba','edta'): 'outputs/kiba_edta_three_selected/test_metrics.json',
-    ('kiba','ckdta'): 'outputs/kiba_ckdta_three_selected/test_metrics.json',
-    ('kiba','deattentiondta'): 'outputs/kiba_deattentiondta_three_selected/test_metrics.json',
-    ('metz','edta'): 'outputs/metz_edta_three_selected/test_metrics.json',
-    ('metz','ckdta'): 'outputs/metz_ckdta_three_selected/test_metrics.json',
-    ('metz','deattentiondta'): 'outputs/metz_deattentiondta_three_selected/test_metrics.json',
-}
-for key, path in three_paths.items():
-    d = load_json(path)
-    if d:
-        three_selected[key] = d
-
-# 4. DrugBAN metz all200_stable
-d = load_json('outputs/metz_drugban_all200_stable/test_metrics.json')
-if d:
-    baseline_all200[('metz', 'drugban')] = d
-
-# 5. DeepDTA alternative paths (200 epoch not all200)
-deepdta_200 = {}
-for ds in datasets:
-    f = f'outputs/{ds}_deepdta_200/test_metrics.json'
-    d = load_json(f)
-    if d:
-        deepdta_200[(ds, 'deepdta')] = d
-
-# 6. Multi-seed results
+# 3. 多种子结果（FingerDTA / DeepDTA / WideDTA 的 seed52/62/72/82）
 multi_seed = {}
 for model in ['fingerdta', 'deepdta', 'widedta']:
     for ds in datasets:
@@ -67,7 +42,7 @@ for model in ['fingerdta', 'deepdta', 'widedta']:
             if d:
                 multi_seed[(ds, model, seed)] = d
 
-# 7. MambaTransDTA multi-seed
+# 4. MambaTransDTA 多种子结果（含 seed42）
 mamba_seeds = {}
 for ds in datasets:
     for seed in ['42','52','62','72','82']:
@@ -77,13 +52,12 @@ for ds in datasets:
             mamba_seeds[(ds, 'mambatransdta', seed)] = d
 
 # ========== Build model name mapping ==========
+# 只保留仍在仓库中（论文报告）的模型；已移除模型的条目一概删除
 model_display = {
     'fingerdta':'FingerDTA', 'deepdta':'DeepDTA', 'widedta':'WideDTA',
-    'attentiondta':'AttentionDTA', 'deattentiondta':'DEAttentionDTA',
-    'edta':'EDTA', 'ckdta':'CKDTA', 'drugban':'DrugBAN',
-    'graphdta':'GraphDTA', 'mgraphdta':'MGraphDTA',
-    'moltrans':'MolTrans', 'ssmdta':'SSMDTA',
-    'csatdta':'CSatDTA', 'mambatransdta':'MambaTransDTA',
+    'attentiondta':'AttentionDTA',
+    'edta':'EDTA', 'ckdta':'CKDTA',
+    'graphdta':'GraphDTA', 'mambatransdta':'MambaTransDTA',
 }
 
 # ========== Compile complete result table ==========
@@ -100,13 +74,11 @@ complete_models = []
 for model_id, display in model_display.items():
     ok = True
     for ds in datasets:
-        # Check all sources
+        # 逐个结果来源检查
         found = False
         if (ds, model_id) in baseline_all200:
             found = True
-        if (ds, model_id) in three_selected:
-            found = True
-        if (ds, model_id) in deepdta_200:
+        if (ds, model_id) in seed42_runs:
             found = True
         if len([k for k in mamba_seeds if k[0]==ds and k[1]==model_id]) > 0:
             found = True
@@ -132,11 +104,8 @@ for model_id in complete_models:
         if (ds, model_id) in baseline_all200:
             data = baseline_all200[(ds, model_id)]
             seed_count = 1
-        elif (ds, model_id) in three_selected:
-            data = three_selected[(ds, model_id)]
-            seed_count = 1
-        elif (ds, model_id) in deepdta_200:
-            data = deepdta_200[(ds, model_id)]
+        elif (ds, model_id) in seed42_runs:
+            data = seed42_runs[(ds, model_id)]
             seed_count = 1
         seeds_found = [k[2] for k in mamba_seeds if k[0]==ds and k[1]==model_id]
         if seeds_found:
@@ -154,10 +123,8 @@ for model_id in complete_models:
                 source_labels.append(f'{ds}={seed_count}种子')
             else:
                 src = 'all200'
-                if (ds, model_id) in three_selected:
+                if (ds, model_id) in seed42_runs:
                     src = '1runs'
-                elif (ds, model_id) in deepdta_200:
-                    src = '200r'
                 source_labels.append(f'{ds}={src}')
     source_str = ', '.join(source_labels)
     print(f'{display:<18} {source_str:<20} {row[0]:<12} {row[1]:<12} {row[2]:<12} {row[3]:<12} {row[4]:<12} {row[5]:<12}')
@@ -176,10 +143,8 @@ for model_id in complete_models:
         data = None
         if (ds, model_id) in baseline_all200:
             data = baseline_all200[(ds, model_id)]
-        elif (ds, model_id) in three_selected:
-            data = three_selected[(ds, model_id)]
-        elif (ds, model_id) in deepdta_200:
-            data = deepdta_200[(ds, model_id)]
+        elif (ds, model_id) in seed42_runs:
+            data = seed42_runs[(ds, model_id)]
         seeds = [k[2] for k in mamba_seeds if k[0]==ds and k[1]==model_id]
         if seeds:
             avg = {}
@@ -204,50 +169,43 @@ print('-'*52)
 for i, r in enumerate(rankings, 1):
     print(f'{i:<6} {r["model"]:<18} {r["avg_rmse"]:<14.4f} {r["avg_ci"]:<14.4f}')
 
-# Section C: Less complete results
+# Section C: Code/result consistency. Both sides are read from disk rather than
+# hardcoded, so this section cannot go stale the way a literal model list does:
+# a model file with no run directory, or a run directory whose model file was
+# removed, both surface here instead of silently disappearing from the report.
 print('\n' + '='*140)
-print('C. 数据集不完整的模型 (缺失部分数据集或仅有smoke)')
+print('C. 代码与实验结果的一致性检查')
 print('='*140)
 print()
 
-incomplete = [
-    ('CSatDTA', 'csatdta', '只有Davis all200 (RMSE=0.4689, CI=0.8881)\n  KIBA/Metz 无结果'),
-    ('DeepConvDTI', '', '三数据集结果均异常 (Davis RMSE=4.51, KIBA RMSE=10.76, Metz RMSE=5.31)\n  R2 大幅负值，模型训练失败'),
-]
-for name, mid, desc in incomplete:
-    print(f'  {name:<20} {desc}')
-    print()
+model_files = sorted(p[:-3] for p in os.listdir('models')
+                     if p.endswith('.py') and p != '__init__.py')
+run_dirs = sorted(d for d in os.listdir('outputs')
+                  if os.path.isdir(os.path.join('outputs', d)))
 
-# Section D: Smoke-only (original models that need full training)
-print('='*140)
-print('D. 仅有 Smoke 结果的原创模型 (待完成 200 轮完整训练)')
-print('='*140)
-
-smoke_results = {
-    'CGBiLSTM': {'rmse':0.9222,'ci':0.7550,'r2':-0.160},
-    'DeepGLSTM': {'rmse':0.8112,'ci':0.7790,'r2':0.102},
-    'DrugMGR': {'rmse':1.7823,'ci':0.7616,'r2':-3.334},
-    'MATT-DTI': {'rmse':0.7235,'ci':0.7786,'r2':0.286},
-}
-
-print(f'\n{"模型":<18} {"数据集":<10} {"RMSE↓":<10} {"CI↑":<10} {"R2":<10} {"状态":<20}')
-print('-'*78)
-for model, metrics in smoke_results.items():
-    print(f'{model:<18} {"davis":<10} {metrics["rmse"]:<10.4f} {metrics["ci"]:<10.4f} {metrics["r2"]:<10.4f} {"smoke/1轮":<20}')
+matched = set()
+# Longest name first: 'edta' is a substring of 'davis_widedta_all200', so a
+# shortest-name-first scan would credit every WideDTA run directory to EDTA
+# and report WideDTA as having no results at all.
+by_length = sorted(model_files, key=len, reverse=True)
+for d in run_dirs:
+    low = d.casefold()
+    for m in by_length:
+        if m.casefold() in low:
+            matched.add(m)
+            break
+    else:
+        print(f'  {d:<34} 有 outputs 结果, 但 models/ 下已无对应代码')
+for m in model_files:
+    if m not in matched:
+        print(f'  {m:<34} 有代码, 但无任何 outputs 结果')
+if not model_files or len(matched) == len(model_files):
+    print('  代码与 outputs 一一对应, 无孤立项')
 print()
 
-# Section E: Models with zero results
+# Section D: Best single-seed per model (for reference)
 print('='*140)
-print('E. 项目中存在代码但无实验结果的模型')
-print('='*140)
-print(f'\n  {"HiFDTA":<20} 无任何 outputs 结果')
-print(f'  {"LaProDTA":<20} 无任何 outputs 结果')
-print(f'  {"ViDTA":<20} 无任何 outputs 结果')
-print()
-
-# Section F: Best single-seed per model (for reference)
-print('='*140)
-print('F. 每模型最佳单次运行结果 (跨数据集平均, 用于 Baseline 参考)')
+print('D. 每模型最佳单次运行结果 (跨数据集平均, 用于 Baseline 参考)')
 print('='*140)
 print()
 
@@ -278,15 +236,14 @@ for m in ['rmse','ci','r2','rm2']:
 print(f'{"FingerDTA":<18} {"4种子平均":<18} {f_avg["rmse"]:<10.4f} {f_avg["ci"]:<10.4f} {f_avg["r2"]:<10.4f} {f_avg["rm2"]:<10.4f}')
 
 # DeepDTA: all200
-for src_name, src_keys in [("all200(默认)", baseline_all200), ("200单次", deepdta_200)]:
-    dd_src = {}
-    for ds in datasets:
-        if (ds, 'deepdta') in src_keys:
-            dd_src[ds] = src_keys[(ds, 'deepdta')]
-    if len(dd_src)==3:
-        avg_rmse = sum(dd_src[ds]['rmse'] for ds in datasets)/3
-        avg_ci = sum(dd_src[ds]['ci'] for ds in datasets)/3
-        print(f'{"DeepDTA":<18} {src_name:<18} {avg_rmse:<10.4f} {avg_ci:<10.4f}')
+dd_src = {}
+for ds in datasets:
+    if (ds, 'deepdta') in baseline_all200:
+        dd_src[ds] = baseline_all200[(ds, 'deepdta')]
+if len(dd_src)==3:
+    avg_rmse = sum(dd_src[ds]['rmse'] for ds in datasets)/3
+    avg_ci = sum(dd_src[ds]['ci'] for ds in datasets)/3
+    print(f'{"DeepDTA":<18} {"all200(默认)":<18} {avg_rmse:<10.4f} {avg_ci:<10.4f}')
 
 # WideDTA: all200
 wd_src = baseline_all200
@@ -306,9 +263,9 @@ for m in ['rmse','ci','r2','rm2']:
 print(f'{"MambaTransDTA":<18} {"5种子平均":<18} {m_avg["rmse"]:<10.4f} {m_avg["ci"]:<10.4f} {m_avg["r2"]:<10.4f} {m_avg["rm2"]:<10.4f}')
 print()
 
-# Section G: Model source file summary
+# Section E: Model source file summary
 print('='*140)
-print('G. 模型代码与实验结果对照总表')
+print('E. 模型代码与实验结果对照总表')
 print('='*140)
 print()
 print(f'{"模型":<18} {"代码存在":<10} {"Davis":<10} {"KIBA":<10} {"Metz":<10} {"说明":<50}')
@@ -320,7 +277,7 @@ for m in all_code_models:
     results_status = []
     for ds in datasets:
         found = 'N'
-        for source in [baseline_all200, three_selected, deepdta_200]:
+        for source in [baseline_all200, seed42_runs]:
             if (ds, m.lower()) in source:
                 d = source[(ds, m.lower())]
                 found = f'{d["rmse"]:.4f}'
@@ -333,21 +290,17 @@ for m in all_code_models:
         results_status.append(found)
     display = model_display.get(m.lower(), m)
 
-    # Determine description
+    # Determine description. The sentinel is 'N' (set above when a dataset has no
+    # row in any source dict), not 'x' -- testing against 'x' made every model
+    # report "三数据集完成".
     desc = ''
-    if all(r != '✗' for r in results_status):
+    if all(r != 'N' for r in results_status):
         desc = '三数据集完成'
-    elif results_status[0] != '✗' and results_status[1] == '✗' and results_status[2] == '✗':
+    elif results_status[0] != 'N' and results_status[1] == 'N' and results_status[2] == 'N':
         desc = '仅 Davis'
-    elif all(r == '✗' for r in results_status):
+    elif all(r == 'N' for r in results_status):
         desc = '无结果'
     else:
         desc = '部分完成'
-
-    # Special notes
-    if m.lower() == 'deepconvdti':
-        desc = '结果异常(RMSE>4)'
-    if m.lower() in ['cgbilstm','deepglstm','drugmgr','mattdti']:
-        desc = '仅smoke'
 
     print(f'{display:<18} {code:<10} {results_status[0]:<10} {results_status[1]:<10} {results_status[2]:<10} {desc:<50}')
