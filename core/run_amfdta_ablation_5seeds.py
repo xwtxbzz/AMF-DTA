@@ -1,5 +1,5 @@
 """
-RAIL-DTA ablation (Table II lower group) 5-seed 200-epoch training script.
+AMF-DTA ablation (Table II lower group) 5-seed 200-epoch training script.
 
 Variants (paper Table II, lower group; reviewer request: F-A3/F-A7/F-A8/F-A9/
 F-A10 under the same protocol as Table I):
@@ -133,11 +133,11 @@ def main() -> None:
     jobs = [(v, s) for v in VARIANTS for s in SEEDS]
     pending = [j for j in jobs if not is_complete(*j)]
     if not pending and (OUTPUT_ROOT / "rail_ab_fa9_seed42_200" / "diverged.json").exists():
-        print("All RAIL-DTA ablation runs are complete!", flush=True)
+        print("All AMF-DTA ablation runs are complete!", flush=True)
         write_summary()
         return
 
-    print(f"RAIL-DTA ablation plan: {len(pending)} variant runs + F-A9 probe", flush=True)
+    print(f"AMF-DTA ablation plan: {len(pending)} variant runs + F-A9 probe", flush=True)
 
     log_dir = OUTPUT_ROOT / "logs"
     log_dir.mkdir(parents=True, exist_ok=True)
@@ -150,7 +150,7 @@ def main() -> None:
                 variant, seed = remaining.pop(0)
                 log_path = log_dir / f"raildta_ab_{variant.replace('-','')}_seed{seed}_200.log"
                 log_file = log_path.open("a", encoding="utf-8")
-                code = (f"from run_raildta_ablation_5seeds import run_one; "
+                code = (f"from run_amfdta_ablation_5seeds import run_one; "
                         f"run_one({variant!r}, {seed})")
                 process = subprocess.Popen(
                     [sys.executable, "-u", "-c", code],

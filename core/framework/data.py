@@ -183,7 +183,7 @@ def sequence_to_hashed_fingerprint(sequence: str) -> torch.Tensor:
 # ---------------------------------------------------------------------------
 
 
-class RailDTADataset(Dataset):
+class AMFDTADataset(Dataset):
     """Returns one dict per (drug, target) pair with all five views plus the
     training-set-only bias statistics. Fingerprints are cached per unique
     molecule / sequence."""
@@ -345,7 +345,7 @@ def build_dataloaders(
     bias_cache = build_bias_feature_cache(train, [train, val, test])
 
     def make_loader(df: pd.DataFrame, shuffle: bool) -> DataLoader:
-        dataset = RailDTADataset(df, protein_tokenizer, bias_cache)
+        dataset = AMFDTADataset(df, protein_tokenizer, bias_cache)
         return DataLoader(
             dataset,
             batch_size=batch_size,

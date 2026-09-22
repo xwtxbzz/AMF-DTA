@@ -13,7 +13,7 @@ Review-response training queue (ICASSP 2027 revision, addresses reviewer asks):
         Answers "evaluate against a five-member ensemble of the strongest
         baseline" (reviewer Exp. point 2).
 
-Protocol matches run_raildta_ablation_5seeds.py: each (variant, seed) job
+Protocol matches run_amfdta_ablation_5seeds.py: each (variant, seed) job
 trains all three datasets sequentially; MAX_PARALLEL=3 on the 8 GB GPU.
 
 Outputs:
@@ -172,7 +172,7 @@ def main() -> None:
     def spawn_variant(variant: str, seed: int) -> None:
         log_path = log_dir / f"raildta_{variant.replace('-', '')}_seed{seed}_200.log"
         log_file = log_path.open("a", encoding="utf-8")
-        code = (f"from run_raildta_review_5seeds import run_one; "
+        code = (f"from run_amfdta_review_5seeds import run_one; "
                 f"run_one({variant!r}, {seed})")
         process = subprocess.Popen(
             [sys.executable, "-u", "-c", code],
@@ -192,7 +192,7 @@ def main() -> None:
                 tag = fens_pending.pop(0)
                 log_path = log_dir / f"fingerdta_{tag}_seed42_200.log"
                 log_file = log_path.open("a", encoding="utf-8")
-                code = (f"from run_raildta_review_5seeds import run_one_fens; "
+                code = (f"from run_amfdta_review_5seeds import run_one_fens; "
                         f"run_one_fens({tag!r})")
                 process = subprocess.Popen(
                     [sys.executable, "-u", "-c", code],

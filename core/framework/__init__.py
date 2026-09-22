@@ -1,11 +1,11 @@
-"""RAIL-DTA: Rational-ANOVA Interaction Layers for Drug-Target Affinity
+"""AMF-DTA: Adaptive Multi-view Fusion Network for Drug-Target Affinity
 Prediction — official PyTorch implementation (paper code release).
 
 Quick start:
-    from framework import RailDTA, build_dataloaders, TrainConfig
+    from framework import AMFDTA, build_dataloaders, TrainConfig
     cfg = TrainConfig()
     bundle = build_dataloaders("davis")
-    model = RailDTA(bundle.protein_vocab_size)
+    model = AMFDTA(bundle.protein_vocab_size)
 """
 from .data import (
     DEFAULT_DATA_ROOT,
@@ -15,13 +15,13 @@ from .data import (
     regression_metrics,
     seed_everything,
 )
-from .model import FingerDTA, RailDTA
+from .model import FingerDTA, AMFDTA
 from .modules import RailInteractionLayer, RationalUnit1D, RationalUnit2D
 from .train import TrainConfig, build_model, count_parameters, train_all_datasets, train_dataset
 
 __version__ = "1.0.0"
 __all__ = [
-    "RailDTA",
+    "AMFDTA",
     "FingerDTA",
     "RailInteractionLayer",
     "RationalUnit1D",

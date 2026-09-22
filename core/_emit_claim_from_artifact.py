@@ -32,7 +32,14 @@ sys.path.insert(0, ".")
 import audit_paper_numbers as A  # noqa: E402
 import analysis_retrained_matched_state as M  # noqa: E402
 
-PAPER = Path(r"D:\try\paper")
+# Where the manuscript may sit, resolved relative to this file rather than
+# hard-coded to one machine's path: the bundle-relative `paper/` the other
+# audits look in, then the source tree this bundle was cut from (two levels
+# above the bundle root), which is where it actually lives during development.
+# Neither present is a loud `no manuscript found` below, never a silent read
+# of whatever happens to sit at some developer's path.
+_BUNDLE = Path(__file__).resolve().parent.parent
+_SOURCE = _BUNDLE.parent.parent
 # Default to the real manuscript: after `--apply` it *is* the substituted
 # text, and that is the file the audit reads. Pass a path to check the dry-run
 # copy instead -- which is what the pre-paste verification does, since the
@@ -40,7 +47,8 @@ PAPER = Path(r"D:\try\paper")
 # (correctly) miss on the unmodified manuscript.
 _CLI = [a for a in sys.argv[1:] if not a.startswith("-")]
 CANDIDATES = ([Path(_CLI[0])] if _CLI
-              else [PAPER / "ICASSP2027_armvdta.tex"])
+              else [_BUNDLE / "paper" / "ICASSP2027_armvdta.tex",
+                    _SOURCE / "ICASSP2027_armvdta.tex"])
 
 ART = M.OUT / "retrained_matched_state.json"
 art = json.loads(ART.read_text(encoding="utf-8"))

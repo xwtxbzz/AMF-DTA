@@ -6,9 +6,9 @@ FingerDTA row is a single model. Making that comparison matched requires a
 FingerDTA ensemble averaged over the *same* five seeds.
 
 Member "single" already exists for every seed as `fingerdta_seed{s}_200`
-(the `FingerDTA_dagger` runs of run_raildta_5seeds.py). This script trains
+(the `FingerDTA_dagger` runs of run_amfdta_5seeds.py). This script trains
 the four remaining members m1-m4 (member configs identical to the AMF-DTA
-ones in rail_dta.ensemble.MEMBERS, only `model_type="fingerdta"` and the
+ones in framework.ensemble.MEMBERS, only `model_type="fingerdta"` and the
 seed changed): 4 members x 4 seeds = 16 runs, each 3 datasets, 200 epochs.
 
 Output tag: `fingerdta_{tag}_seed{seed}_200`, i.e. the same naming the

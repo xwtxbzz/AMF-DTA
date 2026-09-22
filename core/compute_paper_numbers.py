@@ -11,7 +11,7 @@ import json
 import statistics
 from pathlib import Path
 
-import run_raildta_5seeds as r5
+import run_amfdta_5seeds as r5
 
 OUTPUT_ROOT = Path(__file__).resolve().parent / "outputs"
 DATASETS = r5.DATASETS

@@ -1,4 +1,4 @@
-"""RAIL-DTA model — paper Sec. II.
+"""AMF-DTA model — paper Sec. II.
 
 Dual-gate multi-view fusion with a Rational-ANOVA interaction layer and a
 multi-branch score mixer:
@@ -14,7 +14,7 @@ multi-branch score mixer:
     statistics (Sec. II-E).
 
 The forward signature matches the batch dict produced by
-`rail_dta.data.RailDTADataset`.
+`framework.data.AMFDTADataset`.
 """
 from __future__ import annotations
 
@@ -79,8 +79,8 @@ def _build_mlp(dims: list[int], dropout: float, last_dropout: bool = True) -> nn
     return nn.Sequential(*layers)
 
 
-class RailDTA(nn.Module):
-    """RAIL-DTA: reliability-gated multi-view DTA model with rational-ANOVA
+class AMFDTA(nn.Module):
+    """AMF-DTA: reliability-gated multi-view DTA model with rational-ANOVA
     interaction (paper Sec. II).
 
     `interaction` selects the interaction block:

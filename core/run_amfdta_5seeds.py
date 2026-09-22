@@ -1,5 +1,5 @@
 """
-RAIL-DTA + FingerDTA-dagger 5-seed (42,52,62,72,82) 200-epoch training script.
+AMF-DTA + FingerDTA-dagger 5-seed (42,52,62,72,82) 200-epoch training script.
 
 Tasks:
   - 5 ensemble members (single, m1, m2, m3, m4) x 5 seeds = 25 runs
@@ -159,11 +159,11 @@ def main() -> None:
     pending = [j for j in jobs if not is_complete(*j)]
 
     if not pending:
-        print("All RAIL-DTA 5-seed runs are complete!", flush=True)
+        print("All AMF-DTA 5-seed runs are complete!", flush=True)
         write_summary()
         return
 
-    print(f"RAIL-DTA 5-seed training plan: {len(pending)} remaining", flush=True)
+    print(f"AMF-DTA 5-seed training plan: {len(pending)} remaining", flush=True)
     print(f"  Max parallel: {MAX_PARALLEL}", flush=True)
 
     log_dir = OUTPUT_ROOT / "logs"
@@ -177,7 +177,7 @@ def main() -> None:
                 tag, seed = remaining.pop(0)
                 log_path = log_dir / f"raildta_{tag}_seed{seed}_200.log"
                 log_file = log_path.open("a", encoding="utf-8")
-                code = (f"from run_raildta_5seeds import run_one; "
+                code = (f"from run_amfdta_5seeds import run_one; "
                         f"run_one({tag!r}, {seed})")
                 process = subprocess.Popen(
                     [sys.executable, "-u", "-c", code],

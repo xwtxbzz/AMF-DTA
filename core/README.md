@@ -1,9 +1,9 @@
-# RAIL-DTA
+# AMF-DTA
 
-**Rational-ANOVA Interaction Layers for Drug-Target Affinity Prediction** —
+**Adaptive Multi-view Fusion Network for Drug-Target Affinity Prediction** —
 official PyTorch implementation (ICASSP 2027 submission).
 
-RAIL-DTA casts DTA prediction as a functional-ANOVA decomposition of the
+AMF-DTA casts DTA prediction as a functional-ANOVA decomposition of the
 drug-target interaction: main effects plus budgeted pairwise effects, each a
 pole-free Padé-style rational unit with identity-safe residual gating, fed by a
 sample-level drug-view reliability gate and a cross-modal context gate, and
@@ -17,7 +17,7 @@ data/
   metz/  ...
 rail_dta/
   modules.py   RationalUnit1D / RationalUnit2D / RailInteractionLayer  (Sec. II-C)
-  model.py     RailDTA (dual-gate fusion + RAIL + score mixer), FingerDTA baseline
+  model.py     AMFDTA (dual-gate fusion + RAIL + score mixer), FingerDTA baseline
   data.py      fingerprints, tokenizer, fixed 8:1:1 split, bias statistics, metrics
   train.py     paper protocol: 200 epochs, final-fit + SWA, AMP, alpha 10x lr
   ensemble.py  5-member equal-weight ensemble (single + m1..m4)
@@ -73,9 +73,9 @@ state), plus `summary.json` per run.
 
 | Table I row | How to reproduce |
 |---|---|
-| RAIL-DTA (Single) 0.4363 | best-state eval of `single` member |
-| RAIL-DTA (SWA) 0.4229 | test metrics of `single` (SWA state is the default test eval) |
-| RAIL-DTA (Ens.) 0.3921 / CI 0.8925 | `python run.py ensemble` |
+| AMF-DTA (Single) 0.4363 | best-state eval of `single` member |
+| AMF-DTA (SWA) 0.4229 | test metrics of `single` (SWA state is the default test eval) |
+| AMF-DTA (Ens.) 0.3921 / CI 0.8925 | `python run.py ensemble` |
 | FingerDTA† 0.4199 | `python run.py train --tag fingerdta` |
 | Ablations A1–A6, F-A7/F-A10 | `TrainConfig` switches: `interaction="fixed"|"no_abs"|"no_product"`, `use_drug_gate`, `use_context_gate`, `use_bias`, `positive_denominator`, `residual_gate` |
 
@@ -96,8 +96,8 @@ state), plus `summary.json` per run.
 ## Citation
 
 ```bibtex
-@inproceedings{raildta2027,
-  title={RAIL-DTA: Rational-ANOVA Interaction Layers for Drug-Target Affinity Prediction},
+@inproceedings{wang2027amfdta,
+  title={AMF-DTA: Adaptive Multi-view Fusion Network for Drug-Target Affinity Prediction},
   author={},  % TODO: authors
   booktitle={Proc. IEEE ICASSP},
   year={2027}

@@ -1,4 +1,4 @@
-"""RAIL-DTA command-line entry points.
+"""AMF-DTA command-line entry points.
 
 Usage:
     python run.py train --tag single [--datasets davis,kiba,metz] [--device auto]
@@ -31,7 +31,7 @@ def _config_from_tag(tag: str, interaction: str = "rail") -> TrainConfig:
 
 
 def main() -> None:
-    parser = argparse.ArgumentParser(description="RAIL-DTA")
+    parser = argparse.ArgumentParser(description="AMF-DTA")
     sub = parser.add_subparsers(dest="command", required=True)
 
     train_p = sub.add_parser("train", help="train one model on all datasets")

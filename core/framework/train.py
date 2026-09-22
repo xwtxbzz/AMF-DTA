@@ -1,6 +1,6 @@
 """Training protocol — paper Sec. III-A.
 
-Fixed 200-epoch protocol (identical for RAIL-DTA and every re-implemented
+Fixed 200-epoch protocol (identical for AMF-DTA and every re-implemented
 baseline):
   * Adam, lr 2e-4 (RAIL residual-gate alphas 10x = 2e-3, no weight decay),
     weight decay 1e-5, gradient clipping at 5.0;
@@ -38,12 +38,12 @@ from .data import (
     resolve_device,
     seed_everything,
 )
-from .model import FingerDTA, RailDTA
+from .model import FingerDTA, AMFDTA
 
 
 @dataclass
 class TrainConfig:
-    """One model configuration. `model_type` is "rail" (RAIL-DTA) or
+    """One model configuration. `model_type` is "rail" (AMF-DTA) or
     "fingerdta" (plain baseline)."""
 
     model_type: str = "rail"                     # "rail" | "fingerdta"
@@ -86,7 +86,7 @@ def build_model(cfg: TrainConfig, protein_vocab_size: int) -> nn.Module:
             fc_dims=cfg.fc_dims,
             dropout=cfg.dropout,
         )
-    return RailDTA(
+    return AMFDTA(
         protein_vocab_size,
         hidden_dim=cfg.hidden_dim,
         fc_dims=cfg.fc_dims,

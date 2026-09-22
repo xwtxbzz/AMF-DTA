@@ -72,7 +72,7 @@ assets/                      rendered figures for this README
 data/{davis,kiba,metz}/      benchmarks: smiles / sequence / affinity
 outputs/                     result JSON+CSV, baseline and architecture rows
 core/
-  outputs/                   result JSON+CSV, DTA-RAIL runs
+  outputs/                   result JSON+CSV, AMF-DTA runs
   framework/                 model, modules, data pipeline, ensemble
   *.py                       training drivers, analyses and audits
 autoresearch/
@@ -123,6 +123,11 @@ PYTHONPATH=. python core/_verify_headline_arithmetic.py
 PYTHONPATH=. python core/_emit_claim_from_artifact.py
 ```
 
+The last two read the manuscript's own text and so need it present:
+`audit_coverage.py` degrades to a single `[skip]` line without it, while
+`_emit_claim_from_artifact.py` stops with `no manuscript found` — pass the
+`.tex` path as an argument to point it at a copy elsewhere.
+
 The scripts prefixed with `_` are deliberately *independent*
 re-derivations: they recompute the headline statistics from the raw per-pair
 rows rather than trusting the stored summary a second time.
@@ -160,11 +165,13 @@ comparisons are **paired** over the 15 (seed, dataset) pairs at seeds
 
 ## Verification
 
-`audit_paper_numbers.py` reports **196 checks, 0 mismatched**. The count is
-the guard, not decoration: a repository missing one input does not error, it
-silently *skips* checks, so an unchanged total is the signal that every
-input arrived. The 14 manuscript-reading checks account for the difference
-from the 210 the full working tree produces.
+The three audits report **196 checks, 0 mismatched** in total —
+`audit_paper_numbers.py` 160, `audit_baseline_rows.py` 32 and
+`audit_architecture.py` 4 (32 + 4 + 160 = 196). The count is the guard, not
+decoration: a repository missing one input does not error, it silently
+*skips* checks, so an unchanged total is the signal that every input arrived.
+The 14 manuscript-reading checks account for the difference from the 210 the
+full working tree produces.
 
 ## What is not included, and why
 

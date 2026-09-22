@@ -66,6 +66,12 @@ def claimed_values() -> set[float]:
 
 def paper_literals() -> list[tuple[float, int, str]]:
     """(value, line number, line text) for the body, references excluded."""
+    # The manuscript is deliberately not shipped with this bundle, and this
+    # script is listed as a reproduction command, so skip rather than traceback
+    # -- the same way audit_paper_numbers.py degrades on the same missing file.
+    if not TEX.exists():
+        print(f"  [skip] manuscript not found at {TEX}")
+        raise SystemExit(0)
     src = TEX.read_text(encoding="utf-8")
     body = "\n".join(line for line in src.splitlines()
                      if not line.lstrip().startswith("%"))
