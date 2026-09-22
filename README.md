@@ -9,7 +9,7 @@
   <img alt="Python" src="https://img.shields.io/badge/python-3.9%2B-blue">
   <img alt="PyTorch" src="https://img.shields.io/badge/pytorch-2.1%2B-ee4c2c">
   <img alt="Benchmarks" src="https://img.shields.io/badge/benchmarks-Davis%20%7C%20KIBA%20%7C%20Metz-informational">
-  <img alt="Audit" src="https://img.shields.io/badge/paper%20numbers-210%20checks%2C%200%20mismatched-success">
+  <img alt="Audit" src="https://img.shields.io/badge/paper%20numbers-196%20checks%2C%200%20mismatched-success">
 </p>
 
 <p align="center">
@@ -79,7 +79,6 @@ autoresearch/
   outputs/                   JSON evidence: Table II upper group (a1–a6),
                              parameter-count ablations, cold-start runs
   figures/                   figure sources
-paper/                       the manuscript the audits check against
 dta_experiment/              framework: data, training loop, metrics
 models/                      model implementations (imported by the framework)
 configs/                     YAML experiment configurations
@@ -100,16 +99,18 @@ either of them.
 
 ## Reproducing the paper's numbers
 
-The audits recompute every claimed value from the recorded artefacts and
-compare the result against the manuscript text. **No GPU and no checkpoints
-are required** — the JSON and CSV under `outputs/` are the complete
-evidence. Run from the repository root:
+The audits recompute every claimed value from the recorded artefacts. **No
+GPU and no checkpoints are required** — the JSON and CSV under `outputs/`
+are the complete evidence. The manuscript itself is *not* part of this
+repository, so the checks that read the paper's text print a single `[skip]`
+line and the total is 196 rather than 210; every check that reads the
+artefacts alone still runs. Run from the repository root:
 
 ```bash
 # PYTHONPATH is the repository root, not core/: audit_architecture.py
 # imports the `dta_experiment` package, which lives at the root. Without it
 # that audit does not fail -- it prints one `[skip]` line, exits 0, and the
-# total silently drops from 210 to 206.
+# total silently drops from 196 to 192.
 PYTHONPATH=. python core/audit_paper_numbers.py
 
 # Which numeric literals in the paper are not pinned by any check.
@@ -159,11 +160,11 @@ comparisons are **paired** over the 15 (seed, dataset) pairs at seeds
 
 ## Verification
 
-`audit_paper_numbers.py` reports **210 checks, 0 mismatched**. The count is
-the guard, not decoration: a bundle missing one input does not error, it
+`audit_paper_numbers.py` reports **196 checks, 0 mismatched**. The count is
+the guard, not decoration: a repository missing one input does not error, it
 silently *skips* checks, so an unchanged total is the signal that every
-input arrived. `package_release.py` runs this audit inside the freshly built
-bundle and fails the build if the total moves.
+input arrived. The 14 manuscript-reading checks account for the difference
+from the 210 the full working tree produces.
 
 ## What is not included, and why
 
