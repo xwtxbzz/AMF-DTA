@@ -24,6 +24,18 @@ OUT = Path(__file__).resolve().parent / "outputs"
 DATA_ROOT = Path(__file__).resolve().parent.parent / "data"
 FIG_DIR = Path(__file__).resolve().parent.parent / "autoresearch" / "figures"
 FIG_DIR.mkdir(parents=True, exist_ok=True)
+# The manuscript lives in `paper/` and includes this figure as
+# `../autoresearch/figures/fig2_gate_weights.pdf`, which resolves to the
+# *repository* root's copy -- not this bundle's. The two were kept in sync by
+# hand, which is exactly how a figure goes stale without anyone noticing, so
+# every save now writes both.
+MIRROR_DIR = Path(__file__).resolve().parents[4] / "autoresearch" / "figures"
+
+
+def _save(fig, name: str) -> None:
+    fig.savefig(FIG_DIR / name)
+    if MIRROR_DIR.is_dir() and MIRROR_DIR != FIG_DIR:
+        fig.savefig(MIRROR_DIR / name)
 DATASETS = ("davis", "kiba", "metz")
 LABELS = {"davis": "Davis", "kiba": "KIBA", "metz": "Metz"}
 VIEWS = ("Morgan", "feature-Morgan", "MACCS")
@@ -87,29 +99,53 @@ def gate_samples(ds: str):
 
 # ─────────────────────────── Fig. 2 ──────────────────────────────────────
 def fig2() -> None:
+    """Five-seed gate weights: bars are the cross-seed mean, error bars the
+    cross-seed std, and the dots the five individual seeds.
+
+    The previous version plotted seed 42 alone, so a reader could not tell a
+    reproducible preference from one initialization's accident. Showing the
+    seeds separately is what makes the claim checkable: a preference that
+    reproduces lands its five dots in a tight band (Davis context gate,
+    $0.82$--$0.94$), an unreproducible one scatters over most of $[0,1]$
+    (Davis drug gate, whose feature-Morgan weight runs the full range).
+
+    Read from `gate_weights_5seeds.json`, which summarises the per-run gate
+    dumps of `analysis_gates.py`. Not re-extracted here: the release bundle
+    carries no checkpoints, because `package_release.py` copies `outputs/`
+    with `KEEP_SUFFIX = {".json", ".csv"}`. The checkpoints survive in the
+    full working tree, so this figure is recomputable from there.
+    """
+    data = json.loads((OUT / "gate_weights_5seeds.json").read_text(encoding="utf-8"))
+    summary, per_seed, seeds = data["summary"], data["per_seed"], data["seeds"]
+
     fig, axes = plt.subplots(2, 1, figsize=(3.5, 4.6))
-    for ax, (name, ws, labels) in zip(
-            axes, (("drug-view gate", None, VIEWS), ("context gate", None, CTX))):
-        means, stds = [], []
-        for ds in DATASETS:
-            dw, cw, _ = gate_samples(ds)
-            w = dw if "drug" in name else cw
-            means.append(w.mean(0))
-            stds.append(w.std(0))
-        means, stds = np.array(means), np.array(stds)
+    for ax, (name, labels) in zip(axes, (("drug", VIEWS), ("context", CTX))):
         x = np.arange(len(DATASETS))
         for i in range(3):
-            ax.bar(x + (i - 1) * 0.27, means[:, i], width=0.25, yerr=stds[:, i],
-                   color=C[i], label=labels[i], capsize=1.5, error_kw={"lw": 0.6})
+            means = np.array([summary[ds][name]["cross_seed_mean"][i]
+                              for ds in DATASETS])
+            stds = np.array([summary[ds][name]["cross_seed_std"][i]
+                             for ds in DATASETS])
+            pos = x + (i - 1) * 0.27
+            ax.bar(pos, means, width=0.25, yerr=stds, color=C[i],
+                   label=labels[i], capsize=1.5, error_kw={"lw": 0.6})
+            jitter = np.linspace(-0.075, 0.075, len(seeds))
+            for j, ds in enumerate(DATASETS):
+                vals = [per_seed[ds][name][str(s)]["mean_weights"][i]
+                        for s in seeds]
+                ax.scatter(pos[j] + jitter, vals, s=2.2, color="k",
+                           zorder=3, linewidths=0)
+        ax.axhline(1 / 3, color="0.45", ls=":", lw=0.7, zorder=1)
         ax.set_xticks(x)
         ax.set_xticklabels([LABELS[d] for d in DATASETS])
         ax.set_ylim(0, 1.05)
         ax.set_ylabel("mean gate weight")
-        ax.set_title(name, fontsize=9)
+        ax.set_title("drug-view gate" if name == "drug" else "context gate",
+                     fontsize=9)
     axes[0].legend(ncol=3, fontsize=6.5, loc="upper center", frameon=False)
     axes[1].legend(ncol=3, fontsize=6.5, loc="upper center", frameon=False)
     fig.tight_layout()
-    fig.savefig(FIG_DIR / "fig2_gate_weights.pdf")
+    _save(fig, "fig2_gate_weights.pdf")
     plt.close(fig)
 
 
@@ -167,7 +203,7 @@ def fig3() -> dict:
         ax.set_xlabel("std decile")
     axes[0].set_ylabel("mean abs. error / std")
     fig.tight_layout()
-    fig.savefig(FIG_DIR / "fig3_uncertainty_calibration.pdf")
+    _save(fig, "fig3_uncertainty_calibration.pdf")
     plt.close(fig)
     return stats
 

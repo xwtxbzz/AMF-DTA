@@ -9,7 +9,7 @@
   <img alt="Python" src="https://img.shields.io/badge/python-3.9%2B-blue">
   <img alt="PyTorch" src="https://img.shields.io/badge/pytorch-2.1%2B-ee4c2c">
   <img alt="Benchmarks" src="https://img.shields.io/badge/benchmarks-Davis%20%7C%20KIBA%20%7C%20Metz-informational">
-  <img alt="Audit" src="https://img.shields.io/badge/paper%20numbers-196%20checks%2C%200%20mismatched-success">
+  <img alt="Audit" src="https://img.shields.io/badge/paper%20numbers-208%20checks%2C%200%20mismatched-success">
 </p>
 
 <p align="center">
@@ -72,12 +72,16 @@ assets/                      rendered figures for this README
 data/{davis,kiba,metz}/      benchmarks: smiles / sequence / affinity
 outputs/                     result JSON+CSV, baseline and architecture rows
 core/
-  outputs/                   result JSON+CSV, AMF-DTA runs
+  outputs/                   result JSON+CSV: AMF-DTA runs, cold-start pilot
   framework/                 model, modules, data pipeline, ensemble
   *.py                       training drivers, analyses and audits
 autoresearch/
   outputs/                   JSON evidence: Table II upper group (a1–a6),
-                             parameter-count ablations, cold-start runs
+                             parameter-count ablations, and the *superseded*
+                             id-keyed cold runs -- the paper's cold rows are
+                             core/outputs/rail_cold_*, driven by
+                             core/run_cold_split.py, which keys on the
+                             entity string and so leaks nothing
   figures/                   figure sources
 dta_experiment/              framework: data, training loop, metrics
 models/                      model implementations (imported by the framework)
@@ -103,14 +107,14 @@ The audits recompute every claimed value from the recorded artefacts. **No
 GPU and no checkpoints are required** — the JSON and CSV under `outputs/`
 are the complete evidence. The manuscript itself is *not* part of this
 repository, so the checks that read the paper's text print a single `[skip]`
-line and the total is 196 rather than 210; every check that reads the
+line and the total is 208 rather than 222; every check that reads the
 artefacts alone still runs. Run from the repository root:
 
 ```bash
 # PYTHONPATH is the repository root, not core/: audit_architecture.py
 # imports the `dta_experiment` package, which lives at the root. Without it
 # that audit does not fail -- it prints one `[skip]` line, exits 0, and the
-# total silently drops from 196 to 192.
+# total silently drops from 208 to 204.
 PYTHONPATH=. python core/audit_paper_numbers.py
 
 # Which numeric literals in the paper are not pinned by any check.
@@ -165,19 +169,19 @@ comparisons are **paired** over the 15 (seed, dataset) pairs at seeds
 
 ## Verification
 
-The three audits report **196 checks, 0 mismatched** in total —
-`audit_paper_numbers.py` 160, `audit_baseline_rows.py` 32 and
-`audit_architecture.py` 4 (32 + 4 + 160 = 196). The count is the guard, not
+The three audits report **208 checks, 0 mismatched** in total —
+`audit_paper_numbers.py` 172, `audit_baseline_rows.py` 32 and
+`audit_architecture.py` 4 (32 + 4 + 172 = 208). The count is the guard, not
 decoration: a repository missing one input does not error, it silently
 *skips* checks, so an unchanged total is the signal that every input arrived.
-The 14 manuscript-reading checks account for the difference from the 210 the
+The 14 manuscript-reading checks account for the difference from the 222 the
 full working tree produces.
 
 ## What is not included, and why
 
 | Excluded | Size | Reason |
 |---|---|---|
-| `*.pt` checkpoints | ~12 GB | Regenerable by training; read by no audit |
+| `*.pt` checkpoints | ~12 GB | Regenerable by training. **Not** because nothing reads them: `analysis_gates.py`, the two `analysis_gate_intervention*.py` and `analysis_retrained_matched_state.py` all `torch.load` a `best_state.pt`. They are excluded for size, and the consequence is that those four scripts cannot run from this bundle alone — the per-run JSON they produced is shipped and audited instead |
 | training logs | — | Superseded by `history.csv` / `test_metrics.json` |
 | `data/{chembl,bdb,ttd}_csv` | 3.6 GB | Used by no experiment in the paper |
 | `autoresearch/outputs/**/*.csv` | 161 MB | Prediction dumps with no reader in the chain; the JSON summaries beside them carry every value the audits check |

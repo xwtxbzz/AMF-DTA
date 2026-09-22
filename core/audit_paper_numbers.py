@@ -11,12 +11,15 @@ Sources:
   outputs/rail_ab_F<tag>_seed<s>_200/<ds>/test_metrics.json   F-A* and F-M* runs
   outputs/summary_raildta_5seeds_200.json                     RAIL single + FingerDTA
   outputs/gate_intervention_fa3.json                          post-hoc intervention
+  outputs/retrained_matched_state.json                        F-A11 at best_state
+  outputs/dataset_gate_matched_state.json                     F-D1 at best_state
 
 Usage: python audit_paper_numbers.py
 """
 from __future__ import annotations
 
 import csv
+import inspect
 import json
 import math
 import statistics
@@ -45,6 +48,7 @@ MEMBERS_ENS = ("single", "m1", "m2", "m3", "m4")
 RETRAINED_CLAIM: dict[str, float | None] = {
     "median": 0.9, "mean": 1.1, "p": 0.0034,
     "davis": 1.7, "kiba": 0.8, "metz": 1.6, "ratio": 24,
+    "dataset_gate": 1.0,
 }
 OK, BAD = [], []
 # Every value this run claimed, for `audit_coverage.py`: a passing 100-check
@@ -64,27 +68,42 @@ PINNED: list[float] = []
 # captures the number from one site; all captures must agree.
 RETRAINED_SITES = {
     # kind: (how many copies must be found, [patterns])
-    "median": (5, [r"weights loses only \$([\d.]+)\\%\$",           # abstract + contribution
+    "median": (3, [r"\$([\d.]+)\\%\$: the intervention overstates",   # abstract
                    # `\\%`, not `\%`: the manuscript's percent sign is LaTeX's
                    # `\%`, so the pattern needs a literal backslash *and* a
                    # percent. A single backslash yields the regex `\%`, which
-                   # matches a bare `%` and silently finds nothing.
-                   r"the model loses a median \$([\d.]+)\\%\$",   # III-D
-                   r"weights costs ([\d.]+)\\%---a \$",             # conclusion
-                   r"architectural contribution is \$([\d.]+)\\%\$"]),   # III-D closing
-    # All four sites are hedged with `\sim`, so all four patterns make it
-    # optional: the ratio is a quotient of two *printed* one-decimal medians
-    # (21.0 / 0.9 = 23.3 -> 23) while the true quotient is 24.08 -> 24, so a
-    # reader cannot reproduce it from the operands on the page. "~24x" is
-    # reproducible by both readings; a bare "24x" is off by one against the
-    # paper's own numbers, which is exactly what a reviewer recomputes first.
-    "ratio": (4, [r"architectural value by \$(?:\\sim)?([\d.]+)\\times",  # abstract + contrib
-                  r"the \$(?:\\sim)?([\d.]+)\\times\$ gap to the post-hoc median",  # III-D
-                  r"---a \$(?:\\sim)?([\d.]+)\\times\$ overstatement"]),            # conclusion
-    # Anchored on the "mean, two-sided paired" run: the sentence was rewritten
-    # to lead with the median and state the 13-of-15 split, so the old
-    # "matched state (median;" anchor no longer exists.
-    "mean": (1, [r"\$([\d.]+)\\%\$ mean, two-sided paired"]),
+                   # matches a bare `%` and silently finds nothing. The same
+                   # doubling applies to every macro below (`\\textbf`, `\\sim`,
+                   # `\\times`): bare, the regex reads `\t` and `\s`, i.e. a tab
+                   # and a whitespace class, and matches nothing at all.
+                   r"costs a median \$([\d.]+)\\%\$ over the",     # III-D
+                   r"without them costs ([\d.]+)\\%---an overstatement"]),  # conclusion
+    # Every pattern quotes its own sentence's wording, so a reworded site drops
+    # out of its list and the check fails on a short list rather than passing on
+    # fewer comparisons than intended. That is the guard -- but it also means
+    # these anchors go stale whenever the prose is edited, because they are
+    # quoted from the manuscript rather than from the claim. An earlier revision
+    # of the retrained sentences silently left three of them capturing nothing.
+    #
+    # Three sites hedge the ratio with `\\sim`, in two LaTeX spellings, and the
+    # abstract now does too: the ratio is a quotient of two *printed*
+    # one-decimal medians (21.0 / 0.9 = 23.3 -> 23) while the true quotient is
+    # 24.08 -> 24, so a reader cannot reproduce it from the operands on the
+    # page. "~24x" is reproducible by both readings; a bare "24x" is off by one
+    # against the paper's own numbers, which is what a reviewer recomputes first.
+    #
+    # The abstract says "ratio of medians", not "median": the paper separately
+    # reports the median of per-pair ratios (12.5--16.5x), so a bare "median"
+    # here reads as that other estimator, which is roughly half as large.
+    "ratio": (4, [r"ratio of medians \\textbf\{\$\\sim\$([\d.]+)\$\\times\$\}, never below",  # abstract
+                  r"\(\$\\sim\$([\d.]+)\$\\times\$, never below",         # contribution list
+                  r"a \$\\sim([\d.]+)\\times\$ overstatement",            # III-D
+                  r"\$\\sim\$([\d.]+)\$\\times\$ by our estimator"]),     # conclusion
+    # Anchored on the "mean, paired" run: the sentence leads with the median and
+    # states the 13-of-15 split, so the old "matched state (median;" anchor no
+    # longer exists. `paired` alone, not `two-sided paired`: the manuscript
+    # reserves the full protocol name for the p-value clause.
+    "mean": (1, [r"\$([\d.]+)\\%\$ mean, paired"]),
     # Anchored on "paired $p=", not "mean, $p=". The manuscript now spells the
     # protocol out ("two-sided paired $p=...") because this p-value sits one
     # clause away from the seed-noise floor, and without the word the two read
@@ -97,6 +116,14 @@ RETRAINED_SITES = {
     "davis": (1, [r"Davis \$([\d.]+)\\%\$, KIBA"]),
     "kiba": (1, [r"KIBA \$([\d.]+)\\%\$, Metz"]),
     "metz": (1, [r"Metz \$([\d.]+)\\%\$\)"]),
+    # F-D1, the retrained counterpart of the `both_mean` probe. One site, in
+    # Sec. III-D: the abstract and conclusion state what the result does to
+    # the reading without quoting the number, deliberately, so the paper
+    # cannot end up citing two different values for one measurement. The
+    # optional `\+` is because this delta is printed signed, unlike the
+    # no-gate medians above -- a bare `[\d.]+` would capture from `1.0` and
+    # silently drop the sign the sentence depends on.
+    "dataset_gate": (1, [r"costs a median \$(\+?[\d.]+)\\%\$ against the probe"]),
 }
 
 
@@ -633,6 +660,45 @@ def main() -> None:
     print(f"       compared {gate_n}/5 seed config pairs")
     if gate_diff:
         print(f"       unexpected config differences: {', '.join(gate_diff)}")
+
+    # F-D1's counterpart to the block above: it must be F-A3 with only
+    # `gate_mode` changed, or the retrained dataset-level figure measures a
+    # different architecture. Compared on *effective* configs -- framework
+    # defaults filled in -- because the two were written across a config
+    # schema revision: F-D1 seeds 42/52/62 predate `split_method`/`cold_key`
+    # being recorded while 72/82 carry them at exactly the values
+    # `build_dataloaders` defaults to, so a raw key-set comparison reports a
+    # difference that does not exist. That false failure is why the defaults
+    # are resolved here rather than assumed absent.
+    try:
+        from framework.data import build_dataloaders as _build_dataloaders
+        _defaults = {n: p.default for n, p in
+                     inspect.signature(_build_dataloaders).parameters.items()
+                     if p.default is not inspect.Parameter.empty}
+    except Exception as exc:               # pragma: no cover - env-dependent
+        print(f"  [warn] could not read framework defaults ({exc}); "
+              f"comparing raw configs")
+        _defaults = {}
+    dg_diff, dg_n = [], 0
+    for s in SEEDS:
+        a = OUT / f"rail_ab_FA3_seed{s}_200" / "config.json"
+        b = OUT / f"rail_ab_FD1_seed{s}_200" / "config.json"
+        if not (a.exists() and b.exists()):
+            continue
+        ca = json.loads(a.read_text(encoding="utf-8"))
+        cb = json.loads(b.read_text(encoding="utf-8"))
+        for cfg in (ca, cb):
+            for key, value in _defaults.items():
+                cfg.setdefault(key, value)
+        dg_n += 1
+        diff = {k for k in set(ca) | set(cb) if ca.get(k) != cb.get(k)}
+        if diff != {"gate_mode"}:
+            dg_diff.append(f"seed{s}:{sorted(diff)}")
+    check("F-D1/F-A3 configs differ only in gate_mode", True,
+          dg_n > 0 and not dg_diff, fmt="{}")
+    print(f"       compared {dg_n}/5 seed config pairs")
+    if dg_diff:
+        print(f"       unexpected config differences: {', '.join(dg_diff)}")
     if not ms_path.exists():
         print("  [skip] retrained_matched_state.json absent "
               "(F-A11 sweep incomplete)")
@@ -680,6 +746,45 @@ def main() -> None:
                      "metz": ds_med["metz"],
                      "ratio": 21.0 / statistics.median([r["delta_pct"]
                                                         for r in rows_m])}
+        # F-D1 lives in its own artefact (it needs `best_state.pt`, so unlike
+        # the other JSONs it is not re-derivable from the released bundle),
+        # but it is checked through the same claim table as the no-gate arm so
+        # that both retrained figures are pinned by one mechanism.
+        dg_path = OUT / "dataset_gate_matched_state.json"
+        if dg_path.exists():
+            dg = json.loads(dg_path.read_text(encoding="utf-8"))
+            derived_m["dataset_gate"] = statistics.median(
+                [r["delta_pct"] for r in dg["rows"]])
+            # The artefact is allowed to be short: seed 72's F-D1 sweep was
+            # stopped, so the arm covers 13 of 15 pairs. What is *not*
+            # allowed is being short and silent, because the paper quotes a
+            # median from this file. The invariant is therefore "complete, or
+            # self-describing" -- a short file must carry its own gap list, a
+            # gap note, and the `finalized` flag that says the arm was closed
+            # deliberately rather than left mid-run.
+            gap = ([tuple(p) for p in dg.get("unevaluated_checkpoints", [])]
+                   + [tuple(p) for p in dg.get("untrained_pairs", [])])
+            self_describing = (bool(gap) and dg.get("finalized")
+                               and dg.get("gap_note"))
+            if not dg.get("complete", True) and not self_describing:
+                BAD.append(("retrained dataset_gate",
+                            f"artefact is partial and does not name its gap "
+                            f"({dg.get('n_pairs')} pairs, "
+                            f"finalized={dg.get('finalized')}, gap={gap})"))
+                print(f"  [bad] dataset_gate artefact is partial and does not "
+                      f"name its gap: {dg.get('n_pairs')} pairs, "
+                      f"finalized={dg.get('finalized')}, gap={gap}")
+            elif gap:
+                n_seeds = len({r["seed"] for r in dg["rows"]})
+                print(f"  [gap] dataset_gate artefact is short but "
+                      f"self-describing: {dg.get('n_pairs')} pairs over "
+                      f"{n_seeds} seeds, {len(gap)} pair(s) named")
+        else:
+            # Not `[skip]`-and-forget: the manuscript quotes this number, so a
+            # missing artefact means the claim is unbacked. Only reachable
+            # before the F-D1 top-up has been run.
+            print("  [skip] dataset_gate_matched_state.json absent "
+                  "(F-D1 top-up pending)")
         for name, derived in derived_m.items():
             want = RETRAINED_CLAIM[name]
             if want is None:
@@ -817,6 +922,16 @@ def main() -> None:
              for s in SEEDS for ds in DATASETS]
         print(f"  retrained no-gate delta: median={statistics.median(d):+.2f}%  "
               f"mean={statistics.mean(d):+.2f}%  worse in {sum(1 for v in d if v > 0)}/{len(d)}")
+        # Sec. III-D quotes this pair as the *final-fit* counterpart of the
+        # matched-state arm above ("1.4% behind F-A3 (1.1% median, worse in 11
+        # of 15)"). It used to be printed but never checked, which left it the
+        # only paper literal with a dedicated script and no audit entry -- so
+        # the script's removal would have made the sentence unbacked. Checked
+        # here instead, the number survives the script.
+        check("F-A11 final-fit delta, median (%)", 1.1,
+              round(statistics.median(d), 1), tol=0.05, fmt="{:+.1f}%")
+        check("F-A11 final-fit pairs worse than F-A3", 11,
+              sum(1 for v in d if v > 0), tol=0, fmt="{:.0f}")
 
     print("\n=== Sec. III-A: dataset sizes and label scales ===")
     # The sd claim ("differ in mean but not in spread") is the justification
@@ -904,6 +1019,67 @@ def main() -> None:
                 continue
             check(f"{ds} {label} low", lo, min(vals), tol=5e-3, fmt="{:.2f}")
             check(f"{ds} {label} high", hi, max(vals), tol=5e-3, fmt="{:.2f}")
+
+    print("\n=== ratio sensitivity (the ~24x headline) ===")
+
+    # The headline is a ratio of two medians, so a trim applied only to the
+    # numerator is not the ratio a reader recomputes after applying the
+    # paper's own exclusion rule. analysis_ratio_sensitivity.py applies every
+    # trim to BOTH arms; these claims are pinned against its output rather
+    # than against the numerator alone.
+    rs = json.loads((OUT / "ratio_sensitivity.json").read_text(encoding="utf-8"))
+    pooled = {k: v["ratio_of_medians"] for k, v in rs["trims"].items()}
+    mor = {k: v["median_of_ratios"] for k, v in rs["trims"].items()}
+    check("headline 24x (untrimmed, median ratio)", 24,
+          round(pooled["none"], 0), tol=0.5, fmt="{:.0f}")
+    check("trimmed on both arms (paper 19.7x)", 19.7,
+          round(pooled["gt50"], 1), tol=0.05, fmt="{:.1f}")
+    check("least favourable estimator low (12.5x)", 12.5,
+          round(mor["gt50"], 1), tol=0.05, fmt="{:.1f}")
+    check("least favourable estimator high (16.5x)", 16.5,
+          round(mor["none"], 1), tol=0.05, fmt="{:.1f}")
+    # "never below 9.7x" is a claim about the floor over EVERY estimator,
+    # trim and dataset -- its weakest cell is a per-dataset median-of-ratios,
+    # well below the pooled one. Pinning it against the pooled estimator
+    # alone would pass while the sentence overstated.
+    gmin = rs["global_min"]
+    check("never below 9.7x (floor, all variants)", 9.7,
+          round(gmin["value"], 1), tol=0.05, fmt="{:.1f}")
+    print(f"        weakest cell: {gmin['key']}/{gmin['estimator']} "
+          f"over {gmin['n_variants']} variants")
+
+    print("\n=== cold-start paragraph ===")
+
+    # The sentence quotes a range from *this* tree's cold runs, and it has
+    # three ways to go silently wrong, so all three are checked rather than
+    # the range alone:
+    #   * the partition key -- an id-keyed run is not a cold split at all,
+    #     which is exactly how the superseded `autoresearch/outputs/icasp_*
+    #     cold*` numbers came to be quoted as if they were one;
+    #   * the arm -- the sentence names F-A3, so the run behind it must be
+    #     fixed interactions with both gates on;
+    #   * the range, and the ~0.44 it rises from, which must come from that
+    #     same arm so the before/after pair is one architecture.
+    cold_means: dict[str, float] = {}
+    for split in ("cold_drug", "cold_target"):
+        base = OUT / f"rail_cold_FA3_{split}_seed42_200"
+        cfg = json.loads((base / "config.json").read_text(encoding="utf-8"))
+        check(f"cold {split}: keyed on entity, not id", "entity",
+              cfg.get("cold_key"), fmt="{}")
+        check(f"cold {split}: the F-A3 arm the sentence names",
+              ("fixed", True, True),
+              (cfg.get("interaction"), cfg.get("use_drug_gate"),
+               cfg.get("use_context_gate")), fmt="{}")
+        cold_means[split] = statistics.mean(
+            [json.loads((base / ds / "test_metrics.json").read_text(
+                encoding="utf-8"))["rmse"] for ds in DATASETS])
+
+    check("cold-start range low (paper 0.62)", 0.62,
+          round(min(cold_means.values()), 2), tol=5e-3, fmt="{:.2f}")
+    check("cold-start range high (paper 0.66)", 0.66,
+          round(max(cold_means.values()), 2), tol=5e-3, fmt="{:.2f}")
+    check("cold-start baseline (~0.44), same arm, random split", 0.44,
+          round(mean_std("FA3")[0], 2), tol=5e-3, fmt="{:.2f}")
 
     print("\n=== Table II lower group + architecture claims ===")
 

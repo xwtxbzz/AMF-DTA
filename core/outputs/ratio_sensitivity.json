@@ -1,0 +1,63 @@
+{
+  "n_pairs_total": 15,
+  "baseline_max_abs_diff": 1.3977375529217184e-06,
+  "trims": {
+    "none": {
+      "n": 15,
+      "median_post_hoc_pct": 21.002080409720726,
+      "median_no_gate_pct": 0.8720964881282636,
+      "ratio_of_medians": 24.082289856247932,
+      "ratio_of_means": 55.093993209788756,
+      "median_of_ratios": 16.496743477199406
+    },
+    "gt50": {
+      "n": 10,
+      "median_post_hoc_pct": 16.082274146962583,
+      "median_no_gate_pct": 0.8158948968483013,
+      "ratio_of_medians": 19.711208158166414,
+      "ratio_of_means": 17.298966453817048,
+      "median_of_ratios": 12.453169959811383
+    },
+    "gt100": {
+      "n": 13,
+      "median_post_hoc_pct": 18.59000125352848,
+      "median_no_gate_pct": 0.8720964881282636,
+      "ratio_of_medians": 21.3164500793109,
+      "ratio_of_means": 25.34111401069264,
+      "median_of_ratios": 14.529312922031613
+    }
+  },
+  "per_dataset": {
+    "davis": {
+      "n": 5,
+      "median_post_hoc_pct": 65.00400117334796,
+      "median_no_gate_pct": 1.7220167311124477,
+      "ratio_of_medians": 37.74876283075045,
+      "ratio_of_means": 125.26358552171394,
+      "median_of_ratios": 37.74876283075045
+    },
+    "kiba": {
+      "n": 5,
+      "median_post_hoc_pct": 12.670962774220369,
+      "median_no_gate_pct": 0.7596933055683389,
+      "ratio_of_medians": 16.6790501921575,
+      "ratio_of_means": 20.801846627473278,
+      "median_of_ratios": 9.722081075687203
+    },
+    "metz": {
+      "n": 5,
+      "median_post_hoc_pct": 31.6251778073968,
+      "median_no_gate_pct": 1.6069497301654672,
+      "ratio_of_medians": 19.680253348149456,
+      "ratio_of_means": 18.30560831312334,
+      "median_of_ratios": 27.197026904419456
+    }
+  },
+  "global_min": {
+    "value": 9.722081075687203,
+    "estimator": "median_of_ratios",
+    "group": "per_dataset",
+    "key": "kiba",
+    "n_variants": 18
+  }
+}

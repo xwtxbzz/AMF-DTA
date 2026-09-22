@@ -1,0 +1,173 @@
+{
+  "rows": [
+    {
+      "seed": 42,
+      "dataset": "davis",
+      "fd1": 0.4457920491695404,
+      "base": 0.44004520773887634,
+      "post_hoc": 0.4401814453348727,
+      "delta_pct": 1.3059661438408958,
+      "post_hoc_delta_pct": 0.030959909027617572
+    },
+    {
+      "seed": 42,
+      "dataset": "kiba",
+      "fd1": 0.3546559512615204,
+      "base": 0.35714849829673767,
+      "post_hoc": 0.3742397025227682,
+      "delta_pct": -0.697902146335317,
+      "post_hoc_delta_pct": 4.785461595817852
+    },
+    {
+      "seed": 42,
+      "dataset": "metz",
+      "fd1": 0.5143626928329468,
+      "base": 0.5047191381454468,
+      "post_hoc": 0.5388591509988407,
+      "delta_pct": 1.910677435956665,
+      "post_hoc_delta_pct": 6.764160554489557
+    },
+    {
+      "seed": 52,
+      "dataset": "davis",
+      "fd1": 0.4656238555908203,
+      "base": 0.4643893539905548,
+      "post_hoc": 0.46760546777431017,
+      "delta_pct": 0.2658333119950487,
+      "post_hoc_delta_pct": 0.6925468372861905
+    },
+    {
+      "seed": 52,
+      "dataset": "kiba",
+      "fd1": 0.3783087730407715,
+      "base": 0.37303435802459717,
+      "post_hoc": 0.38781830567707476,
+      "delta_pct": 1.4139220430270747,
+      "post_hoc_delta_pct": 3.9631597825910627
+    },
+    {
+      "seed": 52,
+      "dataset": "metz",
+      "fd1": 0.5101510882377625,
+      "base": 0.5160607695579529,
+      "post_hoc": 0.5233728371341527,
+      "delta_pct": -1.1451522124521385,
+      "post_hoc_delta_pct": 1.4169004907044593
+    },
+    {
+      "seed": 62,
+      "dataset": "davis",
+      "fd1": 0.48121488094329834,
+      "base": 0.4621141850948334,
+      "post_hoc": 0.4696888523179091,
+      "delta_pct": 4.1333281826320025,
+      "post_hoc_delta_pct": 1.6391332418244764
+    },
+    {
+      "seed": 62,
+      "dataset": "kiba",
+      "fd1": 0.3819097578525543,
+      "base": 0.378810852766037,
+      "post_hoc": 0.3814103151285171,
+      "delta_pct": 0.8180613263557406,
+      "post_hoc_delta_pct": 0.6862164437737456
+    },
+    {
+      "seed": 62,
+      "dataset": "metz",
+      "fd1": 0.5224579572677612,
+      "base": 0.5138054490089417,
+      "post_hoc": 0.5215666922898144,
+      "delta_pct": 1.6840047678569874,
+      "post_hoc_delta_pct": 1.510541255613996
+    },
+    {
+      "seed": 72,
+      "dataset": "davis",
+      "fd1": 0.4753338694572449,
+      "base": 0.4572223722934723,
+      "post_hoc": 0.45694278986900866,
+      "delta_pct": 3.96120099568259,
+      "post_hoc_delta_pct": -0.061148019302121735
+    },
+    {
+      "seed": 82,
+      "dataset": "davis",
+      "fd1": 0.48263096809387207,
+      "base": 0.48580625653266907,
+      "post_hoc": 0.4853609139654798,
+      "delta_pct": -0.653612092495451,
+      "post_hoc_delta_pct": -0.09167081757402341
+    },
+    {
+      "seed": 82,
+      "dataset": "kiba",
+      "fd1": 0.35006359219551086,
+      "base": 0.3561907708644867,
+      "post_hoc": 0.37119206415029815,
+      "delta_pct": -1.7201957967930968,
+      "post_hoc_delta_pct": 4.211589550566632
+    },
+    {
+      "seed": 82,
+      "dataset": "metz",
+      "fd1": 0.5250500440597534,
+      "base": 0.5199369788169861,
+      "post_hoc": 0.5245163478324542,
+      "delta_pct": 0.9834009603242886,
+      "post_hoc_delta_pct": 0.8807546302799083
+    }
+  ],
+  "n_pairs": 13,
+  "finalized": true,
+  "complete": false,
+  "unevaluated_checkpoints": [
+    [
+      72,
+      "kiba"
+    ]
+  ],
+  "untrained_pairs": [
+    [
+      72,
+      "metz"
+    ]
+  ],
+  "gap_note": "seed 72's F-D1 run was stopped after Davis and KIBA, so (72, kiba) has an unevaluated checkpoint and (72, metz) has none",
+  "seeds": [
+    42,
+    52,
+    62,
+    72,
+    82
+  ],
+  "pairs_per_seed": {
+    "42": [
+      "davis",
+      "kiba",
+      "metz"
+    ],
+    "52": [
+      "davis",
+      "kiba",
+      "metz"
+    ],
+    "62": [
+      "davis",
+      "kiba",
+      "metz"
+    ],
+    "72": [
+      "davis"
+    ],
+    "82": [
+      "davis",
+      "kiba",
+      "metz"
+    ]
+  },
+  "median_delta_pct": 0.9834009603242886,
+  "mean_delta_pct": 0.9430409938150223,
+  "post_hoc_median_delta_pct": 1.4169004907044593,
+  "agree_p_value": 0.305419921875
+}

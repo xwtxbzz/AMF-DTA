@@ -50,9 +50,19 @@ class TrainConfig:
     interaction: str = "rail"                    # paper Sec. II-C / III-E
     use_drug_gate: bool = True
     use_context_gate: bool = True
+    gate_mode: str = "sample"                    # "sample" | "dataset" (F-D1)
     use_bias: bool = True
     positive_denominator: bool = True            # False = F-A9 (diverges)
     residual_gate: bool = True                   # False = F-A10
+
+    # data protocol: "random" splits pairs (the paper's protocol, so nearly
+    # every test drug/target is also seen in training); "cold_drug" and
+    # "cold_target" hold out the whole entity. `cold_key` chooses what is held
+    # out: "entity" (the sequence/SMILES string -- zero leakage) or "id" (the
+    # database id, which only reproduces the older, leaky baselines). See
+    # `framework.data.split_frame`.
+    split_method: str = "random"
+    cold_key: str = "entity"
 
     hidden_dim: int = 256
     fc_dims: tuple[int, int] = (768, 256)
@@ -95,6 +105,7 @@ def build_model(cfg: TrainConfig, protein_vocab_size: int) -> nn.Module:
         use_drug_gate=cfg.use_drug_gate,
         use_context_gate=cfg.use_context_gate,
         use_bias=cfg.use_bias,
+        gate_mode=cfg.gate_mode,
         positive_denominator=cfg.positive_denominator,
         residual_gate=cfg.residual_gate,
         **cfg.model_kwargs,
@@ -206,7 +217,8 @@ def train_dataset(
     test_metrics.json / config.json."""
     from .data import DEFAULT_DATA_ROOT
     bundle = build_dataloaders(dataset_name, batch_size=cfg.batch_size, seed=cfg.seed,
-                               data_root=data_root or DEFAULT_DATA_ROOT)
+                               data_root=data_root or DEFAULT_DATA_ROOT,
+                               split_method=cfg.split_method, cold_key=cfg.cold_key)
     if dataset_name in {"kiba", "metz"}:
         train_labels = bundle.train_loader.dataset.labels
         label_mean = train_labels.mean().to(device)

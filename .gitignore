@@ -1,0 +1,13 @@
+# Checkpoints. Regenerable by training and large; the manifest below is
+# deliberately narrow rather than ignoring outputs/ wholesale, because the
+# JSON and CSV under outputs/ ARE the shipped evidence.
+*.pt
+
+# Python bytecode.
+__pycache__/
+*.py[cod]
+
+# Training logs. Superseded by history.csv / test_metrics.json, and a live
+# sweep rewrites them continuously.
+*.log
+core/outputs/logs/

@@ -6,9 +6,12 @@ Dataset layout (same as the dta_experiment framework):
 with columns DRUGID, SMILES / TARGETID, SEQUENCE / DRUGID, TARGETID, VALUE
 (column names configurable via DATASET_FILES below).
 
-Split: fixed random 8:1:1 (train_test_split, seed 42, two-stage so val:test
-are disjoint 10% each). Tokenizers and all statistics are fit on the training
-split only.
+Split: 8:1:1, two-stage so val:test are disjoint 10% each. `split_frame`
+offers three methods. "random" (default, and the protocol behind every number
+in the paper) splits pairs, so test entities are usually seen in training.
+"cold_drug" / "cold_target" split the unique entity ids instead, so a test
+drug (resp. target) never appears in training. Tokenizers and all statistics
+are fit on the training split only.
 """
 from __future__ import annotations
 
@@ -186,13 +189,21 @@ def sequence_to_hashed_fingerprint(sequence: str) -> torch.Tensor:
 class AMFDTADataset(Dataset):
     """Returns one dict per (drug, target) pair with all five views plus the
     training-set-only bias statistics. Fingerprints are cached per unique
-    molecule / sequence."""
+    molecule / sequence.
+
+    When `protein_embedding_cache` / `drug_embedding_cache` are given (frozen
+    pretrained view features from `extract_pretrained_views.py`) the
+    corresponding keys are added to the returned dict; otherwise they are
+    absent and every existing caller is unaffected.
+    """
 
     def __init__(
         self,
         frame: pd.DataFrame,
         protein_tokenizer: CharTokenizer,
         bias_feature_cache: dict[tuple[str, str], torch.Tensor],
+        protein_embedding_cache: dict[str, torch.Tensor] | None = None,
+        drug_embedding_cache: dict[str, torch.Tensor] | None = None,
     ) -> None:
         self.frame = frame.reset_index(drop=True)
         self.protein_tokenizer = protein_tokenizer
@@ -208,6 +219,24 @@ class AMFDTADataset(Dataset):
             for value in pd.unique(pd.Series(self.sequences))
         }
         self.bias_feature_cache = bias_feature_cache
+        self.protein_embedding_cache = protein_embedding_cache
+        self.drug_embedding_cache = drug_embedding_cache
+        if protein_embedding_cache is not None:
+            missing = set(self.sequences) - set(protein_embedding_cache)
+            if missing:
+                raise KeyError(
+                    f"{len(missing)} protein sequences have no cached embedding "
+                    f"(e.g. {next(iter(missing))[:40]!r}); re-run "
+                    f"extract_pretrained_views.py for this dataset"
+                )
+        if drug_embedding_cache is not None:
+            missing = set(self.smiles) - set(drug_embedding_cache)
+            if missing:
+                raise KeyError(
+                    f"{len(missing)} SMILES have no cached embedding "
+                    f"(e.g. {next(iter(missing))[:40]!r}); re-run "
+                    f"extract_pretrained_views.py for this dataset"
+                )
 
         self._morgan_cache: dict[str, torch.Tensor] = {}
         self._feature_cache: dict[str, torch.Tensor] = {}
@@ -226,7 +255,7 @@ class AMFDTADataset(Dataset):
     def __getitem__(self, idx: int) -> dict[str, torch.Tensor]:
         smiles = self.smiles[idx]
         sequence = self.sequences[idx]
-        return {
+        item = {
             "drug_fingerprint": self._morgan_cache[smiles],
             "feature_fingerprint": self._feature_cache[smiles],
             "maccs_fingerprint": self._maccs_cache[smiles],
@@ -235,6 +264,11 @@ class AMFDTADataset(Dataset):
             "bias_features": self.bias_feature_cache[(smiles, sequence)],
             "label": self.labels[idx],
         }
+        if self.protein_embedding_cache is not None:
+            item["protein_embedding"] = self.protein_embedding_cache[sequence]
+        if self.drug_embedding_cache is not None:
+            item["drug_embedding"] = self.drug_embedding_cache[smiles]
+        return item
 
 
 def build_bias_feature_cache(
@@ -310,12 +344,77 @@ def load_frame(dataset_name: str, data_root: Path = DEFAULT_DATA_ROOT) -> pd.Dat
 
 
 def split_frame(
-    frame: pd.DataFrame, seed: int = SEED
+    frame: pd.DataFrame, seed: int = SEED, method: str = "random",
+    cold_key: str = "entity",
 ) -> tuple[pd.DataFrame, pd.DataFrame, pd.DataFrame]:
-    train, temp = train_test_split(frame, train_size=TRAIN_RATIO, random_state=seed, shuffle=True)
+    """Split into train/val/test.
+
+    `method="random"` (the paper's protocol) splits *pairs* 8:1:1, so nearly
+    every test drug and target is also seen in training. The two cold methods
+    partition the held-out *side* 8:1:1 first and then filter the frame by
+    membership, so no test drug (resp. target) group occurs in training.
+
+    `cold_key` chooses what that partition is keyed on, and it is not a
+    detail -- keying on `"id"` does **not** produce a cold split:
+
+      * `"id"`     partition unique `drug_id` / `target_id` (this is what
+                   `dta_experiment/data.py` does, and hence what the existing
+                   `icasp_*cold*` baselines were measured under). The tables
+                   are not injective -- Davis has 442 targets but 379 unique
+                   sequences, KIBA 2111 drugs but ~2077 unique SMILES -- so a
+                   held-out id can share its exact sequence/SMILES with a
+                   training id. Measured on the shipped baselines this leaks
+                   8.9% of Davis cold-target test pairs and 2.5% of KIBA
+                   cold-drug pairs, and the leaked pairs are exactly the
+                   memorisable ones. Do not read that as a bound in either
+                   direction: keying on the id also selects a *different*
+                   partition, so the id-keyed and entity-keyed means differ
+                   by more than the leak (measured on F-A3 at seed 42,
+                   cold_target 0.6678 id-keyed against 0.6223 entity-keyed --
+                   the leaky run is the *worse* one). The two numbers measure
+                   different test sets, not the leak's size, and no cold-start
+                   figure should be quoted from the id-keyed run.
+      * `"entity"` (default) partition by the `smiles` / `sequence` string
+                   itself, so every row carrying a given entity lands in one
+                   split. Leakage is zero by construction.
+
+    Use `cold_key="id"` only to reproduce the older numbers.
+
+    The random branch is byte-for-byte the previous implementation and remains
+    the default: every number already reported was produced through it, and
+    the `method` parameter is opt-in so those runs cannot shift.
+    """
+    if method == "random":
+        train, temp = train_test_split(frame, train_size=TRAIN_RATIO, random_state=seed, shuffle=True)
+        relative_val = VAL_RATIO / (VAL_RATIO + TEST_RATIO)
+        val, test = train_test_split(temp, train_size=relative_val, random_state=seed, shuffle=True)
+        return (train.reset_index(drop=True), val.reset_index(drop=True), test.reset_index(drop=True))
+
+    if method not in {"cold_drug", "cold_target"}:
+        raise ValueError(f"Unknown split method: {method!r}")
+    if cold_key not in {"id", "entity"}:
+        raise ValueError(f"cold_key must be 'id' or 'entity', got {cold_key!r}")
+
+    is_drug = method == "cold_drug"
+    id_col = "drug_id" if is_drug else "target_id"
+    entity_col = "smiles" if is_drug else "sequence"
+    key = id_col if cold_key == "id" else entity_col
+    if key not in frame.columns:
+        raise ValueError(f"Split {method!r} needs column {key!r}; frame has {list(frame.columns)}")
+
+    unique_values = frame[key].drop_duplicates()
+    train_keys, temp_keys = train_test_split(
+        unique_values, train_size=TRAIN_RATIO, random_state=seed, shuffle=True
+    )
     relative_val = VAL_RATIO / (VAL_RATIO + TEST_RATIO)
-    val, test = train_test_split(temp, train_size=relative_val, random_state=seed, shuffle=True)
-    return (train.reset_index(drop=True), val.reset_index(drop=True), test.reset_index(drop=True))
+    val_keys, test_keys = train_test_split(
+        temp_keys, train_size=relative_val, random_state=seed, shuffle=True
+    )
+    return (
+        frame[frame[key].isin(train_keys)].reset_index(drop=True),
+        frame[frame[key].isin(val_keys)].reset_index(drop=True),
+        frame[frame[key].isin(test_keys)].reset_index(drop=True),
+    )
 
 
 @dataclass
@@ -328,6 +427,9 @@ class DataBundle:
     train_size: int
     val_size: int
     test_size: int
+    # 0 when the corresponding frozen pretrained view is not in use
+    protein_pretrained_dim: int = 0
+    drug_pretrained_dim: int = 0
 
 
 def build_dataloaders(
@@ -336,16 +438,35 @@ def build_dataloaders(
     seed: int = SEED,
     data_root: Path = DEFAULT_DATA_ROOT,
     num_workers: int = 0,
+    split_method: str = "random",
+    cold_key: str = "entity",
+    pretrained_protein: str = "",
+    pretrained_drug: str = "",
 ) -> DataBundle:
     frame = load_frame(dataset_name, data_root)
-    train, val, test = split_frame(frame, seed)
+    train, val, test = split_frame(frame, seed, method=split_method, cold_key=cold_key)
 
     protein_tokenizer = CharTokenizer()
     protein_tokenizer.fit(train["sequence"].astype(str).tolist())
     bias_cache = build_bias_feature_cache(train, [train, val, test])
 
+    # Frozen pretrained view features, cached per entity string by
+    # extract_pretrained_views.py. Loaded once and shared across the three
+    # loaders; the *same* file is used for every split of a dataset, so the
+    # features themselves cannot leak split information.
+    def load_embeddings(path: str) -> dict[str, torch.Tensor] | None:
+        if not path:
+            return None
+        loaded = torch.load(path, map_location="cpu", weights_only=True)
+        return {k: v.float() for k, v in loaded.items()}
+
+    protein_embeddings = load_embeddings(pretrained_protein)
+    drug_embeddings = load_embeddings(pretrained_drug)
+
     def make_loader(df: pd.DataFrame, shuffle: bool) -> DataLoader:
-        dataset = AMFDTADataset(df, protein_tokenizer, bias_cache)
+        dataset = AMFDTADataset(df, protein_tokenizer, bias_cache,
+                                protein_embedding_cache=protein_embeddings,
+                                drug_embedding_cache=drug_embeddings)
         return DataLoader(
             dataset,
             batch_size=batch_size,
@@ -364,6 +485,10 @@ def build_dataloaders(
         train_size=len(train),
         val_size=len(val),
         test_size=len(test),
+        protein_pretrained_dim=(next(iter(protein_embeddings.values())).numel()
+                                if protein_embeddings else 0),
+        drug_pretrained_dim=(next(iter(drug_embeddings.values())).numel()
+                             if drug_embeddings else 0),
     )
 
 

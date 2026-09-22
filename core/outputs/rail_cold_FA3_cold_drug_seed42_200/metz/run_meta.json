@@ -1,0 +1,11 @@
+{
+  "test_loss": 0.48216970588996144,
+  "epochs": 200,
+  "training_seconds": 1485.367610692978,
+  "num_params": 3625485,
+  "sizes": {
+    "train": 28433,
+    "val": 3281,
+    "test": 3545
+  }
+}

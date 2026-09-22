@@ -95,6 +95,20 @@ class AMFDTA(nn.Module):
                               structure (review F-M1; parameter-matched)
       - "poly_interact"      unconstrained degree-2 polynomial interaction,
                               no denominator (review F-M2; parameter-matched)
+
+    `gate_mode` selects what the two gates are allowed to condition on:
+      - "sample"   (default) the gate MLPs read the per-sample concatenated
+                   views, so the weights vary from pair to pair (Eq. 1, Eq. 3);
+      - "dataset"  each gate MLP is kept but reads a single learned constant
+                   instead of the sample, so it emits one weight vector shared
+                   by every pair -- the *retrained* counterpart of the post-hoc
+                   `both_mean` intervention in `analysis_gate_intervention_fa3.py`,
+                   which freezes a trained model's gates to their validation-set
+                   mean. Parameter count is unchanged, so the arm isolates what
+                   the gate is allowed to condition on (variant F-D1).
+
+    `gate_mode` is consulted only when the corresponding `use_*_gate` is True;
+    a disabled gate keeps its constant 1/K behaviour and ignores the mode.
     """
 
     def __init__(
@@ -113,22 +127,36 @@ class AMFDTA(nn.Module):
         use_bias: bool = True,
         positive_denominator: bool = True,
         residual_gate: bool = True,
+        gate_mode: str = "sample",
+        protein_pretrained_dim: int = 0,
+        drug_pretrained_dim: int = 0,
     ) -> None:
         super().__init__()
+        if gate_mode not in {"sample", "dataset"}:
+            raise ValueError(f"gate_mode must be 'sample' or 'dataset', got {gate_mode!r}")
         self.interaction = interaction
         self.use_drug_gate = use_drug_gate
         self.use_context_gate = use_context_gate
         self.use_bias = use_bias
+        self.gate_mode = gate_mode
 
         # --- drug views -----------------------------------------------------
         self.drug_morgan = FingerprintEncoder(fingerprint_dim, hidden_dim, dropout)
         self.drug_feature_morgan = FingerprintEncoder(fingerprint_dim, hidden_dim, dropout)
         self.drug_maccs = FingerprintEncoder(maccs_dim, hidden_dim, dropout)
-        # drug-view reliability gate (Eq. 1): sample-dependent softmax weights
+        # drug-view reliability gate (Eq. 1): softmax weights over the three
+        # fingerprint views. Under gate_mode="dataset" the MLP is kept intact
+        # but its input is a single learned constant instead of the sample, so
+        # the weights it emits are shared by every pair (F-D1). Keeping the MLP
+        # is deliberate: it holds the parameter count fixed and leaves the
+        # *only* difference between the two arms the information the gate sees.
         self.drug_view_gate = nn.Sequential(
             nn.Linear(hidden_dim * 3, hidden_dim),
             nn.ReLU(),
             nn.Linear(hidden_dim, 3),
+        )
+        self.drug_view_gate_const = (
+            nn.Parameter(torch.zeros(hidden_dim * 3)) if gate_mode == "dataset" else None
         )
 
         # --- protein contexts ----------------------------------------------
@@ -136,11 +164,34 @@ class AMFDTA(nn.Module):
         self.seq_encoder = ProteinSequenceEncoder(
             target_vocab_size, hidden_dim=hidden_dim, dropout=dropout
         )
+
+        # --- optional frozen pretrained views (cold-start study) --------------
+        # Opt-in. With both dims 0 nothing below changes shape and the module is
+        # parameter-identical to the published model, so every existing number
+        # is unaffected. When on, a cached frozen feature is projected and
+        # appended to the *population the corresponding gate already weights*,
+        # so the gate -- not a separate fusion path -- decides how much the
+        # pretrained view contributes, and the existing gate-intervention tools
+        # apply to it unchanged. The pretrained and random-init arms build this
+        # same graph and differ only in the values of the cached tensor, so any
+        # gap between them cannot be attributed to the extra capacity.
+        self.n_drug_views = 4 if drug_pretrained_dim > 0 else 3
+        self.n_contexts = 4 if protein_pretrained_dim > 0 else 3
+        self.protein_pretrained_proj = (
+            nn.Sequential(nn.Linear(protein_pretrained_dim, hidden_dim), nn.ReLU())
+            if protein_pretrained_dim > 0 else None)
+        self.drug_pretrained_proj = (
+            nn.Sequential(nn.Linear(drug_pretrained_dim, hidden_dim), nn.ReLU())
+            if drug_pretrained_dim > 0 else None)
+
         # cross-modal context gate (Eq. 3): softmax over drug/target/sequence
         self.context_gate = nn.Sequential(
             nn.Linear(hidden_dim * 3, hidden_dim),
             nn.ReLU(),
             nn.Linear(hidden_dim, 3),
+        )
+        self.context_gate_const = (
+            nn.Parameter(torch.zeros(hidden_dim * 3)) if gate_mode == "dataset" else None
         )
 
         # --- interaction block ----------------------------------------------
@@ -200,7 +251,14 @@ class AMFDTA(nn.Module):
         )
 
         # --- 2) drug-view reliability gate (Eq. 1-2) -------------------------
-        if self.use_drug_gate:
+        if self.drug_view_gate_const is not None:
+            drug_gate = torch.softmax(
+                self.drug_view_gate(
+                    self.drug_view_gate_const.expand(drug_views.size(0), -1)
+                ),
+                dim=-1,
+            )
+        elif self.use_drug_gate:
             drug_gate = torch.softmax(self.drug_view_gate(drug_views.flatten(1)), dim=-1)
         else:
             drug_gate = torch.full(
@@ -214,7 +272,14 @@ class AMFDTA(nn.Module):
 
         # --- 4) cross-modal context gate (Eq. 3-4) ----------------------------
         contexts = torch.stack([v_drug, h_target, h_seq], dim=1)
-        if self.use_context_gate:
+        if self.context_gate_const is not None:
+            context_gate = torch.softmax(
+                self.context_gate(
+                    self.context_gate_const.expand(contexts.size(0), -1)
+                ),
+                dim=-1,
+            )
+        elif self.use_context_gate:
             context_gate = torch.softmax(self.context_gate(contexts.flatten(1)), dim=-1)
         else:
             context_gate = torch.full(
